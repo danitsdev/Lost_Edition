@@ -11,7 +11,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.chips, card.ability.extra.chips_per_dollar } }
     end,
     calculate = function(self, card, context)
-        if context.round_eval > 0 and not context.blueprint then
+        if context.round_eval and not context.blueprint then
             total_interest = G.GAME.interest_amount*math.min(math.floor(to_number(G.GAME.dollars)/5), G.GAME.interest_cap/5)
             card.ability.extra.chips = card.ability.extra.chips + total_interest * card.ability.extra.chips_per_dollar
             return {
