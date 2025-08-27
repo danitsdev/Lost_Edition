@@ -39,6 +39,13 @@ local jokerInfo = {
             end
         end
     end,
+    remove_from_deck = function(self, card, from_debuff)
+        -- Remove any extra hand size if the card is removed before end_of_round
+        if card.ability.extra.hand_size_gained and card.ability.extra.hand_size_gained > 0 then
+            G.hand:change_size(-card.ability.extra.hand_size_gained)
+            card.ability.extra.hand_size_gained = 0
+        end
+    end,
     locked_loc_vars = function(self, info_queue, card)
         return { vars = { 16 } }
     end,

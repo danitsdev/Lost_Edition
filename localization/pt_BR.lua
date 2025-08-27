@@ -1225,11 +1225,13 @@ return {
                 'Bem-vindo à {C:purple}Lost Edition{}!'
             },
             losted_intro_2 = {
-                'Pouca gente chega até aqui, sabia?',
+                'Poucos jogadores chegam até aqui, sabia?',
             },
             losted_intro_3 = {
-                'Fique à vontade, explore não tenha pressa.',
-                'Talvez você encontre algo interessante...',
+                'Fique à vontade para explorar, não tenha pressa.',
+            },
+            losted_intro_4 = {
+                'Talvez você encontre algo {C:attention}realmente interessante{} por aqui...',
             }
         }
     },

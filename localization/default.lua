@@ -1217,11 +1217,13 @@ return {
                 "Welcome to the {C:purple}Lost Edition{}!"
             },
             losted_intro_2 = {
-                "Not many people make it here, you know?"
+                "Not many players make it here, you know?"
             },
             losted_intro_3 = {
-                "Feel free, explore at your own pace.",
-                "Maybe you'll find something interesting..."
+                "Feel free to explore at your own pace."
+            },
+            losted_intro_4 = {
+                "Maybe you'll find something {C:attention}truly interesting{} around here...",
             }
         }
     },

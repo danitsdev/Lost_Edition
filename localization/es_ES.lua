@@ -1223,7 +1223,9 @@ return {
             },
             losted_intro_3 = {
                 'Tómate tu tiempo, explora sin prisa.',
-                'Quizás encuentres algo interesante...',
+            },
+            losted_intro_4 = {
+                'Quizás encuentres algo {C:attention}realmente interesante{} por aquí...',
             }
         }
     },
