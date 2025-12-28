@@ -482,14 +482,14 @@ return {
                     '{E:1,C:attention}Maratona'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'Cubo Mágico',
                 text = {
                     'Cada {C:attention}6{} jogado dá {C:mult}+#2#{} Multi,',
                     'Cada {C:attention}9{} jogado dá {C:chips}+#1#{} Fichas',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Curinga Demoníaco',
                 text = {
                     'Cada {C:attention}6{} jogado dá {C:gold}$#1#{} ouros',
@@ -512,7 +512,7 @@ return {
                     '{s:0.8}naipe muda no fim da rodada',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Rockeiro',
                 text = {
                     '{C:attention}Cartas de Pedra {}jogadas',
@@ -542,7 +542,7 @@ return {
                     'Quando um {C:attention}Blind de Chefe{} é selecionado,',
                     'põe um {C:attention}Ovo{} {C:dark_edition}Negativo{}. Máximo {C:attention}#1#{} ovos',
                     '{C:inactive}(No momento {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Destruída após botar os ovos)"
+                    '{C:inactive,s:0.9}(Destruída após botar os ovos)'
                 },
                 unlock = {
                     'Complete o desafio',
@@ -607,8 +607,8 @@ return {
                     'das {C:attention}cartas jogadas{}',
                 },
                 unlock={
-                    "Acabe com o Blind de Chefe",
-                    "com uma {E:1,C:attention}#1#",
+                    'Acabe com o Blind de Chefe',
+                    'com uma {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
@@ -1202,8 +1202,9 @@ return {
             le_credits_thanks = 'Agradecimentos',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# Fichas' },
-            a_powmult = { '^#1# Multi' },
+            a_xchips = 'X#1# Fichas',
+            a_xchips_minus = '-X#1# Fichas',
+            a_powmult = '^#1# Multi',
         },
         v_text = {
             ch_c_boss_rush = { 'Todos os Blinds são {C:attention}Blinds de Chefe{}' },

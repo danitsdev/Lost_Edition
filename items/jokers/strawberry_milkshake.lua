@@ -19,7 +19,7 @@ local jokerInfo = {
             else
                 card.ability.extra.Xchips = card.ability.extra.Xchips - card.ability.extra.Xchips_loss
                 return {
-                    message = localize { type = 'variable', key = 'a_xmult_minus', vars = { card.ability.extra.Xchips_loss } },
+                    message = localize { type = 'variable', key = 'a_xchips_minus', vars = { card.ability.extra.Xchips_loss } },
                     colour = G.C.CHIPS
                 }
             end

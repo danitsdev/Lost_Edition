@@ -1,5 +1,5 @@
 local jokerInfo = {
-    key = "rock_guy",
+    key = "rocker",
     pos = LOSTEDMOD.funcs.coordinate(32),
     atlas = 'losted_jokers',
     rarity = 1,

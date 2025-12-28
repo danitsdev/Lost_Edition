@@ -486,14 +486,14 @@ return {
                     '{E:1,C:attention}Maratón'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'Cubo Mágico',
                 text = {
                     'Cada {C:attention}6{} jugado da {C:mult}+#2#{} multi,',
                     'Cada {C:attention}9{} jugado da {C:chips}+#1#{} fichas',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Comodín Demoníaco',
                 text = {
                     'Cada {C:attention}6{} jugado da {C:gold}$#1#{} de oro',
@@ -516,7 +516,7 @@ return {
                     '{s:0.8}el palo cambia al final de la ronda',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Rockero',
                 text = {
                     'Las {C:attention}Cartas de Piedra{} jugadas',
@@ -546,7 +546,7 @@ return {
                     'Cuando se selecciona una {C:attention}Ciega Jefe{},',
                     'pone un {C:attention}Huevo{} {C:dark_edition}Negativo{}. Máx. {C:attention}#1#{} huevos',
                     '{C:inactive}(Actual: {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Se destruye después de poner los huevos)"
+                    '{C:inactive,s:0.9}(Se destruye después de poner los huevos)'
                 },
                 unlock = {
                     'Completa el desafío',
@@ -609,8 +609,8 @@ return {
                     'de las {C:attention}cartas jugadas{}',
                 },
                 unlock={
-                    "Derrota a una ciega jefe",
-                    "con 1 {E:1,C:attention}#1#",
+                    'Derrota a una ciega jefe',
+                    'con 1 {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
@@ -1196,8 +1196,8 @@ return {
             k_status_text_none = 'Ninguno',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# Fichas' },
-            a_powmult = { '^#1# Multi' },
+            a_xchips = 'X#1# Fichas',
+            a_powmult = '^#1# Multi',
         },
         v_text = {
             ch_c_boss_rush = { 'Todas las Ciegas son {C:attention}Ciegas Jefe{}' },

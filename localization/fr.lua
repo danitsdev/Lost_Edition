@@ -487,14 +487,14 @@ return {
                     '{E:1,C:attention}Marathon'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'Cube magique',
                 text = {
                     'Chaque {C:attention}6{} joué donne {C:mult}+#2#{} au Multi.,',
                     'Chaque {C:attention}9{} joué donne {C:chips}+#1#{} Jetons',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Joker Démoniaque',
                 text = {
                     'Chaque {C:attention}6{} joué donne {C:gold}$#1#{}',
@@ -517,7 +517,7 @@ return {
                     '{s:0.8}la couleur change à la fin de la manche',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Rockeur',
                 text = {
                     'Les {C:attention}Cartes Pierre{} jouées',
@@ -547,7 +547,7 @@ return {
                     'Quand une {C:attention}Blinde Boss{} est sélectionnée,',
                     'pond un {C:attention}Œuf{} {C:dark_edition}Négatif{}. Max {C:attention}#1#{} œufs',
                     '{C:inactive}(Actuellement {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Détruite après avoir pondu les œufs)"
+                    '{C:inactive,s:0.9}(Détruite après avoir pondu les œufs)'
                 },
                 unlock = {
                     'Terminez le défi',
@@ -610,8 +610,8 @@ return {
                     '{C:attention}cartes jouées{}',
                 },
                 unlock={
-                    "Battez une Boss Blinde",
-                    "avec 1 {E:1,C:attention}#1#",
+                    'Battez une Boss Blinde',
+                    'avec 1 {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
@@ -1194,8 +1194,8 @@ return {
             k_status_text_none = 'Aucun',
         },
         v_dictionary = {
-            a_xchips = { 'x#1# Jetons' },
-            a_powmult = { '^#1# Multi.' },
+            a_xchips = 'x#1# Jetons',
+            a_powmult = '^#1# Multi.',
         },
         v_text = {
             ch_c_boss_rush = { 'Toutes les Blindes sont des {C:attention}Blindes Boss{}' },

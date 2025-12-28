@@ -487,14 +487,14 @@ return {
                     '{E:1,C:attention}マラソン'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'マジックキューブ',
                 text = {
                     'プレイされた各{C:attention}6{}は倍率{C:mult}+#2#{}を与え、',
                     'プレイされた各{C:attention}9{}はチップ{C:chips}+#1#{}を与える',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'デモニックジョーカー',
                 text = {
                     'プレイされた各{C:attention}6{}は{C:gold}$#1#{}を与える',
@@ -517,7 +517,7 @@ return {
                     '{s:0.8}ラウンド終了時にスーツが変わる',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'ロッカー',
                 text = {
                     'プレイされた{C:attention}ストーンカード{}は',
@@ -547,7 +547,7 @@ return {
                     '{C:attention}ボスブラインド{}が選択された時、',
                     '{C:dark_edition}ネガティブ{}の{C:attention}卵{}を産む。最大{C:attention}#1#{}個',
                     '{C:inactive}(現在 {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(卵を産んだ後に破壊される)"
+                    '{C:inactive,s:0.9}(卵を産んだ後に破壊される)'
                 },
                 unlock = {
                     'チャレンジをクリアする',
@@ -612,8 +612,8 @@ return {
                     'および{C:dark_edition}改良{}をランダム化する',
                 },
                 unlock={
-                    "{E:1,C:attention}#1#{} で",
-                    "ボスブラインドを倒す",
+                    '{E:1,C:attention}#1#{} で',
+                    'ボスブラインドを倒す',
                 },
             },
             j_losted_miner = {
@@ -1210,8 +1210,8 @@ return {
             k_status_text_none = 'なし',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# チップ' },
-            a_powmult = { '^#1# 倍率' },
+            a_xchips = 'X#1# チップ',
+            a_powmult = '^#1# 倍率',
         },
         v_text = {
             ch_c_boss_rush = { 'すべてのブラインドが{C:attention}ボスブラインド{}になる' },

@@ -23,7 +23,7 @@ if SMODS and SMODS.calculate_individual_effect then
             if effect.card then
                 juice_card(effect.card)
             end
-            mult = mod_chips(mult ^ amount)
+            mult = mod_mult(mult ^ amount)
             update_hand_text({ delay = 0 }, { chips = hand_chips, mult = mult })
             if not effect.remove_default_message then
                 card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, {
@@ -43,8 +43,10 @@ if SMODS and SMODS.calculate_individual_effect then
     
     -- Register the calculation keys with SMODS
     for _, v in ipairs({'pow_mult'}) do
-        if not table_contains(SMODS.calculation_keys, v) then
-            table.insert(SMODS.calculation_keys, v)
+        if not table_contains(SMODS.other_calculation_keys, v) then
+            table.insert(SMODS.other_calculation_keys, v)
         end
     end
 end
+
+return true

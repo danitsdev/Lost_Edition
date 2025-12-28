@@ -487,14 +487,14 @@ return {
                     '{E:1,C:attention}마라톤'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = '마법 큐브',
                 text = {
                     '플레이한 각 {C:attention}6{}은 배수 {C:mult}+#2#{}를 제공하고,',
                     '플레이한 각 {C:attention}9{}는 칩 {C:chips}+#1#{}를 제공합니다',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = '악마 조커',
                 text = {
                     '플레이한 각 {C:attention}6{}은 {C:gold}$#1#{}를 제공합니다',
@@ -517,7 +517,7 @@ return {
                     '{s:0.8}라운드 종료 시 수트가 변경됩니다',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = '로커',
                 text = {
                     '플레이한 {C:attention}스톤 카드{}는',
@@ -547,7 +547,7 @@ return {
                     '{C:attention}보스 블라인드{} 선택 시,',
                     '{C:dark_edition}네거티브{} {C:attention}알{}을 낳습니다. 최대 {C:attention}#1#{}개',
                     '{C:inactive}(현재 {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(알을 낳은 후 파괴됩니다)"
+                    '{C:inactive,s:0.9}(알을 낳은 후 파괴됩니다)'
                 },
                 unlock = {
                     '챌린지를 완료하세요',
@@ -611,8 +611,8 @@ return {
                     '{C:dark_edition}개선 사항{}을 무작위로 변경합니다',
                 },
                 unlock={
-                    "{E:1,C:attention}#1#{} (으)로",
-                    "보스 블라인드를 물리칩니다",
+                    '{E:1,C:attention}#1#{} (으)로',
+                    '보스 블라인드를 물리칩니다',
                 },
             },
             j_losted_miner = {
@@ -1203,8 +1203,8 @@ return {
             k_status_text_none = '없음',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# 칩' },
-            a_powmult = { '^#1# 배수' },
+            a_xchips = 'X#1# 칩',
+            a_powmult = '^#1# 배수',
         },
         v_text = {
             ch_c_boss_rush = { '모든 블라인드는 {C:attention}보스 블라인드{}입니다' },

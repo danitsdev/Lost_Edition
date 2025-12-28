@@ -22,7 +22,9 @@ local blindInfo = {
             end
             G.orbital_hand = nil
             G.CONTROLLER.locks[lock] = nil
-            self.triggered = true
+            G.GAME.blind.triggered = true
+            -- Trigger Matador-like effects
+            SMODS.calculate_context({debuffed_hand = true, full_hand = G.play.cards, scoring_hand = G.play.cards, scoring_name = '', poker_hands = {}})
             return true
         end)
     end

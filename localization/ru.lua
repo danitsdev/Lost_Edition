@@ -485,14 +485,14 @@ return {
                     '{E:1,C:attention}Марафон'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'Кубик Рубика',
                 text = {
                     'Каждая сыгранная {C:attention}6{} дает {C:mult}+#2#{} множ.,',
                     'Каждая сыгранная {C:attention}9{} дает {C:chips}+#1#{} фишек',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Демонический джокер',
                 text = {
                     'Каждая сыгранная {C:attention}6{} дает {C:gold}$#1#{} золота',
@@ -515,7 +515,7 @@ return {
                     '{s:0.8}масть меняется в конце раунда',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Рокер',
                 text = {
                     'Сыгранные {C:attention}каменные карты{}',
@@ -545,7 +545,7 @@ return {
                     'При выборе {C:attention}Босс-блайнда{},',
                     'несет {C:dark_edition}негативное{} {C:attention}яйцо{}. Максимум {C:attention}#1#{} яиц',
                     '{C:inactive}(сейчас {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Уничтожается после снесения яиц)"
+                    '{C:inactive,s:0.9}(Уничтожается после снесения яиц)'
                 },
                 unlock = {
                     'Завершите испытание',
@@ -608,15 +608,15 @@ return {
                     '{C:attention}сыгранных карт{}',
                 },
                 unlock={
-                    "Победить Босс-блайнд",
-                    "с: {E:1,C:attention}#1#",
+                    'Победить Босс-блайнд',
+                    'с: {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
                 name = 'Джокер-шахтер',
                 text = {
                     'Шанс {C:green}#1# из #2#{} создать',
-                    '{C:spectral}спектральную карту "Жадность"{}',
+                    '{C:spectral}спектральную карту 'Жадность'{}',
                     'при подсчете руки',
                     '{C:inactive}(должно быть место){}'
                 }
@@ -1189,8 +1189,8 @@ return {
             k_status_text_none = 'Нет',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# фишек' },
-            a_powmult = { '^#1# множ.' },
+            a_xchips = 'X#1# фишек',
+            a_powmult = '^#1# множ.',
         },
         v_text = {
             ch_c_boss_rush = { 'Все блайнды — {C:attention}Босс-блайнды{}' },

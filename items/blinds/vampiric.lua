@@ -46,6 +46,7 @@ local blindInfo = {
                     end
                 }))
                 changed = true
+                G.GAME.blind.triggered = true
             end
         end
 
@@ -54,6 +55,8 @@ local blindInfo = {
                 message = localize('k_losted_enhancements_removed'),
                 colour = G.C.RED
             }
+            -- Trigger Matador-like effects
+            SMODS.calculate_context({debuffed_hand = true, full_hand = cards, scoring_hand = cards, scoring_name = text, poker_hands = poker_hands})
         end
 
         return mult, hand_chips, false

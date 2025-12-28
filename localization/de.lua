@@ -486,14 +486,14 @@ return {
                     '{E:1,C:attention}Marathon{}-Herausforderung ab'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = 'Zauberwürfel',
                 text = {
                     'Jede gespielte {C:attention}6{} gibt {C:mult}+#2#{} Mult,',
                     'Jede gespielte {C:attention}9{} gibt {C:chips}+#1#{} Chips',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Dämonischer Joker',
                 text = {
                     'Jede gespielte {C:attention}6{} gibt {C:gold}$#1#{} Gold',
@@ -516,7 +516,7 @@ return {
                     '{s:0.8}Farbe ändert sich am Ende der Runde',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Rocker',
                 text = {
                     'Gespielte {C:attention}Stein-Karten{}',
@@ -546,7 +546,7 @@ return {
                     'Wenn ein {C:attention}Boss Blind{} ausgewählt wird,',
                     'legt es ein {C:attention}Negatives{} {C:dark_edition}Ei{}. Max. {C:attention}#1#{} Eier',
                     '{C:inactive}(Momentan {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Wird nach dem Legen der Eier zerstört)"
+                    '{C:inactive,s:0.9}(Wird nach dem Legen der Eier zerstört)'
                 },
                 unlock = {
                     'Schließe die Herausforderung',
@@ -609,8 +609,8 @@ return {
                     '{C:attention}gespielten Karten{} zufällig gewählt',
                 },
                 unlock={
-                    "Schlage einen Boss Blind",
-                    "mit einem {E:1,C:attention}#1#",
+                    'Schlage einen Boss Blind',
+                    'mit einem {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
@@ -1193,8 +1193,8 @@ return {
             k_status_text_none = 'Keine',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# Chips' },
-            a_powmult = { '^#1# Mult' },
+            a_xchips = 'X#1# Chips',
+            a_powmult = '^#1# Mult',
         },
         v_text = {
             ch_c_boss_rush = { 'Alle Blinds sind {C:attention}Boss Blinds{}' },

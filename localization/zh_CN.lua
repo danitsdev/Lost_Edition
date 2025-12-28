@@ -483,14 +483,14 @@ return {
                     '{E:1,C:attention}马拉松'
                 }
             },
-            j_losted_magic_cube = {
+            j_losted_rubiks_cube = {
                 name = '魔方',
                 text = {
                     '每打出一张{C:attention}6{}，获得{C:mult}+#2#{}倍率',
                     '每打出一张{C:attention}9{}，获得{C:chips}+#1#{}筹码',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = '恶魔小丑',
                 text = {
                     '每打出一张{C:attention}6{}，获得{C:gold}$#1#{}',
@@ -513,7 +513,7 @@ return {
                     '{s:0.8}回合结束时花色改变',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = '摇滚乐手',
                 text = {
                     '打出的{C:attention}石头牌{}',
@@ -543,7 +543,7 @@ return {
                     '选中{C:attention}Boss盲注{}时，',
                     '产下一个{C:dark_edition}负片{}的{C:attention}蛋{}。最多{C:attention}#1#{}个蛋',
                     '{C:inactive}(当前{C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(下完蛋后被摧毁)"
+                    '{C:inactive,s:0.9}(下完蛋后被摧毁)'
                 },
                 unlock = {
                     '完成挑战',
@@ -605,8 +605,8 @@ return {
                     '{C:attention}花色{}、{C:attention}点数{}和{C:dark_edition}改进{}',
                 },
                  unlock={
-                    "用{E:1,C:attention}#1#",
-                    "打赢Boss盲注",
+                    '用{E:1,C:attention}#1#',
+                    '打赢Boss盲注',
                 },
             },
             j_losted_miner = {
@@ -1186,8 +1186,8 @@ return {
             k_status_text_none = '无',
         },
         v_dictionary = {
-            a_xchips = { 'X#1#筹码' },
-            a_powmult = { '^#1#倍率' },
+            a_xchips = 'X#1#筹码',
+            a_powmult = '^#1#倍率',
         },
         v_text = {
             ch_c_boss_rush = { '所有盲注都是{C:attention}Boss盲注{}' },

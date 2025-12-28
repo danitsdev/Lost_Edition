@@ -28,11 +28,14 @@ local blindInfo = {
             if context.hand_played or context.hand_drawn then
                 self.debuffed_hand = get_random_visible_hand()
             end
-            if context.debuff_hand then
-                if self.debuffed_hand and self.debuffed_hand == context.scoring_name then
-                    return { debuff = true }
-                end
+        end
+    end,
+    debuff_hand = function(self, cards, hand, handname, check)
+        if self.debuffed_hand and self.debuffed_hand == handname then
+            if not check then
+                G.GAME.blind.triggered = true
             end
+            return true
         end
     end
 }

@@ -21,6 +21,7 @@ local jokerInfo = {
                 func = function()
                     local voucher = SMODS.add_voucher_to_shop()
                     voucher.cost = 0
+                    voucher.base_cost = 0
                     return true
                 end
             })

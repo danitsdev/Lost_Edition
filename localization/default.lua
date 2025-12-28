@@ -479,14 +479,14 @@ return {
                     '{E:1,C:attention}Marathon{} challenge'
                 }
             },
-            j_losted_magic_cube = {
-                name = 'Magic Cube',
+            j_losted_rubiks_cube = {
+                name = 'Rubik\'s Cube',
                 text = {
                     'Each played {C:attention}6{} gives {C:mult}+#2#{} Mult,',
                     'Each played {C:attention}9{} gives {C:chips}+#1#{} Chips',
                 }
             },
-            j_losted_demoniac_joker = {
+            j_losted_demonic_joker = {
                 name = 'Demonic Joker',
                 text = {
                     'Each played {C:attention}6{} gives {C:gold}$#1#{} gold',
@@ -509,7 +509,7 @@ return {
                     '{s:0.8}suit changes at end of round',
                 }
             },
-            j_losted_rock_guy={
+            j_losted_rocker={
                 name = 'Rocker',
                 text = {
                     'Played {C:attention}Stone Cards{}',
@@ -539,7 +539,7 @@ return {
                     'When a {C:attention}Boss Blind{} is selected,',
                     'lays a {C:attention}Negative{} {C:dark_edition}Egg{}. Max {C:attention}#1#{} eggs',
                     '{C:inactive}(Currently {C:attention}#2#{C:inactive}/#1#)',
-                    "{C:inactive,s:0.9}(Destroyed after laying eggs)"
+                    '{C:inactive,s:0.9}(Destroyed after laying eggs)'
                 },
                 unlock = {
                     'Complete the',
@@ -602,8 +602,8 @@ return {
                     'of the {C:attention}played cards{}',
                 },
                 unlock={
-                    "Beat a Boss Blind",
-                    "with a {E:1,C:attention}#1#",
+                    'Beat a Boss Blind',
+                    'with a {E:1,C:attention}#1#',
                 },
             },
             j_losted_miner = {
@@ -1194,8 +1194,9 @@ return {
             le_credits_thanks = 'Special Thanks',
         },
         v_dictionary = {
-            a_xchips = { 'X#1# Chips' },
-            a_powmult = { '^#1# Mult' },
+            a_xchips = 'X#1# Chips',
+            a_xchips_minus = '-X#1# Chips',
+            a_powmult = '^#1# Mult',
         },
         v_text = {
             ch_c_boss_rush = { 'All Blinds are {C:attention}Boss Blinds{}' },
@@ -1214,16 +1215,16 @@ return {
         },
         tutorial = {
             losted_intro_1 = {
-                "Welcome to the {C:purple}Lost Edition{}!"
+                'Welcome to the {C:purple}Lost Edition{}!'
             },
             losted_intro_2 = {
-                "Not many players make it here, you know?"
+                'Not many players make it here, you know?'
             },
             losted_intro_3 = {
-                "Feel free to explore at your own pace."
+                'Feel free to explore at your own pace.'
             },
             losted_intro_4 = {
-                "Maybe you'll find something {C:attention}truly interesting{} around here...",
+                'Maybe you\'ll find something {C:attention}truly interesting{} around here...',
             }
         }
     },
