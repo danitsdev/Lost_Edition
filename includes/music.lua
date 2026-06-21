@@ -63,4 +63,5 @@ G.FUNCS.change_music = function(args)
     G.ARGS.music_vals = G.ARGS.music_vals or { "losted", "balatro" }
     G.SETTINGS.QUEUED_CHANGE.music_change = G.ARGS.music_vals[args.to_key]
     G.SETTINGS.music_selection = G.ARGS.music_vals[args.to_key]
+    G:save_settings()
 end

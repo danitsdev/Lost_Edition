@@ -7,7 +7,7 @@ local jokerInfo = {
     unlocked = true,
     blueprint_compat = true,
     perishable_compat = false,
-    config = { extra = { mult_gain = 1, chips_gain = 5, mult = 0, chips = 0 } },
+    config = { extra = { mult_gain = 1, chips_gain = 4, mult = 2, chips = 10 } },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.mult_gain, card.ability.extra.chips_gain, card.ability.extra.mult, card.ability.extra.chips } }
     end,
@@ -26,6 +26,26 @@ local jokerInfo = {
                 chips = card.ability.extra.chips
             }
         end
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                {
+                    ref_table = "card.ability.extra",
+                    ref_value = "chips",
+                    retrigger_type = "mult",
+                    colour = G.C.CHIPS
+                },
+                { text = " +" },
+                {
+                    ref_table = "card.ability.extra",
+                    ref_value = "mult",
+                    retrigger_type = "mult",
+                    colour = G.C.MULT
+                }
+            }
+        }
     end
 }
 

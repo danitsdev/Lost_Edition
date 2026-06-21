@@ -137,8 +137,8 @@ return {
             e_losted_quantum = {
                 name = '양자',
                 text = {
-                    '이 카드를 추가로',
-                    '{C:blue}1회{} {C:blue}재활성화{}합니다',
+                    '이 카드의 {C:blue}모든 효과{}를',
+                    '추가로 {C:blue}1회{} 반복합니다',
                 },
             },
         },
@@ -480,7 +480,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}플레이한 핸드 유형'
                 },
                 unlock = {
                     '챌린지를 완료하세요',
@@ -831,8 +832,14 @@ return {
                     '{C:attention}#2#{} 라운드 후에 만료됩니다'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = '수집가 조커',
+                text = {
+                    '{C:dark_edition}+#1#{} 소모품 슬롯',
+                }
+            },
             j_losted_glutton = {
-                name = '대식가 조커',
+                name = '수집가 조커',
                 text = {
                     '{C:dark_edition}+#1#{} 소모품 슬롯',
                 }
@@ -1181,7 +1188,9 @@ return {
             k_odd = '홀수',
             k_nothing_ex = '베타는 아무것도 없음',
 
-            k_losted_music_label = '사운드트랙',
+        k_losted_config_game = '게임',
+        k_losted_config_audio_visual = '오디오 및 비주얼',
+        k_losted_music_label = '사운드트랙',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 

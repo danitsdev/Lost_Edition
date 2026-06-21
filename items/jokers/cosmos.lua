@@ -11,18 +11,19 @@ local jokerInfo = {
         return { vars = { card.ability.extra.xmult } }
     end,
     calculate = function(self, card, context)
-		if context.joker_main then
-			for i=1, #G.consumeables.cards do
-				if G.consumeables.cards[i].ability.set == "Planet" then
-					event({trigger = 'after', func = function()
-						(context.blueprint_card or card):juice_up(0.25, 0.25)
-					return true end
-					})
-					SMODS.calculate_effect({xmult = card.ability.extra.xmult}, G.consumeables.cards[i])
-				end
-			end
-			return nil, true
-		end
+        if context.joker_main then
+            local planet_count = 0
+            for _, consumable in ipairs(G.consumeables.cards) do
+                if consumable.ability.set == "Planet" then
+                    planet_count = planet_count + 1
+                end
+            end
+            if planet_count > 0 then
+                return {
+                    xmult = card.ability.extra.xmult ^ planet_count
+                }
+            end
+        end
     end,
     locked_loc_vars = function(self, info_queue, card)
         return { vars = { 30, G.PROFILES[G.SETTINGS.profile].career_stats.c_planets_bought } }

@@ -1,3 +1,35 @@
+local function card_id(card)
+    return card and card.unique_val and tostring(card.unique_val) or nil
+end
+
+local function removed_enhancements()
+    local effect = G.GAME and G.GAME.blind and G.GAME.blind.effect
+    if not effect then return nil end
+    effect.losted_vampiric_enhancements = effect.losted_vampiric_enhancements or {}
+    return effect.losted_vampiric_enhancements
+end
+
+local function restore_enhancements()
+    local removed = removed_enhancements()
+    if not removed then return end
+
+    for _, card in ipairs(G.playing_cards or {}) do
+        local stored = removed[card_id(card)]
+        if stored then
+            local current = SMODS.get_enhancements(card) or {}
+            for enhancement_key in pairs(stored) do
+                if not current[enhancement_key] then
+                    card:set_ability(enhancement_key, nil, true)
+                end
+            end
+            if card.juice_up then card:juice_up(0.3, 0.4) end
+        end
+    end
+
+    G.GAME.blind.effect.losted_vampiric_enhancements = {}
+    G.GAME.blind_message = { message = localize('k_upgrade_ex'), colour = G.C.GREEN }
+end
+
 local blindInfo = {
     key = 'vampiric',
     pos = { x = 0, y = 1 },
@@ -6,45 +38,30 @@ local blindInfo = {
     dollars = 5,
     boss = { min = 6 },
     boss_colour = HEX('f31745'),
-    config = {
-        removed_enhancements = nil 
-    },
-    loc_vars = function(self)
-        return { vars = {} }
-    end,
 
-    set_blind = function(self, card, from_debuff)
-        if not self.config.removed_enhancements then
-            self.config.removed_enhancements = setmetatable({}, {__mode = 'k'})
+    set_blind = function(self, reset)
+        if not reset then
+            G.GAME.blind.effect.losted_vampiric_enhancements = {}
         end
     end,
 
     modify_hand = function(self, cards, poker_hands, text, mult, hand_chips)
-        if G.GAME.blind.disabled then
-            return mult, hand_chips, false
-        end
+        if G.GAME.blind.disabled then return mult, hand_chips, false end
+        local removed = removed_enhancements()
         local changed = false
-        if not self.config.removed_enhancements then
-            self.config.removed_enhancements = setmetatable({}, {__mode = 'k'})
-        end
 
         for _, card in ipairs(cards) do
             local enhancements = SMODS.get_enhancements(card)
-            if enhancements and next(enhancements) and not card.debuff then
-                if not self.config.removed_enhancements[card] then
-                    local stored = {}
-                    for enh_key, _ in pairs(enhancements) do
-                        stored[enh_key] = true
+            local id = card_id(card)
+            if id and enhancements and next(enhancements) and not card.debuff then
+                if not removed[id] then
+                    removed[id] = {}
+                    for enhancement_key in pairs(enhancements) do
+                        removed[id][enhancement_key] = true
                     end
-                    self.config.removed_enhancements[card] = stored
                 end
                 card:set_ability('c_base', nil, true)
-                G.E_MANAGER:add_event(Event({
-                    func = function()
-                        card:juice_up()
-                        return true
-                    end
-                }))
+                card:juice_up()
                 changed = true
                 G.GAME.blind.triggered = true
             end
@@ -53,35 +70,27 @@ local blindInfo = {
         if changed then
             G.GAME.blind_message = {
                 message = localize('k_losted_enhancements_removed'),
-                colour = G.C.RED
+                colour = G.C.RED,
             }
-            -- Trigger Matador-like effects
-            SMODS.calculate_context({debuffed_hand = true, full_hand = cards, scoring_hand = cards, scoring_name = text, poker_hands = poker_hands})
+            SMODS.calculate_context({
+                debuffed_hand = true,
+                full_hand = cards,
+                scoring_hand = cards,
+                scoring_name = text,
+                poker_hands = poker_hands,
+            })
         end
 
         return mult, hand_chips, false
     end,
 
-    defeat = function(self, card, from_debuff)
-        if self.config.removed_enhancements then
-            for c, enhs in pairs(self.config.removed_enhancements) do
-                if c and not c.debuff and enhs then
-                    local current = SMODS.get_enhancements(c) or {}
-                    for enh_key, _ in pairs(enhs) do
-                        if not current[enh_key] then
-                            c:set_ability(enh_key, nil, true)
-                        end
-                    end
-                    G.E_MANAGER:add_event(Event({func=function()
-                        if c.juice_up then c:juice_up(0.3,0.4) end
-                        return true
-                    end}))
-                end
-            end
-            self.config.removed_enhancements = nil
-            G.GAME.blind_message = { message = localize('k_upgrade_ex'), colour = G.C.GREEN }
-        end
-    end
+    disable = function(self)
+        restore_enhancements()
+    end,
+
+    defeat = function(self)
+        restore_enhancements()
+    end,
 }
 
 return blindInfo

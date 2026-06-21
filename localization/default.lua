@@ -137,7 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Quantum',
                 text = {
-                    '{C:blue}Retriggers{} this card',
+                    'Repeats {C:blue}all effects{}',
+                    'of this card',
                     '{C:blue}1{} additional time',
                 },
             },
@@ -347,8 +348,9 @@ return {
                 text = {
                     'If the {C:attention}first hand{} of the round is composed',
                     'only of cards of the {C:attention}same rank{},',
-                    'all scored cards copy the',
-                    '{C:dark_edition}improvements{} of the rightmost card.',
+                    'scored cards gain the',
+                    '{C:dark_edition}improvements{} of the rightmost card',
+                    'as they are scored.',
                 },
             },
             j_losted_last_resort = {
@@ -472,7 +474,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}Hand types played'
                 },
                 unlock = {
                     'Complete the',
@@ -819,8 +822,14 @@ return {
                     'Expires in {C:attention}#2#{} rounds'
                 }
             },
+            j_losted_hoarding_joker = {
+                name = 'Hoarding Joker',
+                text = {
+                    '{C:dark_edition}+#1#{} consumable slot(s)',
+                }
+            },
             j_losted_glutton = {
-                name = 'Glutton Joker',
+                name = 'Hoarding Joker',
                 text = {
                     '{C:dark_edition}+#1#{} consumable slot(s)',
                 }
@@ -1164,7 +1173,9 @@ return {
             k_odd = 'odd',
             k_nothing_ex = 'Nothing for Beta',
 
-            k_losted_music_label = 'Soundtrack',
+        k_losted_config_game = 'Game',
+        k_losted_config_audio_visual = 'Audio & Visuals',
+        k_losted_music_label = 'Soundtrack',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 

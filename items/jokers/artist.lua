@@ -9,18 +9,45 @@ local jokerInfo = {
     config = { extra = { odds = 2 } },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_wild
-        return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_artist')
+        return { vars = { numerator, denominator } }
     end,
     calculate = function(self, card, context)
-        if context.individual and context.cardarea == G.play and next(context.poker_hands['Flush']) then
-            if not SMODS.has_enhancement(context.other_card, 'm_wild') and 
-                pseudorandom('losted_artist_'..tostring(context.other_card)) < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
-                context.other_card:set_ability(G.P_CENTERS.m_wild, nil, true)
-                context.other_card:juice_up(0.3, 0.4)
-                if context.other_card.children and context.other_card.children.center then
-                    context.other_card.children.center:set_sprite_pos(G.P_CENTERS.m_wild.pos)
+        if context.before and context.main_eval and next(context.poker_hands['Flush']) then
+            local upgraded_cards = {}
+            local hands_played = (G.GAME and G.GAME.current_round and G.GAME.current_round.hands_played) or 0
+            local ante = (G.GAME and G.GAME.round_resets and G.GAME.round_resets.ante) or 0
+
+            for index, playing_card in ipairs(context.full_hand) do
+                if not SMODS.has_enhancement(playing_card, 'm_wild') and
+                    SMODS.pseudorandom_probability(
+                        card,
+                        'losted_artist_' .. tostring(ante) .. '_' .. tostring(hands_played) .. '_' .. tostring(index),
+                        1,
+                        card.ability.extra.odds,
+                        'losted_artist'
+                    ) then
+                    playing_card:set_ability(G.P_CENTERS.m_wild, nil, true)
+                    if SMODS.recalc_debuff then
+                        SMODS.recalc_debuff(playing_card)
+                    end
+                    upgraded_cards[#upgraded_cards + 1] = playing_card
                 end
-                play_sound('card1', 0.8, 0.8)
+            end
+
+            if #upgraded_cards > 0 then
+                for i, upgraded_card in ipairs(upgraded_cards) do
+                    event({
+                        trigger = 'after',
+                        delay = 0.05 * i,
+                        func = function()
+                            upgraded_card:juice_up(0.3, 0.4)
+                            play_sound('card1', 0.8 + (0.03 * i), 0.8)
+                            return true
+                        end
+                    })
+                end
+
                 return {
                     message = localize('k_upgrade_ex'),
                     colour = G.C.ENHANCE,

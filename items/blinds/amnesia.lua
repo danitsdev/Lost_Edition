@@ -12,8 +12,10 @@ local blindInfo = {
     collection_loc_vars = function(self)
         return { vars = { localize('ph_most_played')}}
     end,
-    set_blind = function(self)
-    if G.GAME and G.GAME.blind and G.GAME.blind.disabled then return end
+    set_blind = function(self, reset)
+        if reset or not G.GAME or not G.GAME.blind or G.GAME.blind.disabled then return end
+        local state = G.GAME.blind.effect
+        if state.losted_amnesia_active then return end
         local most_played_hand = G.GAME.current_round.most_played_poker_hand
         if most_played_hand and G.GAME.hands[most_played_hand] then
             local raw_level = G.GAME.hands[most_played_hand].level
@@ -41,10 +43,11 @@ local blindInfo = {
             end
 
             if type(original_level_num) == 'number' and original_level_num > 1 then
-                self.most_played_hand_key = most_played_hand
-                self.level_change = original_level_num - 1
+                state.losted_amnesia_hand = most_played_hand
+                state.losted_amnesia_delta = original_level_num - 1
+                state.losted_amnesia_active = true
 
-                SMODS.smart_level_up_hand(nil, self.most_played_hand_key, false, -self.level_change)
+                SMODS.smart_level_up_hand(nil, state.losted_amnesia_hand, false, -state.losted_amnesia_delta)
             end
         end
     end,
@@ -60,11 +63,13 @@ local blindInfo = {
         end
     end,
     restore_hand_level = function(self)
-        if self.level_change and self.most_played_hand_key and G.GAME.hands[self.most_played_hand_key] then
-            SMODS.smart_level_up_hand(nil, self.most_played_hand_key, false, self.level_change)
-
-            self.level_change = nil
-            self.most_played_hand_key = nil
+        local state = G.GAME and G.GAME.blind and G.GAME.blind.effect
+        if state and state.losted_amnesia_active and state.losted_amnesia_delta
+            and state.losted_amnesia_hand and G.GAME.hands[state.losted_amnesia_hand] then
+            SMODS.smart_level_up_hand(nil, state.losted_amnesia_hand, false, state.losted_amnesia_delta)
+            state.losted_amnesia_active = nil
+            state.losted_amnesia_delta = nil
+            state.losted_amnesia_hand = nil
         end
     end
 }

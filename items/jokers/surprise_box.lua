@@ -57,7 +57,7 @@ local jokerInfo = {
         local loc_glitch = '???'
         
         -- Build the dynamic text display
-        main_start = {
+        local main_start = {
             -- First part: Rotating prefix symbols (+, X, $, @#)
             { n = G.UIT.O, config = { object = DynaText({ 
                 string = prefixes, 

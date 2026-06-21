@@ -4,62 +4,100 @@ LOSTEDMOD.funcs = {
     coordinate = function(position)
         return { x = position % 10, y = math.floor(position / 10) }
     end,
+
+    capture_highlighted_cards = function()
+        local highlighted_cards = {}
+        if not G.hand or not G.hand.highlighted then
+            return highlighted_cards
+        end
+
+        for i = 1, #G.hand.highlighted do
+            highlighted_cards[i] = G.hand.highlighted[i]
+        end
+
+        return highlighted_cards
+    end,
+
+    -- Boss Rush needs three generated bosses, but Cartomancer records every
+    -- get_new_boss() call as if it had been played. Keep only the real Boss
+    -- slot in that optional history while preserving three distinct choices.
+    get_boss_rush_choices = function()
+        local function get_side_boss_without_history()
+            local history = G.GAME.cartomancer_bosses_list
+            local previous_count = history and #history or 0
+            local boss = get_new_boss()
+            history = G.GAME.cartomancer_bosses_list
+            if history then
+                while #history > previous_count do
+                    table.remove(history)
+                end
+            end
+            return boss
+        end
+
+        return get_side_boss_without_history(),
+            get_side_boss_without_history(),
+            get_new_boss()
+    end,
+
+    pitch_between = function(index, count, min_pitch, max_pitch)
+        if count <= 1 then
+            return (min_pitch + max_pitch) / 2
+        end
+
+        return max_pitch - ((index - 1) / (count - 1)) * (max_pitch - min_pitch)
+    end,
+
+    is_adjacent_scoring_enhancement = function(card, scoring_hand, enhancement_key)
+        if not card or card.debuff or not scoring_hand then return false end
+        for index, scoring_card in ipairs(scoring_hand) do
+            if scoring_card == card then
+                local previous_card = scoring_hand[index - 1]
+                local next_card = scoring_hand[index + 1]
+                return (previous_card and not previous_card.debuff
+                        and SMODS.has_enhancement(previous_card, enhancement_key))
+                    or (next_card and not next_card.debuff
+                        and SMODS.has_enhancement(next_card, enhancement_key))
+                    or false
+            end
+        end
+        return false
+    end,
     
     -- ==== CARD MANIPULATION ====
     
     -- Remove a joker card with animation
     destroy_joker = function(card, after)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                card.T.r = -0.2
-                card:juice_up(0.3, 0.4)
-                card.states.drag.is = true
-                card.children.center.pinch.x = true
-                play_sound('tarot1', 1.0, 0.8)
-                G.E_MANAGER:add_event(Event({
-                    trigger = 'after',
-                    delay = 0.3,
-                    blockable = false,
-                    func = function()
-                        card:remove()
-                        if after and type(after) == "function" then
-                            after()
-                        end
-                        return true
-                    end
-                }))
-                return true
-            end
-        }))
+        if not card or card.removed then return {} end
+        play_sound('tarot1', 1.0, 0.8)
+        local queued = SMODS.destroy_cards(card, {
+            bypass_eternal = true,
+            pinch_anim = true,
+        }) or {}
+        if #queued > 0 and type(after) == 'function' then
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.4,
+                blockable = false,
+                func = function()
+                    after()
+                    return true
+                end,
+            }))
+        end
+        return queued
     end,
 
     -- Remove multiple cards with animation
     destroy_cards = function(cards, callback)
-        if #cards == 0 then return end
+        if not cards or #cards == 0 then return {} end
         play_sound('tarot1', 1.0, 0.8)
-        
-        for _, card in ipairs(cards) do
-            G.E_MANAGER:add_event(Event({
-                func = function()
-                    card.T.r = -0.2
-                    card:juice_up(0.3, 0.4)
-                    card.states.drag.is = true
-                    card.children.center.pinch.x = true
-                    G.E_MANAGER:add_event(Event({
-                        trigger = 'after',
-                        delay = 0.3,
-                        blockable = false,
-                        func = function()
-                            card:remove()
-                            return true
-                        end
-                    }))
-                    return true
-                end
-            }))
-        end
-        
-        if callback then
+        local queued = SMODS.destroy_cards(cards, {
+            bypass_eternal = true,
+            pinch_anim = true,
+        }) or {}
+
+        if #queued > 0 and type(callback) == 'function' then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',
                 delay = 0.4,
@@ -70,6 +108,7 @@ LOSTEDMOD.funcs = {
                 end
             }))
         end
+        return queued
     end,
 
     -- Create a joker and add to deck
@@ -113,28 +152,8 @@ LOSTEDMOD.funcs = {
         end})
     end,
 
-    -- Post-effect evaluation for enhanced cards
-    post_eval_card = function(card, context)
-        if not card then return {} end
-        if card.ability.set ~= 'Joker' and card.debuff then return {} end
-        context = context or {}
-        local ret = {}
-
-        if card.ability.set == 'Enhanced' and card.config.center.post_effect then
-            local enhancement = card:calculate_enhancement(context)
-            if enhancement then
-                ret.enhancement = enhancement
-            end
-        end
-
-        return ret
-    end,
 }
 
 -- Make Bunco functions globally available
 _G.event = LOSTEDMOD.funcs.event
 _G.big_juice = LOSTEDMOD.funcs.big_juice
-_G.forced_message = LOSTEDMOD.funcs.forced_message
-_G.post_eval_card = LOSTEDMOD.funcs.post_eval_card
-
-math.randomseed(os.time())

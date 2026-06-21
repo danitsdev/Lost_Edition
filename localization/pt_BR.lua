@@ -138,7 +138,8 @@ return {
             e_losted_quantum = {
                 name = 'Quântico',
                 text = {
-                    '{C:blue}Reativa{} esta carta',
+                    'Repete {C:blue}todos os efeitos{}',
+                    'desta carta',
                     '{C:blue}1{} vez adicional',
                 },
             },
@@ -349,8 +350,9 @@ return {
                 text = {
                     'Se a {C:attention}primeira mão{} da rodada for composta',
                     'apenas por cartas da {C:attention}mesma classe{},',
-                    'todas as cartas pontuadas copiam as',
-                    '{C:dark_edition}melhorias{} da carta mais à direita.',
+                    'as cartas pontuadas recebem as',
+                    '{C:dark_edition}melhorias{} da carta mais à direita',
+                    'ao pontuar.',
                 },
             },
             j_losted_last_resort = {
@@ -475,7 +477,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}Tipos de mão jogados'
                 },
                 unlock = {
                     'Complete o desafio',
@@ -826,8 +829,14 @@ return {
                     'Expira em {C:attention}#2#{} rodadas'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = 'Curinga Acumulador',
+                text = {
+                    '{C:dark_edition}+#1#{} espaço(s) de consumível',
+                }
+            },
             j_losted_glutton = {
-                name = 'Curinga Glutão',
+                name = 'Curinga Acumulador',
                 text = {
                     '{C:dark_edition}+#1#{} espaço(s) de consumível',
                 }
@@ -1172,7 +1181,9 @@ return {
             k_odd = 'ímpar',
             k_nothing_ex = 'Nada pro Beta',
 
-            k_losted_music_label = 'Trilha Sonora',
+        k_losted_config_game = 'Jogo',
+        k_losted_config_audio_visual = 'Audio e Visual',
+        k_losted_music_label = 'Trilha Sonora',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 

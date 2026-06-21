@@ -1,4 +1,4 @@
-stakeInfo = {
+local stakeInfo = {
     key = 'diamond',
     applied_stakes = {'gold'},
     prefix_config = {above_stake = {mod = false}, applied_stakes = {mod = false}},

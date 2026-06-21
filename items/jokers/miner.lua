@@ -9,11 +9,12 @@ local jokerInfo = {
     config = { extra = { odds = 10 } },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.c_losted_greed
-        return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_minerador')
+        return { vars = { numerator, denominator } }
     end,
     calculate = function(self, card, context)
         if context.joker_main and not context.blueprint then
-            if pseudorandom('losted_minerador') < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'losted_minerador', 1, card.ability.extra.odds, 'losted_minerador') then
                 event({
                     trigger = 'after',
                     delay = 0.05,

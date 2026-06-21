@@ -1,52 +1,40 @@
--- Power Mult system for Lost Edition mod - adapted from notalisman's exponential mult system
+SMODS.Scoring_Parameter({
+    key = 'pow_mult',
+    default_value = 0,
+    colour = G.C.PURPLE,
+    calculation_keys = { 'pow_mult' },
 
--- Helper function to check if a value is in a table
-local function table_contains(tbl, element)
-   for _, value in pairs(tbl) do
-        if value == element then
-            return true
-        end
-    end
-    return false
-end
-
-if SMODS and SMODS.calculate_individual_effect then
-    local originalCalcIndiv = SMODS.calculate_individual_effect
-    function SMODS.calculate_individual_effect(effect, scored_card, key, amount, from_edition)
-        local ret = originalCalcIndiv(effect, scored_card, key, amount, from_edition)
-        if ret then
-            return ret
+    calc_effect = function(self, effect, scored_card, key, amount, from_edition)
+        if key ~= 'pow_mult' or amount == 1 or not SMODS.Calculation_Controls.mult then
+            return
         end
 
-        -- Handle power mult with purple message
-        if (key == 'pow_mult') and amount ~= 1 then
-            if effect.card then
-                juice_card(effect.card)
-            end
-            mult = mod_mult(mult ^ amount)
-            update_hand_text({ delay = 0 }, { chips = hand_chips, mult = mult })
-            if not effect.remove_default_message then
-                card_eval_status_text(scored_card or effect.card or effect.focus, 'extra', nil, percent, nil, {
+        if effect.card and effect.card ~= scored_card then
+            juice_card(effect.card)
+        end
+
+        local mult_parameter = SMODS.Scoring_Parameters.mult
+        local target_mult = mult_parameter.current ^ amount
+        mult_parameter:modify(target_mult - mult_parameter.current)
+
+        if not effect.remove_default_message then
+            card_eval_status_text(
+                effect.message_card or scored_card or effect.card or effect.focus,
+                'extra', nil, percent, nil,
+                {
                     sound = 'losted_pow_sound',
                     message = localize({
-                        type = "variable",
-                        key = "a_powmult",
+                        type = 'variable',
+                        key = 'a_powmult',
                         vars = { number_format(amount) },
                     }),
-                    colour = G.C.PURPLE
-                })
-            end
-            return true
+                    colour = G.C.PURPLE,
+                }
+            )
         end
 
-    end
-    
-    -- Register the calculation keys with SMODS
-    for _, v in ipairs({'pow_mult'}) do
-        if not table_contains(SMODS.other_calculation_keys, v) then
-            table.insert(SMODS.other_calculation_keys, v)
-        end
-    end
-end
+        return true
+    end,
+})
 
 return true

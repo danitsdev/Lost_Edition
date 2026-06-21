@@ -20,8 +20,12 @@ local jokerInfo = {
             event({
                 func = function()
                     local voucher = SMODS.add_voucher_to_shop()
-                    voucher.cost = 0
-                    voucher.base_cost = 0
+                    if voucher then
+                        voucher.ability.couponed = true
+                        voucher.cost = 0
+                        voucher.base_cost = 0
+                        voucher:set_cost()
+                    end
                     return true
                 end
             })

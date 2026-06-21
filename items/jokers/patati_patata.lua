@@ -61,7 +61,7 @@ local jokerInfo = {
 
     calculate = function(self, card, context)
         -- Use an event to delay the mode switch until after scoring animations/messages
-        if context.after and context.cardarea == G.jokers then
+        if context.after and context.cardarea == G.jokers and not context.blueprint then
             local current_mode = get_mode(card)
             local new_mode = current_mode.key == "PATATA" and MODES.PATATI or MODES.PATATA
             G.E_MANAGER:add_event(Event({

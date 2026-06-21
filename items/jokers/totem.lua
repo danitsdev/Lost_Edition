@@ -18,7 +18,7 @@ if not LOSTEDMOD.totem_bonus then
         for _, v in ipairs(G.jokers.cards) do
             if v.config and v.config.center and v.config.center.key == 'j_losted_totem' and not v.debuff then
                 local odds = (v.config.extra and v.config.extra.odds) or 3
-                if pseudorandom('losted_totem') < (G.GAME.probabilities.normal or 1) / odds then
+                if SMODS.pseudorandom_probability(v, 'losted_totem', 1, odds, 'losted_totem') then
                     -- Show bonus text on the Totem card
                     G.E_MANAGER:add_event(Event {
                         func = function()
@@ -56,15 +56,16 @@ local jokerInfo = {
     rarity = 3,
     cost = 8,
     unlocked = false,
-    blueprint_compat = true,
+    blueprint_compat = false,
     config = {
         extra = {
             odds = 3
         }
     },
     loc_vars = function(self, info_queue, card)
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_totem')
         return {
-            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds}
+            vars = {numerator, denominator}
         }
     end,
     calculate = function(self, card, context)

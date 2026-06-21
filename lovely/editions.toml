@@ -3,15 +3,6 @@ version = "1.0.0"
 dump_lua = true
 priority = 9999999
 
-# create the neagtive rate
-[[patches]]
-[patches.pattern]
-target = "game.lua"
-pattern = "edition_rate = 1,"
-position = "after"
-payload = "negative_rate = 1,"
-match_indent = true
-
 # Add quantum and plasma editions
 [[patches]]
 [patches.pattern]
@@ -19,9 +10,20 @@ target = '=[SMODS _ "src/overrides.lua"]'
 pattern = '''_options = { 'e_negative', 'e_polychrome', 'e_holo', 'e_foil' }'''
 position = 'after'
 match_indent = true
-payload = '''		if _key == "wheel_of_fortune" or _key == "aura" then
-			_options[#_options+1] = "e_losted_quantum"
+payload = '''		local function losted_add_edition_option(key)
+			if not key then return end
+			for _, option in ipairs(_options) do
+				if option == key then return end
+			end
+			_options[#_options + 1] = key
+		end
+		if _key == "wheel_of_fortune" or _key == "aura" then
+			losted_add_edition_option("e_losted_quantum")
+			if G.P_CENTERS.e_bunc_glitter and
+				(not BUNCOMOD or not BUNCOMOD.content or BUNCOMOD.content.config.gameplay_reworks) then
+				losted_add_edition_option("e_bunc_glitter")
+			end
 		end
 		if _key == "wheel_of_fortune" then
-			_options[#_options+1] = "e_losted_plasma"
+			losted_add_edition_option("e_losted_plasma")
 		end'''

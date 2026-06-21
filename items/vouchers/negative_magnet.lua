@@ -2,19 +2,11 @@ local voucherInfo = {
     key = "negative_magnet",
     pos = LOSTEDMOD.funcs.coordinate(10),
     atlas = 'losted_vouchers',
-    config = { extra = { rate = 3 } },
+    config = { extra = { rate = 4 } },
     unlocked = false,
     requires = { 'v_losted_negative_bias' },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.rate } }
-    end,
-    redeem = function(self, card)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                G.GAME.negative_rate = card.ability.extra.rate
-                return true
-            end
-        }))
     end,
     locked_loc_vars = function(self, info_queue, card)
         return { vars = { 4 } }

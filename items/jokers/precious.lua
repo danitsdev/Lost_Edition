@@ -21,22 +21,16 @@ local jokerInfo = {
         return false
     end,
     calculate = function(self, card, context)
-        if context.rescore_cards and not context.blueprint then
-            local diamond_count = 0
-            for _, rescore_card in ipairs(context.rescore_cards) do
-                if SMODS.has_enhancement(rescore_card, 'm_losted_diamond') then
-                    diamond_count = diamond_count + 1
-                end
-            end
-            
-            if diamond_count > 0 then
-                card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_gain * diamond_count)
-                return {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.MULT,
-                    card = card
-                }
-            end
+        if context.individual and context.cardarea == G.play and context.other_card
+            and context.other_card.repetition_trigger
+            and SMODS.has_enhancement(context.other_card, 'm_losted_diamond')
+            and not context.blueprint then
+            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
+            return {
+                message = localize('k_upgrade_ex'),
+                colour = G.C.MULT,
+                card = card,
+            }
         end
         
         if context.joker_main then

@@ -1,14 +1,29 @@
 -- This file contains function overrides and modifications
 
 -- Add editions to wheel of fortune and aura
+local function losted_add_edition_info(info_queue, edition)
+    if not edition then return end
+    for _, queued in ipairs(info_queue) do
+        if queued == edition then return end
+    end
+    info_queue[#info_queue + 1] = edition
+end
+
+local function losted_bunco_glitter_enabled()
+    return G.P_CENTERS.e_bunc_glitter and
+        (not BUNCOMOD or not BUNCOMOD.content or
+            BUNCOMOD.content.config.gameplay_reworks)
+end
+
 SMODS.Consumable:take_ownership('wheel_of_fortune', {
     loc_vars = function(self, info_queue)
-        info_queue[#info_queue+1] = G.P_CENTERS.e_foil
-        info_queue[#info_queue+1] = G.P_CENTERS.e_holo
-        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-        info_queue[#info_queue+1] = G.P_CENTERS.e_losted_quantum
-        info_queue[#info_queue+1] = G.P_CENTERS.e_losted_glitched
-
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_foil)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_holo)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_polychrome)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_losted_quantum)
+        if losted_bunco_glitter_enabled() then
+            losted_add_edition_info(info_queue, G.P_CENTERS.e_bunc_glitter)
+        end
         local vars = G.GAME and G.GAME.probabilities.normal and 
                     {G.GAME.probabilities.normal, self.config.extra} or {1, self.config.extra}
         return {key = 'c_losted_wheel_of_fortune', vars = vars}
@@ -17,11 +32,13 @@ SMODS.Consumable:take_ownership('wheel_of_fortune', {
 
 SMODS.Consumable:take_ownership('aura', {
     loc_vars = function(self, info_queue)
-        info_queue[#info_queue+1] = G.P_CENTERS.e_foil
-        info_queue[#info_queue+1] = G.P_CENTERS.e_holo
-        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-        info_queue[#info_queue+1] = G.P_CENTERS.e_losted_quantum
-        info_queue[#info_queue+1] = G.P_CENTERS.e_losted_glitched
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_foil)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_holo)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_polychrome)
+        losted_add_edition_info(info_queue, G.P_CENTERS.e_losted_quantum)
+        if losted_bunco_glitter_enabled() then
+            losted_add_edition_info(info_queue, G.P_CENTERS.e_bunc_glitter)
+        end
         return {key = 'c_losted_aura'}
     end
 })
@@ -47,51 +64,116 @@ SMODS.Booster:take_ownership_by_kind('Arcana', {
     end
 })
 
-SMODS.Edition:take_ownership('negative', {
-    get_weight = function(self)
-        return ((G.GAME.negative_rate or 1) - 1) * self.weight + (G.GAME.negative_rate or 1) * self.weight
-    end,
-})
-
-function build_smods_post_context(card, context, scoring_hand)
-    local passed_context = {}
-    for k, v in pairs(context) do
-        passed_context[k] = v
-    end
-    passed_context.cardarea = G.play
-    passed_context.main_scoring = true
-    passed_context.post_effect = true
-    passed_context.scoring_hand = scoring_hand
-    passed_context.other_card = card
-    passed_context.hand = G.hand
-    passed_context.full_hand = G.play.cards
-    return passed_context
-end
-
-local original_calculate_main_scoring = SMODS.calculate_main_scoring
-function SMODS.calculate_main_scoring(context, scoring_hand)
-    original_calculate_main_scoring(context, scoring_hand)
-    for _, card in ipairs(scoring_hand or context.cardarea.cards) do
-        local post_context = build_smods_post_context(card, context, scoring_hand)
-        SMODS.trigger_effects({post_eval_card(card, post_context)}, card)
-    end
-end
-
--- Override poll_edition to also ban 'e_losted_plasma' when no_neg is true (prevents plasma edition in play card pools)
-local poll_edition_original = poll_edition
-function poll_edition(key, mod, no_neg, guaranteed, options)
-    local result = poll_edition_original(key, mod, no_neg, guaranteed, options)
-    if no_neg and result == 'e_losted_plasma' then
-        if guaranteed then
-            repeat
-                result = poll_edition_original(key .. '_reroll', mod, no_neg, guaranteed, options)
-            until result ~= 'e_losted_plasma'
-            return result
-        else
-            return nil
+-- Compose the voucher multiplier onto the existing vanilla/SMODS method
+-- without take_ownership, which would attribute Negative to Lost Edition.
+local losted_negative = G.P_CENTERS.e_negative
+local losted_negative_get_weight_ref = losted_negative.get_weight
+function losted_negative:get_weight(...)
+    local base_weight = losted_negative_get_weight_ref
+        and losted_negative_get_weight_ref(self, ...) or self.weight
+    local rate = 1
+    if G.GAME and G.GAME.used_vouchers then
+        if G.GAME.used_vouchers.v_losted_negative_magnet then
+            rate = G.P_CENTERS.v_losted_negative_magnet.config.extra.rate
+        elseif G.GAME.used_vouchers.v_losted_negative_bias then
+            rate = G.P_CENTERS.v_losted_negative_bias.config.extra.rate
         end
     end
+    return rate * base_weight
+end
+
+-- Quantum follows the same compatibility contract as Blueprint for Jokers.
+-- Playing cards remain eligible because their retrigger uses the native
+-- repetition pipeline rather than Joker calculation copying.
+function LOSTEDMOD.funcs.can_receive_quantum(card)
+    if not card then return false end
+    local center = card.config and card.config.center
+    local card_set = (card.ability and card.ability.set) or (center and center.set)
+    if card_set == 'Default' or card_set == 'Enhanced' then
+        return true
+    end
+    return card_set == 'Joker' and center and center.blueprint_compat == true
+end
+
+-- Queue the first result so context modifiers (probabilities, draw amount, etc.)
+-- compose on the retrigger instead of both calculations reading the same input.
+function LOSTEDMOD.funcs.queue_quantum_context(card, effect, repetitions)
+    card.losted_quantum_context_queue = card.losted_quantum_context_queue or {}
+    for _ = 1, repetitions or 1 do
+        card.losted_quantum_context_queue[#card.losted_quantum_context_queue + 1] = effect or false
+    end
+end
+
+local losted_card_calculate_joker_ref = Card.calculate_joker
+function Card:calculate_joker(context, ...)
+    local queue = self.losted_quantum_context_queue
+    if context and context.retrigger_joker == self and queue and #queue > 0 then
+        local original_effect = table.remove(queue, 1)
+        if #queue == 0 then self.losted_quantum_context_queue = nil end
+        if original_effect and SMODS.update_context_flags then
+            SMODS.update_context_flags(context, original_effect)
+        end
+    end
+    return losted_card_calculate_joker_ref(self, context, ...)
+end
+
+-- Passive effects are outside calculate. Repeat the complete add/remove lifecycle
+-- with from_debuff=true so SMODS suppresses duplicate card_added contexts while
+-- retaining centre callbacks and vanilla passive fields.
+local losted_card_add_to_deck_ref = Card.add_to_deck
+local losted_card_remove_from_deck_ref = Card.remove_from_deck
+
+local function quantum_lifecycle_eligible(card)
+    return LOSTEDMOD.funcs.can_receive_quantum(card)
+        and card.ability.set == 'Joker'
+end
+
+function LOSTEDMOD.funcs.apply_quantum_lifecycle(card)
+    if not card or card.debuff or not card.added_to_deck or
+        not card.edition or not card.edition.losted_quantum or
+        card.losted_quantum_lifecycle_applied or
+        not quantum_lifecycle_eligible(card) then
+        return false
+    end
+
+    card.added_to_deck = false
+    losted_card_add_to_deck_ref(card, true)
+    card.losted_quantum_lifecycle_applied = true
+    return true
+end
+
+function LOSTEDMOD.funcs.remove_quantum_lifecycle(card)
+    if not card or not card.added_to_deck or
+        not card.losted_quantum_lifecycle_applied then
+        return false
+    end
+
+    losted_card_remove_from_deck_ref(card, true)
+    card.added_to_deck = true -- Preserve the base lifecycle for the real removal.
+    card.losted_quantum_lifecycle_applied = nil
+    return true
+end
+
+function LOSTEDMOD.funcs.restore_quantum_lifecycle(card)
+    card.losted_quantum_lifecycle_applied = card.added_to_deck and
+        not card.debuff and quantum_lifecycle_eligible(card) and true or nil
+end
+
+function Card:add_to_deck(from_debuff)
+    local was_added = self.added_to_deck
+    if not was_added then self.losted_quantum_lifecycle_applied = nil end
+    local result = losted_card_add_to_deck_ref(self, from_debuff)
+    if not was_added and self.added_to_deck then
+        LOSTEDMOD.funcs.apply_quantum_lifecycle(self)
+    end
     return result
+end
+
+function Card:remove_from_deck(from_debuff)
+    if self.added_to_deck then
+        LOSTEDMOD.funcs.remove_quantum_lifecycle(self)
+    end
+    return losted_card_remove_from_deck_ref(self, from_debuff)
 end
 
 sendDebugMessage("[Lost Edition] Override hooks loaded")

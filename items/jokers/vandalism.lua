@@ -13,7 +13,7 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.setting_blind and not context.blueprint then
             -- Check if already processed by another Vandalism
-            if G.GAME.vandalism_processed then
+            if G.GAME.blind.effect.losted_vandalism_processed then
                 return nil
             end
             
@@ -26,30 +26,13 @@ local jokerInfo = {
             end
             
             -- Mark as processed to prevent multiple executions
-            G.GAME.vandalism_processed = true
+            G.GAME.blind.effect.losted_vandalism_processed = true
             
-            local total_percent_reduction = card.ability.extra.percent * vandalism_count
+            local total_percent_reduction = math.min(90, card.ability.extra.percent * vandalism_count)
             local final_chips = math.floor(G.GAME.blind.chips * (100 - total_percent_reduction) / 100)
-            local chip_diff = G.GAME.blind.chips - final_chips
-            local chip_mod = math.ceil(chip_diff / 120)
-            local step = 0
-            
-            G.E_MANAGER:add_event(Event({trigger = 'after', blocking = true, func = function()
-                if G.GAME.blind.chips > final_chips then
-                    G.GAME.blind.chips = G.GAME.blind.chips - G.SETTINGS.GAMESPEED * chip_mod
-                    G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-                    if step % 5 == 0 then
-                        play_sound('chips1', math.max(1.0 - (step * 0.005), 0.001))
-                    end
-                    step = step + 1
-                else
-                    G.GAME.blind.chips = final_chips
-                    G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-                    -- Clear flag when animation ends
-                    G.GAME.vandalism_processed = nil
-                    return true
-                end
-            end}))
+            G.GAME.blind.chips = final_chips
+            G.GAME.blind.chip_text = number_format(final_chips)
+            play_sound('chips1')
             
             return {
                 message = localize('k_vandalism_ex'),

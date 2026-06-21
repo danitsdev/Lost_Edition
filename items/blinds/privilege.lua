@@ -1,3 +1,27 @@
+local function card_id(card)
+    return card and card.unique_val and tostring(card.unique_val) or nil
+end
+
+local function privilege_state()
+    local effect = G.GAME and G.GAME.blind and G.GAME.blind.effect
+    if not effect then return nil end
+    effect.losted_privilege = effect.losted_privilege or {
+        processed = {},
+        debuffed = {},
+    }
+    return effect.losted_privilege
+end
+
+local function clear_privilege()
+    local state = privilege_state()
+    if not state then return end
+    state.processed = {}
+    state.debuffed = {}
+    for _, card in ipairs(G.playing_cards or {}) do
+        SMODS.recalc_debuff(card)
+    end
+end
+
 local blindInfo = {
     key = 'privilege',
     pos = { x = 0, y = 2 },
@@ -6,62 +30,55 @@ local blindInfo = {
     dollars = 5,
     boss = { min = 4 },
     boss_colour = HEX('ffdf7d'),
-    config = { extra = { odds = 8 } }, 
+    config = { extra = { odds = 8 } },
 
     loc_vars = function(self)
-        return { vars = { (G.GAME.probabilities.normal or 1), self.config.extra.odds } }
+        local numerator, denominator = SMODS.get_probability_vars(self, 1, self.config.extra.odds, 'losted_privilege')
+        return { vars = { numerator, denominator } }
     end,
 
     collection_loc_vars = function(self)
         return { vars = { '1', '8' } }
     end,
 
+    set_blind = function(self, reset)
+        if not reset then
+            local state = privilege_state()
+            state.processed = {}
+            state.debuffed = {}
+        end
+    end,
+
     drawn_to_hand = function(self)
-        if not G.GAME or not G.GAME.blind then return end
-        if G.GAME.blind.disabled then return end
-        if not G.hand then return end
-
-        G.GAME.losted_privilege = G.GAME.losted_privilege or {}
-        local tracking = G.GAME.losted_privilege
-        tracking.processed_cards = tracking.processed_cards or {}
-
-        local normal = (G.GAME.probabilities and G.GAME.probabilities.normal) or 1
+        if not G.GAME or not G.GAME.blind or G.GAME.blind.disabled or not G.hand then return end
+        local state = privilege_state()
         local odds = self.config.extra.odds or 8
 
         for _, card in ipairs(G.hand.cards) do
-            local card_key = tostring(card):gsub("table: ", "card_")
-            
-            if not tracking.processed_cards[card_key] then
-                local debuffed = (pseudorandom('losted_privilege_' .. card_key) < normal / odds)
-                card.losted_privilege_active = debuffed or nil
-                tracking.processed_cards[card_key] = true
+            local id = card_id(card)
+            if id and not state.processed[id] then
+                state.processed[id] = true
+                if SMODS.pseudorandom_probability(self, 'losted_privilege_' .. id, 1, odds, 'losted_privilege') then
+                    state.debuffed[id] = true
+                end
                 SMODS.recalc_debuff(card)
             end
         end
     end,
 
     recalc_debuff = function(self, card, from_blind)
-        if card.losted_privilege_active then
-            return true
-        end
-        return nil
+        if G.GAME.blind.disabled then return nil end
+        local state = privilege_state()
+        local id = card_id(card)
+        return state and id and state.debuffed[id] or nil
     end,
 
     disable = function(self)
-        if not G.GAME or not G.GAME.losted_privilege then return end
-        
-        if G.hand and G.hand.cards then
-            for _, card in ipairs(G.hand.cards) do
-                if card.losted_privilege_active then
-                    card.losted_privilege_active = nil
-                    if card.debuff then
-                        card:set_debuff(false)
-                    end
-                end
-            end
-        end
+        clear_privilege()
+    end,
 
-        G.GAME.losted_privilege.processed_cards = {}
+    defeat = function(self)
+        clear_privilege()
     end,
 }
 

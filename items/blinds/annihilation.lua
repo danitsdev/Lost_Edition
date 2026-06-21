@@ -10,8 +10,7 @@ local blindInfo = {
         if G.GAME.blind.disabled then return end
         if not G.GAME.tags or #G.GAME.tags == 0 then return end
         local tags = G.GAME.tags
-        local idx = math.random(#tags)
-        local tag_to_remove = tags[idx]
+        local tag_to_remove = pseudorandom_element(tags, pseudoseed('losted_annihilation_tag'))
         if not tag_to_remove or not tag_to_remove.ID then return end
 
         local lock = tag_to_remove.ID

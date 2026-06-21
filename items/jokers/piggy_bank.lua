@@ -6,6 +6,7 @@ local jokerInfo = {
     cost = 6,
     unlocked = true,
     blueprint_compat = true,
+    perishable_compat = false,
     config = { extra = { chips = 0, chips_per_dollar = 4 } },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.chips, card.ability.extra.chips_per_dollar } }

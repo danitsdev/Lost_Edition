@@ -5,17 +5,17 @@ local jokerInfo = {
     rarity = 2,
     cost = 6,
     unlocked = false,
-    blueprint_compat = false,
+    blueprint_compat = true,
     config = {
         extra = {
             odds = 2,
-            cards_rescored = {}
         }
     },
     loc_vars = function(self, info_queue, card)
         info_queue[#info_queue + 1] = G.P_CENTERS.m_losted_diamond
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_laser_microjet')
         return {
-            vars = {(G.GAME.probabilities.normal or 1), card.ability.extra.odds}
+            vars = {numerator, denominator}
         }
     end,
     in_pool = function(self)
@@ -27,29 +27,26 @@ local jokerInfo = {
         return false
     end,
     calculate = function(self, card, context)
-        if context.rescore_cards then
-            local condition = true
-
-            for i = 1, #card.ability.extra.cards_rescored do
-                if context.rescore_cards[1] == card.ability.extra.cards_rescored[i] then
-                    condition = false
-                end
-            end
-
-            if condition and pseudorandom('laser_microjet' .. G.SEED) < G.GAME.probabilities.normal /
-                card.ability.extra.odds then
-                context.rescore_cards[1].config.diamond_rescored_times =
-                    context.rescore_cards[1].config.diamond_rescored_times - 1
-                table.insert(card.ability.extra.cards_rescored, context.rescore_cards[1])
-                return {
-                    message = localize('k_again_ex'),
-                    colour = G.C.CHIPS,
-                    card = card
-                }
-            end
-        end
-        if context.after then
-            card.ability.extra.cards_rescored = {}
+        if context.repetition and context.cardarea == G.play and context.other_card
+            and LOSTEDMOD.funcs.is_adjacent_scoring_enhancement(
+                context.other_card,
+                context.scoring_hand,
+                'm_losted_diamond'
+            )
+            and SMODS.pseudorandom_probability(
+                card,
+                'losted_laser_microjet_' .. tostring(card.unique_val)
+                    .. '_' .. tostring(context.other_card.unique_val),
+                1,
+                card.ability.extra.odds,
+                'losted_laser_microjet'
+            ) then
+            return {
+                repetitions = 1,
+                message = localize('k_again_ex'),
+                colour = G.C.CHIPS,
+                card = card,
+            }
         end
     end,
     check_for_unlock = function(self, args)

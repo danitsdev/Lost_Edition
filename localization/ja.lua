@@ -137,8 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'クォンタム',
                 text = {
-                    'このカードをさらに',
-                    '{C:blue}1回{}再発動させる',
+                    'このカードの{C:blue}全効果{}を',
+                    '追加で{C:blue}1回{}繰り返す',
                 },
             },
         },
@@ -480,7 +480,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}プレイしたハンドタイプ'
                 },
                 unlock = {
                     'チャレンジをクリアする',
@@ -836,8 +837,14 @@ return {
                     '{C:attention}#2#{}ラウンドで期限切れ'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = '収集家ジョーカー',
+                text = {
+                    '消耗スロット{C:dark_edition}+#1#{}',
+                }
+            },
             j_losted_glutton = {
-                name = 'グラットンジョーカー',
+                name = '収集家ジョーカー',
                 text = {
                     '消耗スロット{C:dark_edition}+#1#{}',
                 }
@@ -1188,7 +1195,9 @@ return {
             k_odd = '奇数',
             k_nothing_ex = 'ベータには何もない',
 
-            k_losted_music_label = 'サウンドトラック',
+        k_losted_config_game = 'ゲーム',
+        k_losted_config_audio_visual = 'オーディオ・表示',
+        k_losted_music_label = 'サウンドトラック',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 

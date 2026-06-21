@@ -137,7 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Cuántica',
                 text = {
-                    '{C:blue}Reactiva{} esta carta',
+                    'Repite {C:blue}todos los efectos{}',
+                    'de esta carta',
                     '{C:blue}1{} vez adicional',
                 },
             },
@@ -479,7 +480,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}Tipos de mano jugados'
                 },
                 unlock = {
                     'Completa el desafío',
@@ -828,8 +830,14 @@ return {
                     'Expira en {C:attention}#2#{} rondas'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = 'Comodín Acaparador',
+                text = {
+                    '{C:dark_edition}+#1#{} ranura(s) de consumible',
+                }
+            },
             j_losted_glutton = {
-                name = 'Comodín Glotón',
+                name = 'Comodín Acaparador',
                 text = {
                     '{C:dark_edition}+#1#{} ranura(s) de consumible',
                 }
@@ -1174,7 +1182,9 @@ return {
             k_odd = 'impar',
             k_nothing_ex = 'Nada para Beta',
 
-            k_losted_music_label = 'Banda Sonora',
+        k_losted_config_game = 'Juego',
+        k_losted_config_audio_visual = 'Audio y visuales',
+        k_losted_music_label = 'Banda Sonora',
             k_losted_music_ost1 = 'Lost Edition OST por Gulira',
             k_losted_music_ost2 = 'Balatro OST por LouisF',
 

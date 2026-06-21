@@ -24,22 +24,17 @@ local jokerInfo = {
         }
     end,
     calculate = function(self, card, context)
-        if context.individual and context.other_card and SMODS.has_enhancement(context.other_card, 'm_steel') then
-            context.other_card.ability.h_x_mult = card.ability.extra.steel_xmult
-        end
-        if context.before and context.main_eval and not context.blueprint then
-            local enhanced_cards = 0
-            for _, c in ipairs(G.playing_cards or {}) do
-                if SMODS.has_enhancement(c, 'm_steel') then
-                    c.ability.h_x_mult = card.ability.extra.steel_xmult
+        if context.individual and context.cardarea == G.hand and context.other_card
+            and SMODS.has_enhancement(context.other_card, 'm_steel') then
+            -- Only the first active Welder applies. This replaces Steel's X1.5
+            -- with X2.5 without mutating the playing card or other mods' values.
+            for _, joker in ipairs(G.jokers.cards) do
+                if joker.config.center.key == 'j_losted_welder' and not joker.debuff then
+                    if joker == card then
+                        return { xmult = card.ability.extra.steel_xmult / 1.5 }
+                    end
+                    return nil
                 end
-            end
-        end
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        for _, c in ipairs(G.playing_cards or {}) do
-            if SMODS.has_enhancement(c, 'm_steel') then
-                c.ability.h_x_mult = 1.5
             end
         end
     end,

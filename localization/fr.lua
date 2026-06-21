@@ -137,7 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Quantique',
                 text = {
-                    '{C:blue}Réactive{} cette carte',
+                    'Répète {C:blue}tous les effets{}',
+                    'de cette carte',
                     '{C:blue}1{} fois de plus',
                 },
             },
@@ -480,7 +481,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}Types de mains joués'
                 },
                 unlock = {
                     'Terminez le défi',
@@ -827,8 +829,14 @@ return {
                     'Expire dans {C:attention}#2#{} manches'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = 'Joker Accumulateur',
+                text = {
+                    '{C:dark_edition}+#1#{} emplacement(s) de consommable',
+                }
+            },
             j_losted_glutton = {
-                name = 'Joker Glouton',
+                name = 'Joker Accumulateur',
                 text = {
                     '{C:dark_edition}+#1#{} emplacement(s) de consommable',
                 }
@@ -1172,7 +1180,9 @@ return {
             k_odd = 'impaire',
             k_nothing_ex = 'Rien pour Bêta',
 
-            k_losted_music_label = 'Bande-son',
+        k_losted_config_game = 'Jeu',
+        k_losted_config_audio_visual = 'Audio et visuels',
+        k_losted_music_label = 'Bande-son',
             k_losted_music_ost1 = 'Lost Edition OST par Gulira',
             k_losted_music_ost2 = 'Balatro OST par LouisF',
 

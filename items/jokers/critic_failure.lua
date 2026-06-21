@@ -8,14 +8,11 @@ local jokerInfo = {
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = true,
-    add_to_deck = function(self, card, from_debuff)
-        for k, v in pairs(G.GAME.probabilities) do
-            G.GAME.probabilities[k] = v / 4
-        end
-    end,
-    remove_from_deck = function(self, card, from_debuff)
-        for k, v in pairs(G.GAME.probabilities) do
-            G.GAME.probabilities[k] = v * 4
+    calculate = function(self, card, context)
+        if context.mod_probability then
+            return {
+                numerator = context.numerator / 4
+            }
         end
     end,
     locked_loc_vars = function(self, info_queue, card)

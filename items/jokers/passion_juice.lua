@@ -10,14 +10,15 @@ local jokerInfo = {
     perishable_compat = false,
     config = { extra = { xchips = 1, xchips_gain = 0.1, odds = 1000 } },
     loc_vars = function(self, info_queue, card)
-        return { vars = { card.ability.extra.xchips, card.ability.extra.xchips_gain, (G.GAME and G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_passion_juice')
+        return { vars = { card.ability.extra.xchips, card.ability.extra.xchips_gain, numerator, denominator } }
     end,
     calculate = function(self, card, context)
         if context.before and context.main_eval and not context.blueprint then
             card.ability.extra.xchips = card.ability.extra.xchips + card.ability.extra.xchips_gain
         end
         if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
-            if pseudorandom('losted_passion_juice') < G.GAME.probabilities.normal / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'losted_passion_juice', 1, card.ability.extra.odds, 'losted_passion_juice') then
                 LOSTEDMOD.funcs.destroy_joker(card)
                 return {
                     message = localize('k_extinct_ex')

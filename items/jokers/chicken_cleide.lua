@@ -31,16 +31,16 @@ local jokerInfo = {
 
                         play_sound('losted_chicken')
 
-                        local egg_card = SMODS.create_card({
+                        local egg_card = SMODS.add_card({
                             set = 'Joker',
                             area = G.jokers,
                             key = 'j_egg'
                         })
-                        egg_card:set_edition({
-                            negative = true
-                        })
-                        egg_card:add_to_deck()
-                        G.jokers:emplace(egg_card)
+                        if egg_card then
+                            egg_card:set_edition({
+                                negative = true
+                            })
+                        end
                         big_juice(card)
 
                         -- Check if this was the last egg

@@ -17,42 +17,57 @@ local jokerInfo = {
             juice_card_until(card, eval, true)
         end
         
-        if context.before and context.main_eval and G.GAME.current_round.hands_played == 0 and 
+        if context.before and context.main_eval and G.GAME.current_round.hands_played == 0 and
             #context.full_hand <= card.ability.extra.max_cards and not context.blueprint then
-            local i = 0
+            local ante = G.GAME.round_resets.ante
+
             for card_index, playing_card in ipairs(context.full_hand) do
-                local seal_seed = 'error_seal_' .. card_index .. '_' .. G.GAME.round_resets.ante
-                local enhancement_seed = 'error_enh_' .. card_index .. '_' .. G.GAME.round_resets.ante
-                local edition_seed = 'error_edition_' .. card_index .. '_' .. G.GAME.round_resets.ante
-                local suit_seed = 'error_suit_' .. card_index .. '_' .. G.GAME.round_resets.ante
-                local rank_seed = 'error_rank_' .. card_index .. '_' .. G.GAME.round_resets.ante
+                local target_card = playing_card
+                local seal_seed = 'error_seal_' .. card_index .. '_' .. ante
+                local enhancement_seed = 'error_enh_' .. card_index .. '_' .. ante
+                local edition_seed = 'error_edition_' .. card_index .. '_' .. ante
+                local suit_seed = 'error_suit_' .. card_index .. '_' .. ante
+                local rank_seed = 'error_rank_' .. card_index .. '_' .. ante
                 
                 local new_seal = SMODS.poll_seal({guaranteed = true, key = seal_seed})
                 local new_enhancement = SMODS.poll_enhancement({guaranteed = true, key = enhancement_seed})
-                local new_edition = poll_edition(edition_seed, nil, true, false)
+                local new_edition = SMODS.poll_edition({
+                    key = edition_seed,
+                    no_negative = true,
+                    options = {
+                        'e_foil',
+                        'e_holo',
+                        'e_polychrome',
+                        'e_losted_quantum',
+                    },
+                })
                 local new_suit = pseudorandom_element(SMODS.Suits, pseudoseed(suit_seed)).key
                 local new_rank = pseudorandom_element(SMODS.Ranks, pseudoseed(rank_seed)).key
+                local sound_pitch = 0.85 + (card_index * 0.05)
 
-                G.E_MANAGER:add_event(Event({
-                    delay = 0.2 + (i * 0.1),
-                    trigger = 'before', 
+                event({
+                    delay = 0.2,
+                    trigger = 'before',
                     func = function()
-                        i = i + 1
-                        play_sound('card1', 0.85 + (i * 0.05))
-                        playing_card:juice_up(0.3, 0.4)
-
-                        playing_card:set_seal(new_seal, true, true)
-                        playing_card:set_ability(G.P_CENTERS[new_enhancement])
-
-                        if new_edition then
-                            playing_card:set_edition(new_edition, true)
+                        if not target_card or target_card.REMOVED then
+                            return true
                         end
 
-                        SMODS.change_base(playing_card, new_suit, new_rank)
+                        play_sound('card1', sound_pitch)
+                        target_card:juice_up(0.3, 0.4)
 
-                        return true 
+                        target_card:set_seal(new_seal, true, true)
+                        target_card:set_ability(G.P_CENTERS[new_enhancement])
+
+                        if new_edition then
+                            target_card:set_edition(new_edition, true)
+                        end
+
+                        SMODS.change_base(target_card, new_suit, new_rank)
+
+                        return true
                     end
-                }))
+                })
             end
             
             return {

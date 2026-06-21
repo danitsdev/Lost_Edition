@@ -26,11 +26,14 @@ local jokerInfo = {
                 end
             end
             if #editionless_jokers > 0 then
+                local chosen_joker = pseudorandom_element(editionless_jokers, pseudoseed('losted_sticky'))
                 event({
                     trigger = 'after',
                     delay = 0.4,
                     func = function()
-                        local chosen_joker = pseudorandom_element(editionless_jokers, pseudoseed('losted_sticky'))
+                        if not chosen_joker or chosen_joker.REMOVED then
+                            return true
+                        end
                         chosen_joker:set_edition({ negative = true })
                         big_juice(card)
                         big_juice(chosen_joker) 
@@ -65,7 +68,7 @@ local jokerInfo = {
         if times_activated == 0 then
             return true 
         else
-            return math.random() < (1 / (2 ^ times_activated))
+            return pseudorandom('losted_sticky_pool_' .. tostring(times_activated)) < (1 / (2 ^ times_activated))
         end
     end,
     check_for_unlock = function(self, args)

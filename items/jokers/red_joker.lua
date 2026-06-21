@@ -25,6 +25,25 @@ local jokerInfo = {
                 }
             end
         end
+    end,
+    joker_display_def = function(JokerDisplay)
+        return {
+            text = {
+                { text = "+" },
+                {
+                    ref_table = "card.joker_display_values",
+                    ref_value = "mult",
+                    retrigger_type = "mult"
+                }
+            },
+            text_config = { colour = G.C.MULT },
+            calc_function = function(card)
+                local total_cards = G.deck and G.deck.cards and #G.deck.cards or 0
+                local cards_per_group = tonumber(card.ability.extra.cards_per_group) or 1
+                local mult_per_group = tonumber(card.ability.extra.mult_per_group) or 0
+                card.joker_display_values.mult = math.floor(total_cards / cards_per_group) * mult_per_group
+            end
+        }
     end
 }
 

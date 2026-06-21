@@ -1,13 +1,10 @@
--- Legacy center kept so existing saves using j_losted_glutton continue to load.
--- New runs use j_losted_hoarding_joker instead.
 local jokerInfo = {
-    key = "glutton",
+    key = "hoarding_joker",
     pos = LOSTEDMOD.funcs.coordinate(64),
     atlas = 'losted_jokers',
     rarity = 1,
     cost = 4,
     unlocked = true,
-    no_collection = true,
     blueprint_compat = false,
     config = { extra = { slots = 1 } },
     loc_vars = function(self, info_queue, card)
@@ -18,9 +15,6 @@ local jokerInfo = {
     end,
     remove_from_deck = function(self, card, from_debuff)
         G.consumeables.config.card_limit = G.consumeables.config.card_limit - card.ability.extra.slots
-    end,
-    in_pool = function(self, args)
-        return false
     end
 }
 

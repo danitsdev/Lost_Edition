@@ -34,12 +34,13 @@ match_indent = true
 [patches.pattern]
 target = "game.lua"
 pattern = "self.GAME.round_resets.blind_choices.Boss = get_new_boss()"
-position = "before"
+position = "at"
 payload = '''
 if G.GAME.modifiers.boss_rush then
-    self.GAME.round_resets.blind_choices.Small = get_new_boss()
-    self.GAME.round_resets.blind_choices.Big = get_new_boss()
-    self.GAME.round_resets.blind_choices.Boss = get_new_boss()
+    local small, big, boss = LOSTEDMOD.funcs.get_boss_rush_choices()
+    self.GAME.round_resets.blind_choices.Small = small
+    self.GAME.round_resets.blind_choices.Big = big
+    self.GAME.round_resets.blind_choices.Boss = boss
 else
     local boss = get_new_boss()
     self.GAME.round_resets.blind_choices.Boss = boss
@@ -51,12 +52,13 @@ match_indent = true
 [patches.pattern]
 target = "functions/common_events.lua"
 pattern = "G.GAME.round_resets.blind_choices.Boss = get_new_boss()"
-position = "before"
+position = "at"
 payload = '''
 if G.GAME.modifiers.boss_rush then
-    G.GAME.round_resets.blind_choices.Small = get_new_boss()
-    G.GAME.round_resets.blind_choices.Big = get_new_boss()
-    G.GAME.round_resets.blind_choices.Boss = get_new_boss()
+    local small, big, boss = LOSTEDMOD.funcs.get_boss_rush_choices()
+    G.GAME.round_resets.blind_choices.Small = small
+    G.GAME.round_resets.blind_choices.Big = big
+    G.GAME.round_resets.blind_choices.Boss = boss
 else
     local boss = get_new_boss()
     G.GAME.round_resets.blind_choices.Boss = boss
@@ -120,17 +122,50 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = "functions/state_events.lua"
-pattern = "if G.GAME.round_resets.ante == G.GAME.win_ante and G.GAME.blind:get_type() == 'Boss' then"
+pattern = "elseif G.GAME.round_resets.blind == G.P_BLINDS.bl_big then"
 position = "at"
-payload = "if G.GAME.round_resets.ante >= G.GAME.win_ante and G.GAME.blind_on_deck == 'Boss' then"
+payload = "elseif G.GAME.blind_on_deck == 'Big' then"
+match_indent = true
+
+# Boss blind semantics
+[[patches]]
+[patches.pattern]
+target = "functions/state_events.lua"
+pattern = "if G.GAME.blind:get_type() == 'Boss' and not G.GAME.seeded and not G.GAME.challenge  then"
+position = "at"
+payload = "if G.GAME.blind and G.GAME.blind.boss and not G.GAME.seeded and not G.GAME.challenge then"
 match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = "functions/state_events.lua"
-pattern = "elseif G.GAME.round_resets.blind == G.P_BLINDS.bl_big then"
+target = "functions/common_events.lua"
+pattern = "if G.GAME.current_round.hands_played == 1 and\n                        G.GAME.current_round.discards_left == G.GAME.round_resets.discards and\n                        G.GAME.blind:get_type() == 'Boss' then"
 position = "at"
-payload = "elseif G.GAME.blind_on_deck == 'Big' then"
+payload = "if G.GAME.current_round.hands_played == 1 and\n                        G.GAME.current_round.discards_left == G.GAME.round_resets.discards and\n                        G.GAME.blind and G.GAME.blind.boss then"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "functions/common_events.lua"
+pattern = "if G.GAME.last_hand_played == card.unlock_condition.extra and G.GAME.blind:get_type() == 'Boss' then"
+position = "at"
+payload = "if G.GAME.last_hand_played == card.unlock_condition.extra and G.GAME.blind and G.GAME.blind.boss then"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "local disableable = G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss'))"
+position = "at"
+payload = "local disableable = G.GAME.blind and ((not G.GAME.blind.disabled) and G.GAME.blind.boss)"
+match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = "card.lua"
+pattern = "if G.GAME.blind and ((not G.GAME.blind.disabled) and (G.GAME.blind:get_type() == 'Boss')) then"
+position = "at"
+payload = "if G.GAME.blind and ((not G.GAME.blind.disabled) and G.GAME.blind.boss) then"
 match_indent = true
 
 # Only Jokers

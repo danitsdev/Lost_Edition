@@ -3,19 +3,19 @@
     "name": "Balatro: Lost Edition",
     "display_name": "Lost Edition",
     "author": [
-        "Danitskkj",
+        "Danitsdev",
         "ClickNoPaulo"
     ],
     "description": "An unofficial Balatro expansion featuring mysterious lost cards and cool surprises.",
     "prefix": "losted",
     "main_file": "main.lua",
-    "version": "1.0.6",
+    "version": "1.0.8",
     "badge_colour": "5B2C87",
     "badge_text_colour": "FFFFFF",
     "priority": 500000,
     "dependencies": [
-        "Steamodded (>=1.0.0~BETA-0711a)",
-        "Lovely (>=0.7.1)"
+        "Steamodded (>=1.0.0~BETA-1814a)",
+        "Lovely (>=0.9.0)"
     ],
     "conflicts": []
 }

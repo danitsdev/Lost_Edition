@@ -19,7 +19,7 @@ local challengeInfo = {
          banned_cards = (function()
             local banned_ids = {}
             for k, v in pairs(G.P_CENTERS) do
-                if starts_with(k, 'p_') and k ~= 'p_buffon' then
+                if starts_with(k, 'p_') and not starts_with(k, 'p_buffoon_') then
                     table.insert(banned_ids, k)
                 end
                 if starts_with(k, 'v_') then
@@ -44,7 +44,7 @@ local challengeInfo = {
                 { id = 'j_sixth_sense' },
                 { id = 'j_perkeo' },
                 { id = 'j_losted_roland' },
-                { id = 'j_losted_glutton' },
+                { id = 'j_losted_hoarding_joker' },
                 { id = 'j_losted_magician' },
                 { id = 'j_losted_seal_stamp' },
                 { id = 'j_losted_spirit_box' },

@@ -8,11 +8,12 @@ local jokerInfo = {
     blueprint_compat = true,
     config = { extra = { chips = 150, odds = 2 } },
     loc_vars = function(self, info_queue, card)
-        return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.chips } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_schrodinger')
+        return { vars = { numerator, denominator, card.ability.extra.chips } }
     end,
     calculate = function(self, card, context)
         if context.joker_main then
-            if pseudorandom('losted_schrodinger') < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'losted_schrodinger', 1, card.ability.extra.odds, 'losted_schrodinger') then
                 return {
                     chips = card.ability.extra.chips
                 }

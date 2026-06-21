@@ -136,8 +136,8 @@ return {
             e_losted_quantum = {
                 name = 'Квантовый',
                 text = {
-                    '{C:blue}Повторно активирует{} эту карту',
-                    'дополнительно {C:blue}1{} раз',
+                    'Повторяет {C:blue}все эффекты{}',
+                    'этой карты ещё {C:blue}1{} раз',
                 },
             },
         },
@@ -478,7 +478,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}Сыгранные типы рук'
                 },
                 unlock = {
                     'Завершите испытание',
@@ -616,7 +617,7 @@ return {
                 name = 'Джокер-шахтер',
                 text = {
                     'Шанс {C:green}#1# из #2#{} создать',
-                    '{C:spectral}спектральную карту 'Жадность'{}',
+                    "{C:spectral}спектральную карту 'Жадность'{}",
                     'при подсчете руки',
                     '{C:inactive}(должно быть место){}'
                 }
@@ -825,8 +826,14 @@ return {
                     'Истекает через {C:attention}#2#{} раунда(ов)'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = 'Джокер-накопитель',
+                text = {
+                    '{C:dark_edition}+#1#{} слот(ов) расходуемого',
+                }
+            },
             j_losted_glutton = {
-                name = 'Джокер-обжора',
+                name = 'Джокер-накопитель',
                 text = {
                     '{C:dark_edition}+#1#{} слот(ов) расходуемого',
                 }
@@ -1167,7 +1174,9 @@ return {
             k_odd = 'нечетное',
             k_nothing_ex = 'Ничего для Беты',
 
-            k_losted_music_label = 'Саундтрек',
+        k_losted_config_game = 'Игра',
+        k_losted_config_audio_visual = 'Аудио и оформление',
+        k_losted_music_label = 'Саундтрек',
             k_losted_music_ost1 = 'Lost Edition OST от Gulira',
             k_losted_music_ost2 = 'Balatro OST от LouisF',
 

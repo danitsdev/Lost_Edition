@@ -13,6 +13,7 @@ G.FUNCS.change_fastforward = function(args)
         args.to_val == localize('k_fast_forward_unsafe') and 3 or
         0
     )
+    G:save_settings()
 end
 
 G.FUNCS.change_statustext = function(args)
@@ -22,6 +23,7 @@ G.FUNCS.change_statustext = function(args)
         args.to_val == localize('k_status_text_none') and 3 or
         0
     )
+    G:save_settings()
 end
 
 function G.UIDEF.lostedspeed_options()

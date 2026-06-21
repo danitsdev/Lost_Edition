@@ -12,7 +12,7 @@ local challengeInfo = {
         { id = 'j_cartomancer', eternal = true },
         { id = 'j_losted_magician', eternal = true },
         { id = 'j_oops', eternal = true },
-        { id = 'j_losted_glutton', eternal = true },
+        { id = 'j_losted_hoarding_joker', eternal = true },
         { id = 'j_brainstorm', eternal = true },
     },
     vouchers = {

@@ -20,25 +20,38 @@ Lost Edition is built with love by members of the Balatro modding community. It 
 ## Requirements
 Lost Edition requires the following:
 
-- Steamodded ≥ `1.0.0~BETA-0711a`
-- Lovely ≥ `0.7`
+- Steamodded ≥ `1.0.0~BETA-1814a`
+- Lovely ≥ `0.9.0`
 
 If these are missing or outdated, the mod will not load correctly.
 
 ## Installation
-1. Install the required frameworks (Steamodded and Lovely) for Balatro.
-2. Download the latest release `.zip` from this mod’s Releases page.
-3. Extract the `Lost_Edition` folder from the zip into your Balatro mods directory:
-	 - Windows: `%APPDATA%/Balatro/Mods`
+
+### Balatro Mod Manager (recommended)
+
+1. Install the [Balatro Mod Manager](https://balatro-mod-manager.dasguney.com/). Its source code and additional instructions are available in the [official GitHub repository](https://github.com/skyline69/balatro-mod-manager).
+2. Open the manager, search for **Lost Edition**, and install it.
+3. Make sure the required Steamodded and Lovely versions listed above are installed.
+4. Launch Balatro and enjoy!
+
+### Manual installation
+
+1. Install the required frameworks ([Steamodded](https://github.com/Steamodded/smods) and [Lovely](https://github.com/ethangreen-dev/lovely-injector)) for Balatro.
+2. Download the latest packaged `.zip` from the [Lost Edition Releases page](https://github.com/danitsdev/Lost_Edition/releases/latest).
+3. Extract the `Lost_Edition` folder from the archive into your Balatro mods directory:
+   - Windows: `%APPDATA%/Balatro/Mods`
 4. Launch the game and enjoy!
 
-Important: Avoid using GitHub’s “Download ZIP” of the source/main branch. It may contain WIP content and break your game. Prefer the packaged files in the Releases page.
+> [!IMPORTANT]
+> Do not use GitHub's **Download ZIP** option on the source/main branch. It may contain work-in-progress files and can break your game. Use the Balatro Mod Manager or the packaged files from the Releases page instead.
 
 ## Updating
+
 To update safely:
+
 - Close the game.
-- Delete the existing `Lost_Edition` folder from `%APPDATA%/Balatro/Mods`.
-- Install the new version by repeating the Installation steps above.
+- If you installed through Balatro Mod Manager, update Lost Edition from the manager.
+- For a manual installation, delete the existing `Lost_Edition` folder from `%APPDATA%/Balatro/Mods`, then repeat the manual installation steps above.
 
 ## Uninstall
 Delete the `Lost_Edition` folder from your `Mods` directory.
@@ -56,7 +69,7 @@ Join our Discord community for help, discussions, and updates: [https://discord.
 
 **Direction**
 - Click no Paulo
-- Danitskkj
+- Danitsdev
 
 **Music**
 - Gulira
@@ -70,7 +83,7 @@ Join our Discord community for help, discussions, and updates: [https://discord.
 - Timba
 
 **Coding**
-- Danitskkj
+- Danitsdev
 - Ilumino
 - Evelyn
 

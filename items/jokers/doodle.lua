@@ -9,6 +9,7 @@ local jokerInfo = {
     eternal_compat = false,
     config = { extra = { destroy_chance = 20 } },
     loc_vars = function(self, info_queue, card)
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.destroy_chance, 'losted_doodle_destroy')
         if card.area and card.area == G.jokers then
             local other_joker
             for i = 1, #G.jokers.cards do
@@ -16,7 +17,7 @@ local jokerInfo = {
             end
             local compatible = other_joker and other_joker ~= card and other_joker.config.center.blueprint_compat
             
-            local vars = { G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.destroy_chance }
+            local vars = { numerator, denominator }
             local main_end = {
                 {
                     n = G.UIT.C,
@@ -40,7 +41,7 @@ local jokerInfo = {
             }
             return { vars = vars, main_end = main_end }
         end
-        return { vars = { G.GAME and G.GAME.probabilities.normal or 1, card.ability.extra.destroy_chance } }
+        return { vars = { numerator, denominator } }
     end,
     calculate = function(self, card, context)
         -- Safety check - only work during actual gameplay
@@ -61,7 +62,7 @@ local jokerInfo = {
         
         -- Check for destruction chance at end of round
         if context.end_of_round and not context.repetition and not context.individual and not card.getting_sliced and not context.blueprint then
-            if pseudorandom('doodle_destroy') < G.GAME.probabilities.normal / card.ability.extra.destroy_chance then
+            if SMODS.pseudorandom_probability(card, 'doodle_destroy', 1, card.ability.extra.destroy_chance, 'losted_doodle_destroy') then
                 G.E_MANAGER:add_event(Event({
                     func = function()
                         play_sound('tarot1')

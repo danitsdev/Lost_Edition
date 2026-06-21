@@ -14,14 +14,15 @@ local jokerInfo = {
         }
     },
     loc_vars = function(self, info_queue, card)
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_demonic_joker_fail')
         return {
-            vars = {card.ability.extra.gold_per_six, (G.GAME.probabilities.normal or 1), card.ability.extra.odds}
+            vars = {card.ability.extra.gold_per_six, numerator, denominator}
         }
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
             if context.other_card and context.other_card:get_id() == 6 then
-                if pseudorandom('demonic_joker_fail') < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
+                if SMODS.pseudorandom_probability(card, 'demonic_joker_fail', 1, card.ability.extra.odds, 'losted_demonic_joker_fail') then
                     return
                 end
                 

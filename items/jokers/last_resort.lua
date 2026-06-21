@@ -22,10 +22,6 @@ local jokerInfo = {
             play_sound('losted_shot', 1.0, 0.8)
 
             LOSTEDMOD.funcs.destroy_cards(context.full_hand)
-
-            return {
-                remove = true
-            }
         end
     end
 }

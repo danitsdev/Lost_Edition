@@ -1,9 +1,5 @@
 -- Geological tracking system for Obsidian unlock
-if not LOSTEDMOD.geological_hooked then
-    LOSTEDMOD.geological_hooked = true
-
-    -- Mark a geological joker as sold and handle Obsidian logic
-    local function mark_geological_joker_sold(joker_key)
+local function mark_geological_joker_sold(joker_key)
         local geological_jokers = {
             'j_rough_gem',
             'j_bloodstone',
@@ -103,15 +99,12 @@ if not LOSTEDMOD.geological_hooked then
             end
         end
         return false
-    end
-    
-    -- Hook into joker selling to track geological jokers
-    local original_sell_card = Card.sell_card
-    function Card:sell_card()
-        if self.config and self.config.center and self.config.center.key then
-            mark_geological_joker_sold(self.config.center.key)
-        end
-        return original_sell_card(self)
+end
+
+-- SMODS exposes sale events to mods, so this tracker does not need to wrap Card:sell_card.
+SMODS.current_mod.calculate = function(self, context)
+    if context.selling_card and context.card and context.card.config and context.card.config.center then
+        mark_geological_joker_sold(context.card.config.center.key)
     end
 end
 

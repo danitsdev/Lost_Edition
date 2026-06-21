@@ -1,6 +1,38 @@
 -- Lost Edition: UI Hooks
 -- Injects all custom options into the game's settings menu.
 
+local function losted_music_selector(width, scale)
+    local music_nums = { losted = 1, balatro = 2 }
+    return create_option_cycle({
+        w = width or 7,
+        scale = scale or 0.8,
+        label = localize('k_losted_music_label'),
+        options = {localize('k_losted_music_ost1'), localize('k_losted_music_ost2')},
+        opt_callback = 'change_music',
+        current_option = music_nums[G.SETTINGS.music_selection] or 1
+    })
+end
+
+local function losted_theme_controls(width, scale)
+    local current_option = G.losted_theme_presets_nums[G.SETTINGS.losted_theme_selection] or 1
+    local selector = create_option_cycle({
+        w = width or 5,
+        scale = scale or 0.75,
+        label = localize('k_losted_theme_label'),
+        options = G.losted_theme_selector_options,
+        opt_callback = 'change_losted_theme_preset',
+        current_option = current_option
+    })
+    local apply_button = UIBox_button({
+        minw = math.min(width or 5, 4),
+        button = 'apply_losted_theme',
+        colour = G.C.GREEN,
+        label = {localize('k_losted_apply_button')},
+        scale = 0.5
+    })
+    return selector, apply_button
+end
+
 local original_settings_tab = G.UIDEF.settings_tab
 function G.UIDEF.settings_tab(tab)
     local setting_tab = original_settings_tab(tab)
@@ -15,9 +47,9 @@ function G.UIDEF.settings_tab(tab)
                     n = G.UIT.C,
                     config = { align = 'cm' },
                     nodes = {
-                        G.UIDEF.losted_speed_options(),
-                        G.UIDEF.losted_fastforward_options(),
-                        G.UIDEF.losted_statustext_options()
+                        G.UIDEF.lostedspeed_options(),
+                        G.UIDEF.lostedspeed_fastforward_options(),
+                        G.UIDEF.lostedspeed_statustext_options()
                     }
                 }
                 break
@@ -27,38 +59,15 @@ function G.UIDEF.settings_tab(tab)
 
     -- Section for Music Options
     if tab == 'Audio' then
-        local music_nums = { losted = 1, balatro = 2 }
         local musicSelector = {n=G.UIT.R, config = {align = 'cm'}, nodes= {
-            create_option_cycle({ 
-                w = 7, 
-                scale = 0.8, 
-                label = localize('k_losted_music_label'),
-                options = {localize('k_losted_music_ost1'), localize('k_losted_music_ost2')}, 
-                opt_callback = 'change_music', 
-                current_option = (music_nums[G.SETTINGS.music_selection] or 1) 
-            })
+            losted_music_selector(7, 0.8)
         }}
         table.insert(setting_tab.nodes, musicSelector)
     end
     
     -- Section for Theme Options
     if tab == 'Themes' then
-        local current_option = G.losted_theme_presets_nums[G.SETTINGS.losted_theme_selection] or 1
-
-        local theme_selector = create_option_cycle({
-            w = 7, scale = 0.9, 
-            label = localize('k_losted_theme_label'),
-            options = G.losted_theme_selector_options, 
-            opt_callback = 'change_losted_theme_preset',
-            current_option = current_option
-        })
-
-        local apply_button = UIBox_button({
-            minw = 4, button = "apply_losted_theme",
-            colour = G.C.GREEN, 
-            label = {localize('k_losted_apply_button')},
-            scale = 0.5
-        })
+        local theme_selector, apply_button = losted_theme_controls(7, 0.9)
 
         setting_tab.nodes = {
             {n=G.UIT.R, config={align='cm', padding = 0.25}, nodes={ theme_selector }},
@@ -67,6 +76,37 @@ function G.UIDEF.settings_tab(tab)
     end
     
     return setting_tab
+end
+
+-- Central mod settings panel. Lovely Maker exposes this screen reliably on
+-- mobile, so every Lost Edition preference remains reachable from one place.
+SMODS.current_mod.config_tab = function()
+    local theme_selector, apply_button = losted_theme_controls(4.6, 0.7)
+    local panel_colour = darken(G.C.JOKER_GREY, 0.25)
+    return {
+        n = G.UIT.ROOT,
+        config = { align = 'cm', r = 0.1, minw = 9.6, minh = 5.2, padding = 0.16, colour = G.C.BLACK },
+        nodes = {
+            { n = G.UIT.R, config = { align = 'cm', padding = 0.08 }, nodes = {
+                { n = G.UIT.C, config = { align = 'tm', minw = 4.7, padding = 0.12, r = 0.1, colour = panel_colour }, nodes = {
+                    { n = G.UIT.R, config = { align = 'cm', padding = 0.04 }, nodes = {
+                        { n = G.UIT.T, config = { text = localize('k_losted_config_game'), scale = 0.45, colour = G.C.ORANGE, shadow = true } }
+                    } },
+                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_options() } },
+                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_fastforward_options() } },
+                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_statustext_options() } }
+                } },
+                { n = G.UIT.C, config = { align = 'tm', minw = 4.7, padding = 0.12, r = 0.1, colour = panel_colour }, nodes = {
+                    { n = G.UIT.R, config = { align = 'cm', padding = 0.04 }, nodes = {
+                        { n = G.UIT.T, config = { text = localize('k_losted_config_audio_visual'), scale = 0.45, colour = G.C.ORANGE, shadow = true } }
+                    } },
+                    { n = G.UIT.R, config = { align = 'cm', padding = 0.03 }, nodes = { losted_music_selector(4.6, 0.7) } },
+                    { n = G.UIT.R, config = { align = 'cm', padding = 0.03 }, nodes = { theme_selector } },
+                    { n = G.UIT.R, config = { align = 'cm', padding = 0.08 }, nodes = { apply_button } }
+                } }
+            } }
+        }
+    }
 end
 
 local header_scale = 0.92 -- reduzido de 1.1
@@ -87,10 +127,10 @@ end
 
 -- Credits content (Lost Edition)
 local LE_CREDITS = {
-    direction = { "Click no Paulo", "Danitskkj" },
+    direction = { "Click no Paulo", "Danitsdev" },
     music = { "gulira" },
     artists = { "Click no Paulo", "Wellyson", "Xosé", "Henry", "Roger", "Timba", "Possiblycoolperson" },
-    coding = { "Danitskkj", "Ilumino", "Evelyn" },
+    coding = { "Danitsdev", "Ilumino", "Evelyn" },
     beta = { "Galves", "Wellyson", "Xosé" },
     thanks = {
         "Localthunk for creating this wonderful game!",

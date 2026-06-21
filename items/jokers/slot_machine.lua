@@ -18,20 +18,37 @@ local jokerInfo = {
         }
     },
     loc_vars = function(self, info_queue, card)
-        local prob_mod = G.GAME and G.GAME.probabilities and G.GAME.probabilities.normal or 1
+        local bankruptcy_numerator, bankruptcy_denominator = SMODS.get_probability_vars(
+            card,
+            1,
+            card.ability.extra.odds_bankruptcy,
+            'losted_slot_bankruptcy'
+        )
         return {
-            vars = {prob_mod, card.ability.extra.mult, card.ability.extra.dollars, card.ability.extra.xmult, card.ability.extra.odds_bankruptcy}
+            vars = {
+                bankruptcy_numerator,
+                card.ability.extra.mult,
+                card.ability.extra.dollars,
+                card.ability.extra.xmult,
+                bankruptcy_denominator
+            }
         }
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
             local extra = card.ability.extra
-            local prob_mod = G.GAME.probabilities.normal or 1
             local ret = {}
             local has_effect = false
+            local card_seed_suffix = tostring(context.other_card.sort_id or context.other_card.unique_val or context.other_card.base and context.other_card.base.id or 7)
 
             -- Check for bankruptcy first (1 in 500 chance to lose all money)
-            if pseudorandom('slot_bankruptcy') < prob_mod / extra.odds_bankruptcy then
+            if SMODS.pseudorandom_probability(
+                card,
+                'slot_bankruptcy_' .. card_seed_suffix,
+                1,
+                extra.odds_bankruptcy,
+                'losted_slot_bankruptcy'
+            ) then
                 local current_money = to_number(G.GAME.dollars or 0)
                 if current_money > 0 then
                     ret.dollars = -current_money
@@ -39,17 +56,35 @@ local jokerInfo = {
                 end
             else
                 -- Only give positive effects if bankruptcy didn't trigger
-                if pseudorandom('slot_xmult') < prob_mod / extra.odds_xmult then
+                if SMODS.pseudorandom_probability(
+                    card,
+                    'slot_xmult_' .. card_seed_suffix,
+                    1,
+                    extra.odds_xmult,
+                    'losted_slot_xmult'
+                ) then
                     ret.x_mult = extra.xmult
                     has_effect = true
                 end
 
-                if pseudorandom('slot_dollars') < prob_mod / extra.odds_dollars then
+                if SMODS.pseudorandom_probability(
+                    card,
+                    'slot_dollars_' .. card_seed_suffix,
+                    1,
+                    extra.odds_dollars,
+                    'losted_slot_dollars'
+                ) then
                     ret.dollars = (ret.dollars or 0) + extra.dollars
                     has_effect = true
                 end
 
-                if pseudorandom('slot_mult') < prob_mod / extra.odds_mult then
+                if SMODS.pseudorandom_probability(
+                    card,
+                    'slot_mult_' .. card_seed_suffix,
+                    1,
+                    extra.odds_mult,
+                    'losted_slot_mult'
+                ) then
                     ret.mult = extra.mult
                     has_effect = true
                 end

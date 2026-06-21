@@ -244,9 +244,9 @@ for _, data in ipairs(collabs) do
         local key = data.id .. "_" .. suit:lower()
 
         -- Default for collabs - just face cards
-        ranks = { 'Jack', 'Queen', 'King' }
-        display_ranks = { 'King', 'Queen', 'Jack' }
-        pos_style = 'ranks'
+        local ranks = { 'Jack', 'Queen', 'King' }
+        local display_ranks = { 'King', 'Queen', 'Jack' }
+        local pos_style = 'ranks'
 
         local atlas_lc = SMODS.Atlas {
             key = key .. '_lc',
@@ -388,4 +388,4 @@ SMODS.Sound{
     path = 'risadinha.ogg'
 }
     
-print("Lost Edition: Assets module loaded successfully")
+sendDebugMessage("[Lost Edition] Assets module loaded successfully")

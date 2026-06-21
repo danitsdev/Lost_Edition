@@ -8,12 +8,13 @@ local jokerInfo = {
     blueprint_compat = true,
     config = { extra = { mult = 2, odds = 2 } },
     loc_vars = function(self, info_queue, card)
-        return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds, card.ability.extra.mult } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_perfect_split')
+        return { vars = { numerator, denominator, card.ability.extra.mult } }
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play then
             if context.other_card and context.other_card.ability and 
-                pseudorandom('losted_perfect_split') < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
+                SMODS.pseudorandom_probability(card, 'losted_perfect_split', 1, card.ability.extra.odds, 'losted_perfect_split') then
                 context.other_card.ability.perma_mult = (context.other_card.ability.perma_mult or 0) +
                     (card.ability.extra.mult or 0)
                 return {

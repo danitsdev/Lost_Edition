@@ -14,15 +14,6 @@ local voucherInfo = {
                 return true
             end
         }))
-        check_for_unlock({ 'losted_stapler_redeems' })
-    end,
-    load = function(self, card, card_table, other_card)
-        G.E_MANAGER:add_event(Event({
-            func = function()
-                G.GAME.joker_rate = G.GAME.joker_rate * card.ability.extra.rate
-                return true
-            end
-        }))
     end
 }
 

@@ -8,11 +8,12 @@ local jokerInfo = {
     blueprint_compat = true,
     config = { extra = { odds = 6 } },
     loc_vars = function(self, info_queue, card)
-        return { vars = { (G.GAME.probabilities.normal or 1), card.ability.extra.odds } }
+        local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_magician')
+        return { vars = { numerator, denominator } }
     end,
     calculate = function(self, card, context)
         if context.using_consumeable and not context.blueprint and context.consumeable.ability.set == "Tarot" then       
-            if pseudorandom('losted_magician') < (G.GAME.probabilities.normal or 1) / card.ability.extra.odds then
+            if SMODS.pseudorandom_probability(card, 'losted_magician', 1, card.ability.extra.odds, 'losted_magician') then
                 event({
                     trigger = 'after',
                     delay = 0.05,

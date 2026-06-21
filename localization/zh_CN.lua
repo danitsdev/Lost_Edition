@@ -136,8 +136,8 @@ return {
             e_losted_quantum = {
                 name = '量子',
                 text = {
-                    '额外{C:blue}触发{}此牌',
-                    '{C:blue}1{}次',
+                    '额外重复此牌的',
+                    '{C:blue}所有效果{} {C:blue}1{}次',
                 },
             },
         },
@@ -476,7 +476,8 @@ return {
             j_losted_mysterious = {
                 name = '???',
                 text = {
-                    '{C:inactive}(#1#/#2#)'
+                    '{C:inactive}(#1#/#2#)',
+                    '{C:inactive,s:0.7}已使用的手牌类型'
                 },
                 unlock = {
                     '完成挑战',
@@ -820,8 +821,14 @@ return {
                     '在{C:attention}#2#{}回合后到期'
                 },
             },
+            j_losted_hoarding_joker = {
+                name = '囤积小丑',
+                text = {
+                    '{C:dark_edition}+#1#{}个消耗品槽位',
+                }
+            },
             j_losted_glutton = {
-                name = '贪食小丑',
+                name = '囤积小丑',
                 text = {
                     '{C:dark_edition}+#1#{}个消耗品槽位',
                 }
@@ -1164,7 +1171,9 @@ return {
             k_odd = '奇数',
             k_nothing_ex = '贝塔什么也没得到',
 
-            k_losted_music_label = '原声带',
+        k_losted_config_game = '游戏',
+        k_losted_config_audio_visual = '音频与视觉',
+        k_losted_music_label = '原声带',
             k_losted_music_ost1 = '失落版OST - Gulira',
             k_losted_music_ost2 = 'Balatro OST - LouisF',
 
