@@ -480,7 +480,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}Gespielte Handtypen'
+                    '{C:inactive,s:0.7}Hände'
                 },
                 unlock = {
                     'Schließe die',

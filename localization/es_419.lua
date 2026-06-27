@@ -481,7 +481,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}Tipos de mano jugados'
+                    '{C:inactive,s:0.7}Manos'
                 },
                 unlock = {
                     'Completa el desafío',

@@ -46,7 +46,11 @@ SMODS.Consumable:take_ownership('aura', {
 
 SMODS.Booster:take_ownership_by_kind('Arcana', {
     create_card = function(self, card, i)
-        if LOSTEDMOD and LOSTEDMOD.vars and LOSTEDMOD.vars.the_joker_triggered and i == 1 then
+        if i == 1 and (
+            (G.GAME and G.GAME.losted_the_joker_triggered) or
+            (LOSTEDMOD and LOSTEDMOD.vars and LOSTEDMOD.vars.the_joker_triggered)
+        ) then
+            if G.GAME then G.GAME.losted_the_joker_triggered = false end
             LOSTEDMOD.vars.the_joker_triggered = false -- Reset the trigger after use
             return {
                 set = "Spectral", 

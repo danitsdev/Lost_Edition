@@ -95,6 +95,7 @@ local jokerInfo = {
                                 event({
                                     trigger = 'after', delay = 2.5,
                                     func = function()
+                                        G.GAME.losted_the_joker_triggered = true
                                         LOSTEDMOD.vars.the_joker_triggered = true
                                         LOSTEDMOD.funcs.destroy_joker(card)
                                         return true

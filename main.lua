@@ -83,8 +83,11 @@ end
 
 -- Reset jokers on run start
 function SMODS.current_mod.reset_game_globals(run_start)
-    G.GAME.losted_mysterious_completed = false
-    LOSTEDMOD.vars.the_joker_triggered = false
+    if run_start then
+        G.GAME.losted_mysterious_completed = false
+        G.GAME.losted_the_joker_triggered = false
+        LOSTEDMOD.vars.the_joker_triggered = false
+    end
     LOSTEDMOD.funcs.reset_losted_obsidian_card()
     LOSTEDMOD.funcs.reset_losted_moist_cake()
     LOSTEDMOD.funcs.reset_losted_sarcophagus()

@@ -477,7 +477,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}已使用的手牌类型'
+                    '{C:inactive,s:0.7}牌型'
                 },
                 unlock = {
                     '完成挑战',

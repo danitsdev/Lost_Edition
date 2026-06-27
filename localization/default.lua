@@ -475,7 +475,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}Hand types played'
+                    '{C:inactive,s:0.7}Hands'
                 },
                 unlock = {
                     'Complete the',

@@ -481,7 +481,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}플레이한 핸드 유형'
+                    '{C:inactive,s:0.7}핸드'
                 },
                 unlock = {
                     '챌린지를 완료하세요',

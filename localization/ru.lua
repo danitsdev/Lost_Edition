@@ -479,7 +479,7 @@ return {
                 name = '???',
                 text = {
                     '{C:inactive}(#1#/#2#)',
-                    '{C:inactive,s:0.7}Сыгранные типы рук'
+                    '{C:inactive,s:0.7}Руки'
                 },
                 unlock = {
                     'Завершите испытание',
