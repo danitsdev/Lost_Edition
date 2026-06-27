@@ -992,6 +992,14 @@ return {
                     'a {C:attention}1{} carta selecionada na sua mão',
                 },
             },
+            c_losted_aura_bunco = {
+                name='Aura',
+                text={
+                    'Adiciona o efeito {C:dark_edition}Laminado{}, {C:dark_edition}HologrÃ¡fico{},',
+                    '{C:dark_edition}PolicromÃ¡tico{}, {C:dark_edition}QuÃ¢ntico{} ou {C:dark_edition}Glitter{}',
+                    'a {C:attention}1{} carta selecionada na sua mÃ£o',
+                },
+            },
             c_ectoplasm={ -- fixed wrong translation in portuguese base game
                 name='Ectoplasma',
                 text={

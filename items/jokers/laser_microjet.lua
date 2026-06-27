@@ -9,6 +9,7 @@ local jokerInfo = {
     config = {
         extra = {
             odds = 2,
+            cards_rescored = {},
         }
     },
     loc_vars = function(self, info_queue, card)
@@ -27,26 +28,37 @@ local jokerInfo = {
         return false
     end,
     calculate = function(self, card, context)
-        if context.repetition and context.cardarea == G.play and context.other_card
-            and LOSTEDMOD.funcs.is_adjacent_scoring_enhancement(
-                context.other_card,
-                context.scoring_hand,
-                'm_losted_diamond'
-            )
-            and SMODS.pseudorandom_probability(
-                card,
-                'losted_laser_microjet_' .. tostring(card.unique_val)
-                    .. '_' .. tostring(context.other_card.unique_val),
-                1,
-                card.ability.extra.odds,
-                'losted_laser_microjet'
-            ) then
-            return {
-                repetitions = 1,
-                message = localize('k_again_ex'),
-                colour = G.C.CHIPS,
-                card = card,
-            }
+        if context.rescore_cards then
+            local rescored_card = context.rescore_cards[1]
+            local condition = true
+            for _, seen_card in ipairs(card.ability.extra.cards_rescored) do
+                if rescored_card == seen_card then
+                    condition = false
+                    break
+                end
+            end
+
+            if condition and SMODS.pseudorandom_probability(
+                    card,
+                    'losted_laser_microjet_' .. tostring(card.unique_val)
+                        .. '_' .. tostring(rescored_card.unique_val),
+                    1,
+                    card.ability.extra.odds,
+                    'losted_laser_microjet'
+                ) then
+                rescored_card.config.diamond_rescored_times =
+                    rescored_card.config.diamond_rescored_times - 1
+                card.ability.extra.cards_rescored[#card.ability.extra.cards_rescored + 1] = rescored_card
+                return {
+                    message = '+1',
+                    colour = G.C.CHIPS,
+                    card = card,
+                }
+            end
+        end
+
+        if context.after then
+            card.ability.extra.cards_rescored = {}
         end
     end,
     check_for_unlock = function(self, args)

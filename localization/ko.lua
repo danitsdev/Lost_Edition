@@ -996,6 +996,14 @@ return {
                     '{C:dark_edition}폴리크롬{} 또는 {C:dark_edition}양자{} 효과를 추가합니다',
                 },
             },
+            c_losted_aura_bunco = {
+                name='Aura',
+                text={
+                    'Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},',
+                    '{C:dark_edition}Polychrome{}, {C:dark_edition}Quantum{} or {C:dark_edition}Glitter{} effect',
+                    'to {C:attention}1{} selected card in hand',
+                },
+            },
             c_ectoplasm={
                 name='심령체',
                 text={

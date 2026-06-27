@@ -992,6 +992,14 @@ return {
                     'à {C:attention}1{} carte sélectionnée dans votre main',
                 },
             },
+            c_losted_aura_bunco = {
+                name='Aura',
+                text={
+                    'Add {C:dark_edition}Foil{}, {C:dark_edition}Holographic{},',
+                    '{C:dark_edition}Polychrome{}, {C:dark_edition}Quantum{} or {C:dark_edition}Glitter{} effect',
+                    'to {C:attention}1{} selected card in hand',
+                },
+            },
             c_ectoplasm={
                 name='Ectoplasme',
                 text={

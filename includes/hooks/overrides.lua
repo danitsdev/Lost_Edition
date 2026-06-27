@@ -38,6 +38,7 @@ SMODS.Consumable:take_ownership('aura', {
         losted_add_edition_info(info_queue, G.P_CENTERS.e_losted_quantum)
         if losted_bunco_glitter_enabled() then
             losted_add_edition_info(info_queue, G.P_CENTERS.e_bunc_glitter)
+            return {key = 'c_losted_aura_bunco'}
         end
         return {key = 'c_losted_aura'}
     end
@@ -80,6 +81,65 @@ function losted_negative:get_weight(...)
         end
     end
     return rate * base_weight
+end
+
+-- Real post-scoring enhancement effects. SMODS 1.0.0-beta exposes the scoring
+-- pieces Diamond needs, but does not run a generic post_effect pass for custom
+-- enhancements by itself. This mirrors Bunco's Copper Card seam in a
+-- Lost Edition-owned wrapper so Diamond can rescore as a true scoring pass
+-- instead of behaving like a Red Seal repetition.
+local function losted_post_eval_card(card, context)
+    if not card or not card.ability or not card.config or not card.config.center then
+        return {}
+    end
+    if card.ability.set ~= 'Joker' and card.debuff then
+        return {}
+    end
+
+    local ret = {}
+    if card.ability.set == 'Enhanced' and card.config.center.post_effect then
+        local enhancement = card:calculate_enhancement(context)
+        if enhancement then
+            ret.enhancement = enhancement
+        end
+    end
+    return ret
+end
+
+function LOSTEDMOD.funcs.build_smods_post_context(card, context, scoring_hand)
+    local passed_context = {}
+    for k, v in pairs(context or {}) do
+        passed_context[k] = v
+    end
+    passed_context.cardarea = G.play
+    passed_context.main_scoring = true
+    passed_context.post_effect = true
+    passed_context.scoring_hand = scoring_hand
+    passed_context.other_card = card
+    passed_context.hand = G.hand
+    passed_context.full_hand = G.play and G.play.cards or passed_context.full_hand
+    return passed_context
+end
+
+local losted_calculate_main_scoring_ref = SMODS.calculate_main_scoring
+function SMODS.calculate_main_scoring(context, scoring_hand)
+    local result = losted_calculate_main_scoring_ref(context, scoring_hand)
+    if not context or context.losted_post_effect_pass then
+        return result
+    end
+
+    local cards = scoring_hand or (context.cardarea and context.cardarea.cards)
+    if not cards then
+        return result
+    end
+
+    for _, card in ipairs(cards) do
+        local post_context = LOSTEDMOD.funcs.build_smods_post_context(card, context, scoring_hand)
+        post_context.losted_post_effect_pass = true
+        SMODS.trigger_effects({ losted_post_eval_card(card, post_context) }, card)
+    end
+
+    return result
 end
 
 -- Quantum follows the same compatibility contract as Blueprint for Jokers.
