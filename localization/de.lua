@@ -136,9 +136,8 @@ return {
             e_losted_quantum = {
                 name = 'Quantum',
                 text = {
-                    'Wiederholt {C:blue}Wertung{} und',
-                    'kompatible Effekte dieser Karte',
-                    '{C:blue}1{} weiteres Mal',
+                    'Wiederholt die {C:blue}Effekte{}',
+                    'dieser Karte {C:blue}1{} weiteres Mal',
                 },
             },
         },

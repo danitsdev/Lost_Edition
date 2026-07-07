@@ -137,8 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Cuántica',
                 text = {
-                    'Repite la {C:blue}puntuación{} y',
-                    'efectos compatibles de esta carta',
+                    'Repite los {C:blue}efectos{}',
+                    'de esta carta',
                     '{C:blue}1{} vez adicional',
                 },
             },

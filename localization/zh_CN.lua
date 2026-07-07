@@ -136,9 +136,8 @@ return {
             e_losted_quantum = {
                 name = '量子',
                 text = {
-                    '额外重复此牌的{C:blue}计分{}',
-                    '和兼容效果',
-                    '{C:blue}1{}次',
+                    '额外重复此牌的',
+                    '{C:blue}效果{} {C:blue}1{}次',
                 },
             },
         },
