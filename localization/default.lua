@@ -137,8 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Quantum',
                 text = {
-                    'Repeats {C:blue}all effects{}',
-                    'of this card',
+                    'Repeats this card\'s {C:blue}scoring{}',
+                    'and compatible effects',
                     '{C:blue}1{} additional time',
                 },
             },
@@ -1198,7 +1198,6 @@ return {
             k_fast_forward_off = 'Off',
             k_fast_forward_planets = 'Planets Only',
             k_fast_forward_on = 'Everything (Fast)',
-            k_fast_forward_unsafe = 'Everything Extreme (Unstable)',
             k_status_text_all = 'All',
             k_status_text_less_annoying = 'Less Annoying',
             k_status_text_no_misc = 'Hide Misc',

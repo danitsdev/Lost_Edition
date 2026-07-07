@@ -136,8 +136,9 @@ return {
             e_losted_quantum = {
                 name = '量子',
                 text = {
-                    '额外重复此牌的',
-                    '{C:blue}所有效果{} {C:blue}1{}次',
+                    '额外重复此牌的{C:blue}计分{}',
+                    '和兼容效果',
+                    '{C:blue}1{}次',
                 },
             },
         },
@@ -1196,7 +1197,6 @@ return {
             k_fast_forward_off = '关闭',
             k_fast_forward_planets = '仅星球牌',
             k_fast_forward_on = '全部（快速）',
-            k_fast_forward_unsafe = '全部极限（不稳定）',
             k_status_text_all = '全部',
             k_status_text_less_annoying = '减少干扰',
             k_status_text_no_misc = '隐藏杂项',

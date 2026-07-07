@@ -24,7 +24,9 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.setting_blind and not context.blueprint and context.blind.boss then
             if card.ability.extra.eggs_created < card.ability.extra.max_eggs then
-                card.ability.extra.eggs_created = card.ability.extra.eggs_created + 1
+                if LOSTEDMOD.funcs.should_count_quantum_progress(context) then
+                    card.ability.extra.eggs_created = card.ability.extra.eggs_created + 1
+                end
 
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -59,7 +61,7 @@ local jokerInfo = {
                                         delay = 0.3,
                                         blockable = false,
                                         func = function()
-                                            card:remove()
+                                            LOSTEDMOD.funcs.destroy_joker(card)
                                             return true
                                         end
                                     }))

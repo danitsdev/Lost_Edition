@@ -23,6 +23,8 @@ SMODS.Scoring_Parameter({
                 'extra', nil, percent, nil,
                 {
                     sound = 'losted_pow_sound',
+                    pitch = 1.75,
+                    volume = 0.28,
                     message = localize({
                         type = 'variable',
                         key = 'a_powmult',

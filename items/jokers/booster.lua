@@ -12,7 +12,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.chips, card.ability.extra.chips_gain } }
     end,
     calculate = function(self, card, context)
-        if context.open_booster and not context.blueprint then
+        if context.open_booster and not context.blueprint and not context.losted_quantum_copy then
             card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
 
             return {

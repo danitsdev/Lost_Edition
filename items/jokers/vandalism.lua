@@ -17,11 +17,15 @@ local jokerInfo = {
                 return nil
             end
             
-            -- Count how many Vandalism jokers exist
+            -- Count how many Vandalism jokers exist. Quantum behaves like a
+            -- second internal copy, but this Joker intentionally processes the
+            -- blind only once, so account for the duplicate in the count.
             local vandalism_count = 0
             for _, joker in ipairs(G.jokers.cards) do
                 if joker.config and joker.config.center and joker.config.center.key == 'j_losted_vandalism' then
-                    vandalism_count = vandalism_count + 1
+                    vandalism_count = vandalism_count + (
+                        joker.edition and joker.edition.losted_quantum and 2 or 1
+                    )
                 end
             end
             

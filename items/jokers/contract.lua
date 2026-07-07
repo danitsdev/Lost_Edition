@@ -33,16 +33,20 @@ local jokerInfo = {
         }
     end,
     add_to_deck = function(self, card, from_debuff)
-        local most_played_hand = "High Card"
-        local highest_count = 0
-        for k, v in pairs(G.GAME.hands) do
-            if v.visible and v.played > highest_count then
-                highest_count = v.played
-                most_played_hand = k
+        if not card.ability.extra.contracted_hand then
+            local most_played_hand = "High Card"
+            local highest_count = 0
+            for k, v in pairs(G.GAME.hands) do
+                if v.visible and v.played > highest_count then
+                    highest_count = v.played
+                    most_played_hand = k
+                end
             end
+            card.ability.extra.contracted_hand = most_played_hand
         end
-        card.ability.extra.contracted_hand = most_played_hand -- fixed
-        card.ability.extra.rounds_remaining = 15
+        if not card.ability.extra.rounds_remaining or card.ability.extra.rounds_remaining <= 0 then
+            card.ability.extra.rounds_remaining = 15
+        end
         if card.set_eternal then card:set_eternal(true) else card.ability.eternal = true end
     end,
     calculate = function(self, card, context)
@@ -56,6 +60,9 @@ local jokerInfo = {
             local contracted_hand = card.ability.extra.contracted_hand
             if contracted_hand then
                 SMODS.smart_level_up_hand(card, contracted_hand, false, 2)
+            end
+            if not LOSTEDMOD.funcs.should_count_quantum_progress(context) then
+                return nil
             end
             card.ability.extra.rounds_remaining = card.ability.extra.rounds_remaining - 1
             if card.ability.extra.rounds_remaining <= 0 then

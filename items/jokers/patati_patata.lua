@@ -29,6 +29,24 @@ local function get_mode(card)
     return MODES[mode_key] or MODES.PATATA
 end
 
+local function set_mode_sprite(card, ensure_floating)
+    if not (card and card.children and card.children.center) then return end
+    local mode = get_mode(card)
+    if card.losted_patati_sprite_mode == mode.key and (card.children.floating_sprite or not ensure_floating) then
+        return
+    end
+    card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.pos))
+    if card.children.floating_sprite then
+        card.children.floating_sprite:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.soul_pos))
+    elseif ensure_floating then
+        card.children.floating_sprite = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS[card.atlas or 'losted_jokers'], LOSTEDMOD.funcs.coordinate(mode.soul_pos))
+        card.children.floating_sprite.role = {draw_major = card}
+        card.children.floating_sprite.states.hover = {can = false}
+        card.children.floating_sprite.states.click = {can = false}
+    end
+    card.losted_patati_sprite_mode = mode.key
+end
+
 local jokerInfo = {
     key = "patati_patata",
     pos = LOSTEDMOD.funcs.coordinate(MODES.PATATA.pos),
@@ -55,13 +73,16 @@ local jokerInfo = {
         }
     end,    
 
-    add_to_deck = function(self, card)
-        play_sound('losted_patati_patata')
+    add_to_deck = function(self, card, from_debuff)
+        if not from_debuff then
+            play_sound('losted_patati_patata')
+        end
     end,
 
     calculate = function(self, card, context)
         -- Use an event to delay the mode switch until after scoring animations/messages
-        if context.after and context.cardarea == G.jokers and not context.blueprint then
+        if context.after and context.cardarea == G.jokers and not context.blueprint
+            and LOSTEDMOD.funcs.should_count_quantum_progress(context) then
             local current_mode = get_mode(card)
             local new_mode = current_mode.key == "PATATA" and MODES.PATATI or MODES.PATATA
             G.E_MANAGER:add_event(Event({
@@ -71,17 +92,8 @@ local jokerInfo = {
                         colour = new_mode.color
                     })
                     card.ability.extra.mode = new_mode.key
-                    if card.children and card.children.center then
-                        card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(new_mode.pos))
-                        if card.children.floating_sprite then
-                            card.children.floating_sprite:set_sprite_pos(LOSTEDMOD.funcs.coordinate(new_mode.soul_pos))
-                        else
-                            card.children.floating_sprite = Sprite(card.T.x, card.T.y, card.T.w, card.T.h, G.ASSET_ATLAS[card.atlas or 'losted_jokers'], LOSTEDMOD.funcs.coordinate(new_mode.soul_pos))
-                            card.children.floating_sprite.role = {draw_major = card}
-                            card.children.floating_sprite.states.hover = {can = false}
-                            card.children.floating_sprite.states.click = {can = false}
-                        end
-                    end
+                    card.losted_patati_sprite_mode = nil
+                    set_mode_sprite(card, true)
                     return true
                 end
             }))
@@ -106,24 +118,17 @@ local jokerInfo = {
     end,
 
     set_sprites = function(self, card, front)
-        local mode = get_mode(card)
         if self.discovered or card.bypass_discovery_center then
             if card.ability and card.ability.extra and card.ability.extra.mode then
-                card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.pos))
-                if card.children.floating_sprite then
-                    card.children.floating_sprite:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.soul_pos))
-                end
+                card.losted_patati_sprite_mode = nil
+                set_mode_sprite(card)
             end
         end
     end,
 
     update = function(self, card)
-        local mode = get_mode(card)
         if card.VT and card.VT.w <= 0 then
-            card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.pos))
-            if card.children.floating_sprite then
-                card.children.floating_sprite:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode.soul_pos))
-            end
+            set_mode_sprite(card)
         end
     end
 }

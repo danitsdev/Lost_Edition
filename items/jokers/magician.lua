@@ -5,7 +5,7 @@ local jokerInfo = {
     rarity = 2,
     cost = 6,
     unlocked = true,
-    blueprint_compat = true,
+    blueprint_compat = false,
     config = { extra = { odds = 6 } },
     loc_vars = function(self, info_queue, card)
         local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_magician')

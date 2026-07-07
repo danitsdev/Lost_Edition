@@ -10,8 +10,12 @@ local jokerInfo = {
     perishable_compat = true,
     calculate = function(self, card, context)
         if context.mod_probability then
+            local divisor = 4
+            if card.edition and card.edition.losted_quantum and LOSTEDMOD.funcs.can_receive_quantum(card) then
+                divisor = divisor ^ (1 + LOSTEDMOD.funcs.get_quantum_retriggers(card))
+            end
             return {
-                numerator = context.numerator / 4
+                numerator = context.numerator / divisor
             }
         end
     end,

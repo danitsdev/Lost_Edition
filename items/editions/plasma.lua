@@ -6,7 +6,7 @@ local editionInfo = {
     weight = 2, 
     extra_cost = 5,
     apply_to_float = true,
-    sound = { sound = 'polychrome1', per = 0.9, vol = 0.6 },
+    sound = { sound = 'polychrome1', per = 1.02, vol = 0.24 },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.edition.pow_mult } }
     end,

@@ -137,8 +137,8 @@ return {
             e_losted_quantum = {
                 name = 'Quantique',
                 text = {
-                    'Répète {C:blue}tous les effets{}',
-                    'de cette carte',
+                    'Répète le {C:blue}score{} et',
+                    'les effets compatibles de cette carte',
                     '{C:blue}1{} fois de plus',
                 },
             },
@@ -1205,7 +1205,6 @@ return {
             k_fast_forward_off = 'Désactivé',
             k_fast_forward_planets = 'Planètes seulement',
             k_fast_forward_on = 'Tout (Rapide)',
-            k_fast_forward_unsafe = 'Tout Extrême (Instable)',
             k_status_text_all = 'Tous',
             k_status_text_less_annoying = 'Moins gênant',
             k_status_text_no_misc = 'Masquer divers',

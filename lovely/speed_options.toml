@@ -26,7 +26,7 @@ match_indent = true
 target = "game.lua"
 pattern = "for k, v in pairs(settings_file) do"
 position = "after"
-payload = "if k == 'FASTFORWARD' then v = math.min(3, v) end"
+payload = "if k == 'FASTFORWARD' then v = math.min(2, v) end"
 match_indent = true
 
 [[patches]]
@@ -44,17 +44,6 @@ pattern = "if (self == G.hand or self == G.deck or self == G.discard or self == 
 position = "after"
 payload = "self.children = self.children or {}"
 match_indent = true
-
-[[patches]]
-[patches.regex]
-target = 'functions/common_events.lua'
-pattern = '''(?<indent>[\t ]*)func = function\(\)\n            if card then'''
-position = "before"
-line_prepend = "$indent"
-payload = '''
-blocking = not (G.SETTINGS.GAMESPEED >= 999 and ((to == G.hand and from == G.deck) or (to == G.deck and from == G.hand))), -- Has to be these specific draws only, otherwise it's buggy
-
-'''
 
 [[patches]]
 [patches.pattern]

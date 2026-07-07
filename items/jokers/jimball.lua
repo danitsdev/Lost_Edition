@@ -12,7 +12,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.mult_gain, card.ability.extra.chips_gain, card.ability.extra.mult, card.ability.extra.chips } }
     end,
     calculate = function(self, card, context)
-        if context.setting_blind and not context.blueprint then
+        if context.setting_blind and not context.blueprint and not context.losted_quantum_copy then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
             card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
             return {

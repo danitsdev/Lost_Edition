@@ -21,7 +21,7 @@ local jokerInfo = {
         return false
     end,
     calculate = function(self, card, context)
-        if context.rescore_cards and not context.blueprint then
+        if context.rescore_cards and not context.blueprint and not context.losted_quantum_copy then
             local diamond_rescores = 0
             for _, rescored_card in ipairs(context.rescore_cards) do
                 if SMODS.has_enhancement(rescored_card, 'm_losted_diamond') then

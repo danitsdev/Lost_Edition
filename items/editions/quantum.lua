@@ -1,3 +1,10 @@
+local function get_quantum_retriggers(self, card)
+    return (LOSTEDMOD.funcs.get_quantum_retriggers and LOSTEDMOD.funcs.get_quantum_retriggers(card))
+        or (card.edition and card.edition.extra and card.edition.extra.retriggers)
+        or (self.config and self.config.extra and self.config.extra.retriggers)
+        or 1
+end
+
 local editionInfo = {
     key = 'quantum',
     shader = 'quantum',
@@ -23,7 +30,7 @@ local editionInfo = {
         -- Loading is not a safe moment to revoke an edition: some card fields
         -- and cross-mod centers may still be rebuilding. New incompatible
         -- applications are rejected by Card:set_edition instead.
-        if LOSTEDMOD.funcs.can_receive_quantum(card) then
+        if LOSTEDMOD.funcs.can_receive_quantum_lifecycle(card) then
             LOSTEDMOD.funcs.restore_quantum_lifecycle(card)
         end
     end,
@@ -32,7 +39,7 @@ local editionInfo = {
         -- native SMODS retrigger pipeline and execute their calculate again.
         if context.repetition_only then
             return {
-                repetitions = card.edition.extra.retriggers,
+                repetitions = get_quantum_retriggers(self, card),
                 card = card,
                 colour = G.C.GREEN,
                 message = localize('k_again_ex')
@@ -42,12 +49,14 @@ local editionInfo = {
         if context.retrigger_joker_check and context.other_card == card and
             LOSTEDMOD.funcs.can_receive_quantum(card) then
             local original_effect = context.other_ret and context.other_ret.jokers
-            LOSTEDMOD.funcs.queue_quantum_context(card, original_effect, card.edition.extra.retriggers)
+            local retriggers = get_quantum_retriggers(self, card)
+            LOSTEDMOD.funcs.queue_quantum_context(card, original_effect, retriggers)
             return {
-                repetitions = card.edition.extra.retriggers,
+                repetitions = retriggers,
                 card = card,
                 colour = G.C.GREEN,
-                message = localize('k_again_ex')
+                message = localize('k_again_ex'),
+                losted_quantum_retrigger = true
             }
         end
     end

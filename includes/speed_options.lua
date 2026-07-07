@@ -2,7 +2,15 @@
 -- Credits to the Nopeus creators (jenwalter666, stupxd).
 
 LostedSpeed = {}
+function LostedSpeed.normalize(value)
+    local level = tonumber(value) or 0
+    if level < 0 then return 0 end
+    if level > 2 then return 2 end -- Legacy "unstable" mode is clamped to the safe fast mode.
+    return math.floor(level)
+end
+
 function LostedSpeed.FF()
+    G.SETTINGS.FASTFORWARD = LostedSpeed.normalize(G.SETTINGS.FASTFORWARD)
     return G.SETTINGS.FASTFORWARD
 end
 
@@ -10,7 +18,6 @@ G.FUNCS.change_fastforward = function(args)
     G.SETTINGS.FASTFORWARD = (
         args.to_val == localize('k_fast_forward_planets') and 1 or
         args.to_val == localize('k_fast_forward_on') and 2 or
-        args.to_val == localize('k_fast_forward_unsafe') and 3 or
         0
     )
     G:save_settings()
@@ -51,7 +58,7 @@ function G.UIDEF.lostedspeed_options()
 end
 
 function G.UIDEF.lostedspeed_fastforward_options()
-    if not G.SETTINGS.FASTFORWARD then G.SETTINGS.FASTFORWARD = 0 end
+    local ff_level = LostedSpeed.FF()
     local ff = create_option_cycle({
         label = localize('k_fast_forward_label'),
         w = 5,
@@ -59,11 +66,10 @@ function G.UIDEF.lostedspeed_fastforward_options()
         options = {
             localize('k_fast_forward_off'),
             localize('k_fast_forward_planets'),
-            localize('k_fast_forward_on'),
-            localize('k_fast_forward_unsafe')
+            localize('k_fast_forward_on')
         },
         opt_callback = 'change_fastforward',
-        current_option = G.SETTINGS.FASTFORWARD + 1
+        current_option = ff_level + 1
     })
     return ff
 end
@@ -88,7 +94,7 @@ end
 
 local cest = card_eval_status_text
 function card_eval_status_text(card, eval_type, amt, percent, dir, extra)
-    if (G.SETTINGS.STATUSTEXT and G.SETTINGS.STATUSTEXT == 3) or (G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD > 2) then
+    if G.SETTINGS.STATUSTEXT and G.SETTINGS.STATUSTEXT == 3 then
         return
     end
 
@@ -108,7 +114,7 @@ end
 
 local uhtr = update_hand_text
 function update_hand_text(config, vals)
-    if G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD >= 2 then
+    if LostedSpeed.FF() >= 2 then
         config.immediate = true
         config.delay = 0
         config.blocking = false
@@ -119,25 +125,15 @@ end
 
 local delay_ref = delay
 function delay(time, queue)
-    if G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD > 1 then
+    if LostedSpeed.FF() > 1 then
         return
     end
     return delay_ref(time, queue)
 end
 
-local original_event_init = Event.init
-function Event:init(config)
-    original_event_init(self, config)
-    if G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD > 2 then
-        self.blocking = false
-        self.blockable = false
-        if self.trigger == 'ease' then self.delay = 0.0001 else self.delay = 0 end
-    end
-end
-
 local lvupref = level_up_hand
 function level_up_hand(card, hand, instant, amount)
-    if G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD > 0 and not instant then
+    if LostedSpeed.FF() > 0 and not instant then
         instant = true
         lvupref(card, hand, instant, amount)
         if card then
@@ -155,7 +151,7 @@ end
 
 local ccr = create_card
 function create_card(_type, area, legendary, _rarity, skip_materialize, soulable, forced_key, key_append)
-    if G.SETTINGS.FASTFORWARD and G.SETTINGS.FASTFORWARD > 1 and _type == 'Joker' and area ~= G.jokers then
+    if LostedSpeed.FF() > 1 and _type == 'Joker' and area ~= G.jokers then
         local eternal_perishable_poll = pseudorandom((area == G.pack_cards and 'packetper' or 'etperpoll')..G.GAME.round_resets.ante)
         local eternal = G.GAME.modifiers.all_eternal or (G.GAME.modifiers.enable_eternals_in_shop and eternal_perishable_poll > 0.7)
         local perish = G.GAME.modifiers.enable_perishables_in_shop and ((eternal_perishable_poll > 0.4) and (eternal_perishable_poll <= 0.7)) and not eternal

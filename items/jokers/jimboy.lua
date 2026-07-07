@@ -1,3 +1,13 @@
+local function set_jimboy_sprite(card)
+    if not (card and card.ability and card.ability.extra and card.children and card.children.center) then
+        return
+    end
+    local mode = card.ability.extra.mode
+    if card.losted_jimboy_sprite_mode == mode then return end
+    card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(mode == 'C' and 46 or 45))
+    card.losted_jimboy_sprite_mode = mode
+end
+
 local jokerInfo = {
     key = 'jimboy',
     pos = LOSTEDMOD.funcs.coordinate(46),
@@ -26,7 +36,8 @@ local jokerInfo = {
         }
     end,
     calculate = function(self, card, context)
-        if context.pre_discard and not context.blueprint then
+        if context.pre_discard and not context.blueprint
+            and LOSTEDMOD.funcs.should_count_quantum_progress(context) then
             local new_mode = card.ability.extra.mode == 'C' and 'M' or 'C'
             local mode_color = new_mode == 'C' and G.C.CHIPS or G.C.MULT
             local mode_key = new_mode == 'C' and 'k_mod_c' or 'k_mod_m'
@@ -37,12 +48,8 @@ local jokerInfo = {
             })
             
             card.ability.extra.mode = new_mode
-            
-            if card.ability.extra.mode == 'C' then
-                card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(46))
-            else
-                card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(45))
-            end
+            card.losted_jimboy_sprite_mode = nil
+            set_jimboy_sprite(card)
         end
 
         if context.joker_main and card.ability.extra.mode == 'C' then
@@ -60,21 +67,14 @@ local jokerInfo = {
     set_sprites = function(self, card, front)
         if self.discovered or card.bypass_discovery_center then
             if card.ability and card.ability.extra and card.ability.extra.mode then
-                if card.ability.extra.mode == 'C' then
-                    card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(46))
-                else
-                    card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(45))
-                end
+                card.losted_jimboy_sprite_mode = nil
+                set_jimboy_sprite(card)
             end
         end
     end,
     update = function(self, card)
-        if card.VT.w <= 0 then
-            if card.ability.extra.mode == 'C' then
-                card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(46))
-            else
-                card.children.center:set_sprite_pos(LOSTEDMOD.funcs.coordinate(45))
-            end
+        if card.VT and card.VT.w <= 0 then
+            set_jimboy_sprite(card)
         end
     end
 }

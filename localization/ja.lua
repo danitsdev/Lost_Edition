@@ -137,8 +137,9 @@ return {
             e_losted_quantum = {
                 name = 'クォンタム',
                 text = {
-                    'このカードの{C:blue}全効果{}を',
-                    '追加で{C:blue}1回{}繰り返す',
+                    'このカードの{C:blue}スコア{}と',
+                    '対応効果を追加で',
+                    '{C:blue}1回{}繰り返す',
                 },
             },
         },
@@ -1220,7 +1221,6 @@ return {
             k_fast_forward_off = 'オフ',
             k_fast_forward_planets = '惑星のみ',
             k_fast_forward_on = 'すべて（高速）',
-            k_fast_forward_unsafe = 'すべて（不安定）',
             k_status_text_all = 'すべて',
             k_status_text_less_annoying = '控えめ',
             k_status_text_no_misc = 'その他を非表示',

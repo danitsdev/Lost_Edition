@@ -136,8 +136,9 @@ return {
             e_losted_quantum = {
                 name = 'Квантовый',
                 text = {
-                    'Повторяет {C:blue}все эффекты{}',
-                    'этой карты ещё {C:blue}1{} раз',
+                    'Повторяет {C:blue}подсчёт{} и',
+                    'совместимые эффекты этой карты',
+                    'ещё {C:blue}1{} раз',
                 },
             },
         },
@@ -1199,7 +1200,6 @@ return {
             k_fast_forward_off = 'Выкл.',
             k_fast_forward_planets = 'Только планеты',
             k_fast_forward_on = 'Все (быстро)',
-            k_fast_forward_unsafe = 'Все экстрим (нестабильно)',
             k_status_text_all = 'Все',
             k_status_text_less_annoying = 'Менее навязчиво',
             k_status_text_no_misc = 'Скрыть прочее',

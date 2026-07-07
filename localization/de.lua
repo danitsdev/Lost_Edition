@@ -136,8 +136,9 @@ return {
             e_losted_quantum = {
                 name = 'Quantum',
                 text = {
-                    'Wiederholt {C:blue}alle Effekte{}',
-                    'dieser Karte {C:blue}1{} weiteres Mal',
+                    'Wiederholt {C:blue}Wertung{} und',
+                    'kompatible Effekte dieser Karte',
+                    '{C:blue}1{} weiteres Mal',
                 },
             },
         },
@@ -1203,7 +1204,6 @@ return {
             k_fast_forward_off = 'Aus',
             k_fast_forward_planets = 'Nur Planeten',
             k_fast_forward_on = 'Alles (Schnell)',
-            k_fast_forward_unsafe = 'Alles Extrem (Instabil)',
             k_status_text_all = 'Alle',
             k_status_text_less_annoying = 'Weniger nervig',
             k_status_text_no_misc = 'Verschiedenes ausblenden',

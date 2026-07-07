@@ -12,7 +12,8 @@ local jokerInfo = {
         return { vars = { card.ability.extra.mult_gain, localize('Three of a Kind', 'poker_hands'), card.ability.extra.mult } }
     end,
     calculate = function(self, card, context)
-        if context.before and context.main_eval and not context.blueprint and next(context.poker_hands['Three of a Kind']) then
+        if context.before and context.main_eval and not context.blueprint and
+            not context.losted_quantum_copy and next(context.poker_hands['Three of a Kind']) then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
             return {
                 message = localize('k_upgrade_ex'),

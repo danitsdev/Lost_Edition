@@ -7,7 +7,9 @@ local tagInfo = {
     end,
     apply = function(self, tag, context)
         if context.type == 'store_joker_modify' then
-            if not context.card.edition and not context.card.temp_edition and context.card.ability.set == 'Joker' then
+            if not context.card.edition and not context.card.temp_edition and
+                context.card.ability.set == 'Joker' and
+                LOSTEDMOD.funcs.can_receive_quantum(context.card) then
                 local lock = tag.ID
                 G.CONTROLLER.locks[lock] = true
                 context.card.temp_edition = true

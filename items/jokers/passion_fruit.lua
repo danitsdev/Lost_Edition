@@ -14,7 +14,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.chips, card.ability.extra.chips_gain, numerator, denominator } }
     end,
     calculate = function(self, card, context)
-        if context.before and context.main_eval and not context.blueprint then
+        if context.before and context.main_eval and not context.blueprint and not context.losted_quantum_copy then
             card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
         end
         if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then

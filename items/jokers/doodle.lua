@@ -75,7 +75,7 @@ local jokerInfo = {
                             delay = 0.3,
                             blockable = false,
                             func = function()
-                                card:remove()
+                                LOSTEDMOD.funcs.destroy_joker(card)
                                 return true
                             end
                         }))

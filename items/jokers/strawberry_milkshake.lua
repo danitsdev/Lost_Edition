@@ -12,7 +12,8 @@ local jokerInfo = {
         return { vars = { card.ability.extra.Xchips, card.ability.extra.Xchips_loss } }
     end,
     calculate = function(self, card, context)
-        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
+        if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint
+            and LOSTEDMOD.funcs.should_count_quantum_progress(context) then
             if card.ability.extra.Xchips - card.ability.extra.Xchips_loss <= 1 then
                 LOSTEDMOD.funcs.destroy_joker(card)
                 return { message = localize('k_eaten_ex'), colour = G.C.FILTER }

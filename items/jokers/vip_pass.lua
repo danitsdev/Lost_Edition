@@ -19,12 +19,18 @@ local jokerInfo = {
             card.ability.triggered = false
             event({
                 func = function()
-                    local voucher = SMODS.add_voucher_to_shop()
-                    if voucher then
-                        voucher.ability.couponed = true
-                        voucher.cost = 0
-                        voucher.base_cost = 0
-                        voucher:set_cost()
+                    local vouchers = 1
+                    if card.edition and card.edition.losted_quantum and
+                        LOSTEDMOD.funcs.can_receive_quantum(card) then
+                        vouchers = vouchers + LOSTEDMOD.funcs.get_quantum_retriggers(card)
+                    end
+                    for _ = 1, vouchers do
+                        local voucher = SMODS.add_voucher_to_shop()
+                        if voucher then
+                            voucher.ability.couponed = true
+                            voucher.ability.losted_vip_free_voucher = true
+                            voucher:set_cost()
+                        end
                     end
                     return true
                 end

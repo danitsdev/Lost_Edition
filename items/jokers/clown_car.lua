@@ -24,7 +24,9 @@ local jokerInfo = {
             if card.ability.extra.totalJCreates < card.ability.extra.maxJCreates
                 and #G.jokers.cards < G.jokers.config.card_limit then
 
-                card.ability.extra.totalJCreates = card.ability.extra.totalJCreates + card.ability.extra.JCreates
+                if LOSTEDMOD.funcs.should_count_quantum_progress(context) then
+                    card.ability.extra.totalJCreates = card.ability.extra.totalJCreates + card.ability.extra.JCreates
+                end
 
                 G.E_MANAGER:add_event(Event({
                     func = function()
@@ -55,7 +57,7 @@ local jokerInfo = {
                                         blockable = false,
                                         func = function()
                                             play_sound('losted_explosion')
-                                            card:remove()
+                                            LOSTEDMOD.funcs.destroy_joker(card)
                                             return true
                                         end
                                     }))
@@ -83,4 +85,3 @@ local jokerInfo = {
 }
 
 return jokerInfo
-

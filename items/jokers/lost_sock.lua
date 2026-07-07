@@ -12,7 +12,8 @@ local jokerInfo = {
         return { vars = { card.ability.extra.mult_gain, card.ability.extra.size, card.ability.extra.mult } }
     end,
     calculate = function(self, card, context)
-        if context.before and context.main_eval and not context.blueprint and #context.full_hand <= card.ability.extra.size then
+        if context.before and context.main_eval and not context.blueprint and
+            not context.losted_quantum_copy and #context.full_hand <= card.ability.extra.size then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
             return {
                 message = localize('k_upgrade_ex'),

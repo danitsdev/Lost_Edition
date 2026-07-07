@@ -1,0 +1,20 @@
+# Local Codex/Mimocode workspace state
+.codex
+.mimocode/
+
+# Maintenance notes and local structural checks used during development
+docs/
+tests/
+
+# Local release/package artifacts
+*.zip
+*.tar
+*.tar.gz
+*.7z
+dist/
+release/
+build/
+
+# OS/editor noise
+.DS_Store
+Thumbs.db

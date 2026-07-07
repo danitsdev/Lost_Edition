@@ -137,8 +137,9 @@ return {
             e_losted_quantum = {
                 name = '양자',
                 text = {
-                    '이 카드의 {C:blue}모든 효과{}를',
-                    '추가로 {C:blue}1회{} 반복합니다',
+                    '이 카드의 {C:blue}점수 효과{}와',
+                    '호환 효과를 추가로',
+                    '{C:blue}1회{} 반복합니다',
                 },
             },
         },
@@ -1213,7 +1214,6 @@ return {
             k_fast_forward_off = '꺼짐',
             k_fast_forward_planets = '행성만',
             k_fast_forward_on = '모두 (빠름)',
-            k_fast_forward_unsafe = '모두 극한 (불안정)',
             k_status_text_all = '모두',
             k_status_text_less_annoying = '덜 거슬림',
             k_status_text_no_misc = '기타 숨기기',

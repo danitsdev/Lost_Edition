@@ -68,12 +68,16 @@ LOSTEDMOD.funcs = {
     
     -- Remove a joker card with animation
     destroy_joker = function(card, after)
-        if not card or card.removed then return {} end
+        if not card or card.removed or card.losted_destroy_queued then return {} end
+        card.losted_destroy_queued = true
         play_sound('tarot1', 1.0, 0.8)
         local queued = SMODS.destroy_cards(card, {
             bypass_eternal = true,
             pinch_anim = true,
         }) or {}
+        if #queued == 0 then
+            card.losted_destroy_queued = nil
+        end
         if #queued > 0 and type(after) == 'function' then
             G.E_MANAGER:add_event(Event({
                 trigger = 'after',

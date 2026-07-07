@@ -9,7 +9,7 @@
     "description": "An unofficial Balatro expansion featuring mysterious lost cards and cool surprises.",
     "prefix": "losted",
     "main_file": "main.lua",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "badge_colour": "5B2C87",
     "badge_text_colour": "FFFFFF",
     "priority": 500000,

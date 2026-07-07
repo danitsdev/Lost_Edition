@@ -89,40 +89,6 @@ vec4 HSL(vec4 c)
     return hsl;
 }
 
-const vec3 DARK_BLUE = vec3(0.078, 0.078, 0.721);
-const vec3 LIGHT_BLUE = vec3(0.67, 0.82, 1.0);
-
-float gauss(float x, float s) {
-    return exp(-0.5*(x*x)/(s*s));
-}
-
-float blurred_lines(vec2 uv, float t) {
-    float result = 0.0;
-    float sigma = 0.024 + 0.012*sin(t*0.5);
-    for (int i = -2; i <= 2; i++) {
-        float offset = float(i) * sigma * 2.2;
-        float u = uv.x + offset;
-        result += 0.20 * gauss(offset, sigma) * smoothstep(0.037,0.012,abs(0.5-fract(u*6.2+sin(t+uv.y*8.0))));
-        u = uv.y + offset;
-        result += 0.16 * gauss(offset, sigma) * smoothstep(0.045,0.012,abs(0.5-fract(u*7.2-cos(t+uv.x*7.0))));
-        u = (uv.x+uv.y)+offset;
-        result += 0.12 * gauss(offset, sigma) * smoothstep(0.037,0.012,abs(0.5-fract(u*6.9+sin(t+uv.y*10.0))));
-    }
-    return result;
-}
-
-vec3 bluefoil(vec2 uv, float t, float intensity)
-{
-    float foil_wave = 0.32*sin((uv.x+uv.y*1.3)*24.0 + t*1.6) + 0.13*sin(uv.y*37.0-t*1.09);
-    float foil_wave2 = 0.11*sin((uv.x-uv.y*1.1)*38.0 - t*1.8);
-    float vign = smoothstep(0.22,0.92,length(uv-0.5));
-    vec3 blue_grad = mix(LIGHT_BLUE, DARK_BLUE, vign);
-    float foil_shift = 0.11*foil_wave + 0.06*foil_wave2 + 0.09*intensity;
-    blue_grad = mix(blue_grad, vec3(0.20,0.38,1.0), foil_shift);
-    float shimmer = smoothstep(0.7,1.0,blue_grad.b) * sin(t*2.1+uv.x*14.0+uv.y*19.0)*0.03;
-    return blue_grad+shimmer;
-}
-
 vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords )
 {
     vec4 tex = Texel(texture, texture_coords);
@@ -150,19 +116,20 @@ vec4 effect( vec4 colour, Image texture, vec2 texture_coords, vec2 screen_coords
     float high = max(tex.r, max(tex.g, tex.b));
     float colour_mask = smoothstep(0.035, 0.30, high - low);
     float neutral_mask = 1.0 - colour_mask;
+    float effect_mask = clamp(colour_mask + neutral_mask * 0.34, 0.0, 1.0);
 
     // Cyan and violet copies suggest two simultaneous states. Their alpha is
     // intentionally translucent so the original card remains the focal image.
     vec3 cyan_state = ghost_a.rgb * vec3(0.55, 0.98, 1.25);
     vec3 violet_state = ghost_b.rgb * vec3(1.02, 0.55, 1.24);
-    float echo_a = valid_a * ghost_a.a * (0.16 + 0.21 * colour_mask + 0.055 * neutral_mask + 0.08 * glitch);
-    float echo_b = valid_b * ghost_b.a * (0.11 + 0.15 * colour_mask + 0.040 * neutral_mask);
+    float echo_a = valid_a * ghost_a.a * (0.18 + 0.23 * colour_mask + 0.085 * neutral_mask + 0.09 * glitch);
+    float echo_b = valid_b * ghost_b.a * (0.12 + 0.16 * colour_mask + 0.060 * neutral_mask);
     vec3 final = mix(tex.rgb, cyan_state, echo_a);
     final = mix(final, violet_state, echo_b);
 
     vec3 quantum_tint = mix(vec3(0.10, 0.58, 1.0), vec3(0.62, 0.22, 1.0), sweep);
-    final += quantum_tint * shine * colour_mask * (0.09 + 0.065 * brightness);
-    final += quantum_tint * glitch * colour_mask * 0.032;
+    final += quantum_tint * shine * effect_mask * (0.10 + 0.070 * brightness);
+    final += quantum_tint * glitch * effect_mask * 0.038;
 
     return dissolve_mask(vec4(final,tex.a)*colour, texture_coords, uv);
 }
