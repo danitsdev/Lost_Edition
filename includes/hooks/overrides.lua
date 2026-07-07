@@ -230,6 +230,13 @@ local function losted_get_edition_key(edition)
 end
 
 function LOSTEDMOD.funcs.can_apply_quantum_edition(card)
+    local center = card and card.config and card.config.center
+    if center and center.set == 'Edition' then
+        return true
+    end
+    if card and card.area and card.area.config and card.area.config.collection then
+        return true
+    end
     return LOSTEDMOD.funcs.can_receive_quantum(card)
 end
 
