@@ -13,7 +13,7 @@ local jokerInfo = {
     end,
     calculate = function(self, card, context)
         if context.before and context.main_eval and context.scoring_name == card.ability.extra.poker_hand and
-            not context.blueprint and not context.losted_quantum_copy then
+            not context.blueprint then
             card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
             return {
                 message = localize('k_upgrade_ex'),
@@ -22,7 +22,7 @@ local jokerInfo = {
         end
         
         if context.before and context.main_eval and context.scoring_name ~= card.ability.extra.poker_hand and
-            not context.blueprint and not context.losted_quantum_copy then
+            not context.blueprint then
             if to_big(card.ability.extra.xmult) > to_big(1) then
                 card.ability.extra.xmult = 1
                 return {

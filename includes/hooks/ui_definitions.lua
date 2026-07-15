@@ -78,37 +78,6 @@ function G.UIDEF.settings_tab(tab)
     return setting_tab
 end
 
--- Central mod settings panel. Lovely Maker exposes this screen reliably on
--- mobile, so every Lost Edition preference remains reachable from one place.
-SMODS.current_mod.config_tab = function()
-    local theme_selector, apply_button = losted_theme_controls(4.6, 0.7)
-    local panel_colour = darken(G.C.JOKER_GREY, 0.25)
-    return {
-        n = G.UIT.ROOT,
-        config = { align = 'cm', r = 0.1, minw = 9.6, minh = 5.2, padding = 0.16, colour = G.C.BLACK },
-        nodes = {
-            { n = G.UIT.R, config = { align = 'cm', padding = 0.08 }, nodes = {
-                { n = G.UIT.C, config = { align = 'tm', minw = 4.7, padding = 0.12, r = 0.1, colour = panel_colour }, nodes = {
-                    { n = G.UIT.R, config = { align = 'cm', padding = 0.04 }, nodes = {
-                        { n = G.UIT.T, config = { text = localize('k_losted_config_game'), scale = 0.45, colour = G.C.ORANGE, shadow = true } }
-                    } },
-                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_options() } },
-                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_fastforward_options() } },
-                    { n = G.UIT.R, config = { align = 'cm' }, nodes = { G.UIDEF.lostedspeed_statustext_options() } }
-                } },
-                { n = G.UIT.C, config = { align = 'tm', minw = 4.7, padding = 0.12, r = 0.1, colour = panel_colour }, nodes = {
-                    { n = G.UIT.R, config = { align = 'cm', padding = 0.04 }, nodes = {
-                        { n = G.UIT.T, config = { text = localize('k_losted_config_audio_visual'), scale = 0.45, colour = G.C.ORANGE, shadow = true } }
-                    } },
-                    { n = G.UIT.R, config = { align = 'cm', padding = 0.03 }, nodes = { losted_music_selector(4.6, 0.7) } },
-                    { n = G.UIT.R, config = { align = 'cm', padding = 0.03 }, nodes = { theme_selector } },
-                    { n = G.UIT.R, config = { align = 'cm', padding = 0.08 }, nodes = { apply_button } }
-                } }
-            } }
-        }
-    }
-end
-
 local header_scale = 0.92 -- reduzido de 1.1
 local first_column_text_mod = 0.85 -- reduzido de 0.98
 local special_thanks_mod = 0.85 -- reduzido de 1

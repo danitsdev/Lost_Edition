@@ -12,7 +12,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.chips, card.ability.extra.chips_per_dollar } }
     end,
     calculate = function(self, card, context)
-        if context.round_eval and not context.blueprint and not context.losted_quantum_copy then
+        if context.round_eval and not context.blueprint then
             local total_interest = (G.GAME.interest_amount or 0) * math.min(
                 math.floor(to_number(G.GAME.dollars)/5),
                 (G.GAME.interest_cap or 25)/5

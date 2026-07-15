@@ -3,7 +3,7 @@ local editionInfo = {
     shader = 'plasma',
     config = { pow_mult = 1.1 },
     in_shop = true,
-    weight = 2, 
+    weight = 3,
     extra_cost = 5,
     apply_to_float = true,
     sound = { sound = 'polychrome1', per = 1.02, vol = 0.24 },

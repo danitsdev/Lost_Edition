@@ -18,25 +18,17 @@ LOSTEDMOD.funcs = {
         return highlighted_cards
     end,
 
-    -- Boss Rush needs three generated bosses, but Cartomancer records every
-    -- get_new_boss() call as if it had been played. Keep only the real Boss
-    -- slot in that optional history while preserving three distinct choices.
-    get_boss_rush_choices = function()
-        local function get_side_boss_without_history()
-            local history = G.GAME.cartomancer_bosses_list
-            local previous_count = history and #history or 0
-            local boss = get_new_boss()
-            history = G.GAME.cartomancer_bosses_list
-            if history then
-                while #history > previous_count do
-                    table.remove(history)
-                end
-            end
-            return boss
-        end
+    -- Boss Rush needs three generated bosses. Let get_new_boss() update every
+    -- normal side effect for each generated boss: bosses_used rotation,
+    -- Cartomancer/history integrations, and vanilla-style boss reroll state.
+    -- Defeated bosses are tracked separately when actually beaten.
+    get_boss_rush_side_boss_choice = function()
+        return get_new_boss()
+    end,
 
-        return get_side_boss_without_history(),
-            get_side_boss_without_history(),
+    get_boss_rush_choices = function()
+        return LOSTEDMOD.funcs.get_boss_rush_side_boss_choice(),
+            LOSTEDMOD.funcs.get_boss_rush_side_boss_choice(),
             get_new_boss()
     end,
 

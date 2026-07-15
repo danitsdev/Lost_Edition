@@ -12,7 +12,7 @@ local jokerInfo = {
         return { vars = { card.ability.extra.mult, card.ability.extra.mult_gain } }
     end,
     calculate = function(self, card, context)
-        if context.remove_playing_cards and not context.blueprint and not context.losted_quantum_copy then
+        if context.remove_playing_cards and not context.blueprint then
             local destroyed_count = #(context.removed or {})
             if destroyed_count > 0 then
                 card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_gain * destroyed_count)
@@ -29,8 +29,7 @@ local jokerInfo = {
             and context.card
             and context.card.ability
             and context.card.ability.set == 'Joker'
-            and not context.blueprint
-            and not context.losted_quantum_copy then
+            and not context.blueprint then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
             return {
                 message = localize('k_upgrade_ex'),

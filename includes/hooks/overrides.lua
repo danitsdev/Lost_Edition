@@ -240,19 +240,193 @@ function LOSTEDMOD.funcs.can_apply_quantum_edition(card)
     return LOSTEDMOD.funcs.can_receive_quantum(card)
 end
 
-function LOSTEDMOD.funcs.in_quantum_copy_context()
-    if not SMODS or not SMODS.context_stack then return false end
-    for index = #SMODS.context_stack, 1, -1 do
-        local stacked_context = SMODS.context_stack[index] and SMODS.context_stack[index].context
-        if stacked_context and stacked_context.losted_quantum_copy then
-            return true
-        end
-    end
-    return false
-end
-
 function LOSTEDMOD.funcs.should_count_quantum_progress(context)
     return not (context and context.losted_quantum_copy)
+end
+
+function LOSTEDMOD.funcs.ensure_bosses_used()
+    if not (G and G.GAME and G.P_BLINDS) then return end
+    G.GAME.bosses_used = G.GAME.bosses_used or {}
+    for key, blind in pairs(G.P_BLINDS) do
+        if (blind.boss or blind.small or blind.big) and G.GAME.bosses_used[key] == nil then
+            G.GAME.bosses_used[key] = 0
+        end
+    end
+
+    local ante = G.GAME.round_resets and G.GAME.round_resets.ante
+    local prescribed = ante and G.GAME.perscribed_bosses and G.GAME.perscribed_bosses[ante]
+    if prescribed and G.GAME.bosses_used[prescribed] == nil then
+        G.GAME.bosses_used[prescribed] = 0
+    end
+    if G.FORCE_BOSS and G.GAME.bosses_used[G.FORCE_BOSS] == nil then
+        G.GAME.bosses_used[G.FORCE_BOSS] = 0
+    end
+end
+
+local losted_boss_rush_blind_types = { 'Small', 'Big', 'Boss' }
+
+local function losted_should_reroll_boss_rush_choice(blind_type)
+    if not (G and G.GAME and G.GAME.round_resets and G.GAME.round_resets.blind_states) then
+        return false
+    end
+    local state = G.GAME.round_resets.blind_states[blind_type]
+    return state and state ~= 'Hide' and state ~= 'Defeated' and state ~= 'Skipped' and state ~= 'Current'
+end
+
+function LOSTEDMOD.funcs.reroll_boss_rush_blind_choices()
+    if not (G and G.GAME and G.GAME.modifiers and G.GAME.modifiers.boss_rush) then return end
+    if not (G.GAME.round_resets and G.GAME.round_resets.blind_choices) then return end
+
+    for _, blind_type in ipairs(losted_boss_rush_blind_types) do
+        if losted_should_reroll_boss_rush_choice(blind_type) then
+            G.GAME.round_resets.blind_choices[blind_type] = blind_type == 'Boss'
+                and get_new_boss()
+                or LOSTEDMOD.funcs.get_boss_rush_side_boss_choice()
+        end
+    end
+end
+
+function LOSTEDMOD.funcs.refresh_boss_rush_blind_select_choice(blind_type)
+    if not (G and G.GAME and G.GAME.modifiers and G.GAME.modifiers.boss_rush) then return end
+    if not (G.blind_select_opts and G.blind_select_opts[string.lower(blind_type)]) then return end
+    if not losted_should_reroll_boss_rush_choice(blind_type) then return end
+
+    local option_key = string.lower(blind_type)
+    local old_option = G.blind_select_opts[option_key]
+    local parent = old_option and old_option.parent
+    if not parent then return end
+
+    old_option:remove()
+    G.blind_select_opts[option_key] = UIBox {
+        T = { parent.T.x, 0, 0, 0 },
+        definition = {
+            n = G.UIT.ROOT,
+            config = { align = 'cm', colour = G.C.CLEAR },
+            nodes = {
+                UIBox_dyn_container(
+                    { create_UIBox_blind_choice(blind_type) },
+                    false,
+                    get_blind_main_colour(blind_type),
+                    blind_type == 'Boss' and
+                        mix_colours(G.C.BLACK, get_blind_main_colour(blind_type), 0.8) or nil
+                )
+            }
+        },
+        config = {
+            align = 'bmi',
+            offset = { x = 0, y = G.ROOM.T.y + 9 },
+            major = parent,
+            xy_bond = 'Weak'
+        }
+    }
+    parent.config.object = G.blind_select_opts[option_key]
+    parent.config.object:recalculate()
+    G.blind_select_opts[option_key].parent = parent
+    G.blind_select_opts[option_key].alignment.offset.y = 0
+end
+
+function LOSTEDMOD.funcs.wrap_boss_rush_reroll()
+    if LOSTEDMOD.boss_rush_reroll_wrapped or not (G and G.FUNCS and type(G.FUNCS.reroll_boss) == 'function') then
+        return
+    end
+
+    local reroll_boss_ref = G.FUNCS.reroll_boss
+    G.FUNCS.reroll_boss = function(e)
+        local boss_rush = G.GAME and G.GAME.modifiers and G.GAME.modifiers.boss_rush
+        if not boss_rush then
+            return reroll_boss_ref(e)
+        end
+
+        if not G.blind_select_opts then
+            G.GAME.round_resets.boss_rerolled = true
+            if not G.from_boss_tag then ease_dollars(-10) end
+            G.from_boss_tag = nil
+            LOSTEDMOD.funcs.reroll_boss_rush_blind_choices()
+            for i = 1, #G.GAME.tags do
+                if G.GAME.tags[i]:apply_to_run({ type = 'new_blind_choice' }) then break end
+            end
+            return true
+        end
+
+        stop_use()
+        G.GAME.round_resets.boss_rerolled = true
+        if not G.from_boss_tag then ease_dollars(-10) end
+        G.from_boss_tag = nil
+        G.CONTROLLER.locks.boss_reroll = true
+        G.E_MANAGER:add_event(Event({
+            trigger = 'immediate',
+            func = function()
+                play_sound('other1')
+                for _, blind_type in ipairs(losted_boss_rush_blind_types) do
+                    local blind_option = G.blind_select_opts[string.lower(blind_type)]
+                    if blind_option and losted_should_reroll_boss_rush_choice(blind_type) then
+                        blind_option:set_role({ xy_bond = 'Weak' })
+                        blind_option.alignment.offset.y = 20
+                    end
+                end
+                return true
+            end
+        }))
+        G.E_MANAGER:add_event(Event({
+            trigger = 'after',
+            delay = 0.3,
+            func = function()
+                LOSTEDMOD.funcs.reroll_boss_rush_blind_choices()
+                for _, blind_type in ipairs(losted_boss_rush_blind_types) do
+                    LOSTEDMOD.funcs.refresh_boss_rush_blind_select_choice(blind_type)
+                end
+
+                G.E_MANAGER:add_event(Event({
+                    blocking = false,
+                    trigger = 'after',
+                    delay = 0.5,
+                    func = function()
+                        G.CONTROLLER.locks.boss_reroll = nil
+                        return true
+                    end
+                }))
+                return true
+            end
+        }))
+        return true
+    end
+    LOSTEDMOD.boss_rush_reroll_wrapped = true
+end
+
+LOSTEDMOD.funcs.wrap_boss_rush_reroll()
+
+function LOSTEDMOD.funcs.ensure_defeated_blinds()
+    if G and G.GAME then
+        G.GAME.defeated_blinds = G.GAME.defeated_blinds or {}
+    end
+end
+
+if Blind and type(Blind.defeat) == 'function' and not LOSTEDMOD.defeated_blinds_tracking_wrapped then
+    local losted_blind_defeat_ref = Blind.defeat
+    function Blind:defeat(...)
+        local blind_center = self and self.config and self.config.blind
+        local blind_key = blind_center and blind_center.key
+        local is_boss = blind_center and blind_center.boss
+
+        local result = losted_blind_defeat_ref(self, ...)
+
+        if is_boss and blind_key then
+            LOSTEDMOD.funcs.ensure_defeated_blinds()
+            G.GAME.defeated_blinds[blind_key] = true
+        end
+
+        return result
+    end
+    LOSTEDMOD.defeated_blinds_tracking_wrapped = true
+end
+
+if type(get_new_boss) == 'function' and not LOSTEDMOD.get_new_boss_bosses_used_safe then
+    local losted_get_new_boss_ref = get_new_boss
+    function get_new_boss(...)
+        LOSTEDMOD.funcs.ensure_bosses_used()
+        return losted_get_new_boss_ref(...)
+    end
+    LOSTEDMOD.get_new_boss_bosses_used_safe = true
 end
 
 local function losted_prepare_quantum_copy(card, context)
@@ -280,14 +454,6 @@ function Card:set_edition(edition, immediate, silent, delay)
         LOSTEDMOD.funcs.sync_quantum_managed_lifecycle(self)
     end
     return result
-end
-
-local losted_smods_scale_card_ref = SMODS.scale_card
-function SMODS.scale_card(card, args)
-    if LOSTEDMOD.funcs.in_quantum_copy_context() then
-        return
-    end
-    return losted_smods_scale_card_ref(card, args)
 end
 
 -- Quantum has two separate contracts:

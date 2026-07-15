@@ -3,6 +3,9 @@ function Game:main_menu(change_context)
 	main_menuRef(self, change_context)
 
     G.FUNCS.initPostSplash()
+    if LOSTEDMOD.funcs.wrap_boss_rush_reroll then
+        LOSTEDMOD.funcs.wrap_boss_rush_reroll()
+    end
 
 	local splash_args = {mid_flash = change_context == 'splash' and 1.6 or 0.}
 	ease_value(splash_args, 'mid_flash', -(change_context == 'splash' and 1.6 or 0), nil, nil, nil, 4)

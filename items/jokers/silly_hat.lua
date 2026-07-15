@@ -13,7 +13,7 @@ local jokerInfo = {
     end,
     calculate = function(self, card, context)
         if context.before and context.main_eval and not context.blueprint and
-            not context.losted_quantum_copy and next(context.poker_hands['Three of a Kind']) then
+            next(context.poker_hands['Three of a Kind']) then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
             return {
                 message = localize('k_upgrade_ex'),

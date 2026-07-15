@@ -16,7 +16,7 @@ local jokerInfo = {
             juice_card_until(card, eval, true)
         end
         
-        if context.discard and not context.blueprint and 
+        if context.pre_discard and not context.blueprint and
             G.GAME.current_round.discards_used <= 0 and #context.full_hand == 2 then
 
             play_sound('losted_shot', 1.0, 0.8)

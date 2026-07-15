@@ -1,3 +1,12 @@
+local function is_nan(value)
+    -- OmegaNum exposes an explicit check. Native numbers and Talisman's
+    -- legacy BigNum both identify NaN by comparing unequal to themselves.
+    if type(value) == 'table' and type(value.isNaN) == 'function' then
+        return value:isNaN()
+    end
+    return value ~= value
+end
+
 SMODS.Scoring_Parameter({
     key = 'pow_mult',
     default_value = 0,
@@ -14,8 +23,16 @@ SMODS.Scoring_Parameter({
         end
 
         local mult_parameter = SMODS.Scoring_Parameters.mult
-        local target_mult = mult_parameter.current ^ amount
-        mult_parameter:modify(target_mult - mult_parameter.current)
+        local current_mult = mult_parameter.current
+        -- Preserve naneinf as a valid terminal game state: only skip Plasma
+        -- when the incoming Mult is already NaN. Do not predict or cap the
+        -- result, so Talisman/Amulet big-number implementations stay intact.
+        if is_nan(current_mult) then
+            return true
+        end
+
+        local target_mult = current_mult ^ amount
+        mult_parameter:modify(target_mult - current_mult)
 
         if not effect.remove_default_message then
             card_eval_status_text(

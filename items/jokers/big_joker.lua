@@ -14,7 +14,7 @@ local jokerInfo = {
     end,
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:get_id() == 10 and
-            not context.blueprint and not context.losted_quantum_copy then
+            not context.blueprint then
             card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
 
             return {
