@@ -53,6 +53,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Manga Evolutiva',
+                text = {
+                    'A cada {C:attention}aposta par{} maior que 3,',
+                    'ganha {C:attention}+1{} de tamanho de mão',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Manga da Fortuna',
+                text = {
+                    'Dobra {C:attention}todas as',
+                    '{C:green,E:1,S:1.1}probabilidades',
+                    '{C:inactive}(ex: {C:green}1 em 3{C:inactive} -> {C:green}2 em 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Manga Caótica',
+                text = {
+                    'Todas as cartas são aleatórias',
+                    'limitadas a {C:attention}6 classes{} e {C:attention}2 naipes{}',
+                    'Comece a tentativa com {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} de tamanho base do Blind',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Manga Medieval',
+                text = {
+                    '{C:attention}+#1#{} Espaço de curinga',
+                    'A partir da aposta 2',
+                    '{C:attention}Todos{} os Blinds são {C:attention}Blinds de Chefe{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='Opa! Tudo 1',
@@ -1189,27 +1223,13 @@ return {
             k_odd = 'ímpar',
             k_nothing_ex = 'Nada pro Beta',
 
-        k_losted_config_game = 'Jogo',
-        k_losted_config_audio_visual = 'Audio e Visual',
-        k_losted_music_label = 'Trilha Sonora',
-            k_losted_music_ost1 = 'Lost Edition OST by Gulira',
-            k_losted_music_ost2 = 'Balatro OST by LouisF',
+            k_losted_music_label = 'Trilha Sonora',
+            k_losted_music_ost1 = 'Lost Edition OST por Gulira',
+            k_losted_music_ost2 = 'Balatro OST por LouisF',
 
-            k_losted_themes_tab = 'Temas',
-            k_losted_theme_label = 'Tema Selecionado',
-            k_losted_apply_button = 'Aplicar Tema',
-            k_losted_loading_themes = 'Carregando temas...',
 
-            k_fast_forward_label = 'Avanço Rápido',
-            k_status_text_label = 'Pop-ups de Texto',
 
-            k_fast_forward_off = 'Desligado',
-            k_fast_forward_planets = 'Só em Planetas',
-            k_fast_forward_on = 'Tudo (Rápido)',
-            k_status_text_all = 'Todos',
-            k_status_text_less_annoying = 'Menos Irritante',
-            k_status_text_no_misc = 'Ocultar Extras',
-            k_status_text_none = 'Nenhum',
+
 
             -- Lost Edition: rótulos da seção de créditos
             le_credits_direction = 'Direção',
@@ -1218,6 +1238,8 @@ return {
             le_credits_coding = 'Programação',
             le_credits_beta = 'Testadores Beta',
             le_credits_thanks = 'Agradecimentos',
+            le_credits_subtitle = 'Uma expansao nao oficial',
+            le_credits_community = 'Comunidade',
         },
         v_dictionary = {
             a_xchips = 'X#1# Fichas',

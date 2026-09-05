@@ -79,8 +79,9 @@ local jokerInfo = {
     check_for_unlock = function(self, args)
         if args.type == 'win_challenge' and G.GAME.challenge == 'c_losted_only_jokers' then
             self.challenge_bypass = true
-            unlock_card(self)
+            return true
         end
+        return false
     end,
 }
 

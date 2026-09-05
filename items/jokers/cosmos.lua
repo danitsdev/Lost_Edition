@@ -32,16 +32,11 @@ local jokerInfo = {
         local stats = G.PROFILES and G.SETTINGS and G.PROFILES[G.SETTINGS.profile] and G.PROFILES[G.SETTINGS.profile].career_stats or {}
         local current = tonumber(stats.c_planets_bought) or 0
         local meets = current >= 30
-        -- Proactively unlock if threshold already met
         if meets then
-            if not self.unlocked then unlock_card(self) end
             return true
         end
         if args and args.type == 'career_stat' and args.statname == 'c_planets_bought' then
-            if current >= 30 then
-                if not self.unlocked then unlock_card(self) end
-                return true
-            end
+            return current >= 30
         end
         return false
     end

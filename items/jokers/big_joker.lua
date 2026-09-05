@@ -15,13 +15,15 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:get_id() == 10 and
             not context.blueprint then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
-
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.MULT,
-                card = card
-            }
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "mult",
+                scalar_value = "mult_gain",
+                scaling_message = {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.MULT
+                }
+            })
         end
         if context.joker_main then
             if to_big(card.ability.extra.mult) > to_big(0) then

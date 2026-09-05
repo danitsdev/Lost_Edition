@@ -101,11 +101,19 @@ local function mark_geological_joker_sold(joker_key)
         return false
 end
 
--- SMODS exposes sale events to mods, so this tracker does not need to wrap Card:sell_card.
-SMODS.current_mod.calculate = function(self, context)
-    if context.selling_card and context.card and context.card.config and context.card.config.center then
-        mark_geological_joker_sold(context.card.config.center.key)
+-- SMODS 26.829.0 dispatches the selling_card context to cards, but does not
+-- dispatch a generic mod-level calculation callback. Hook the actual
+-- sale point so the unlock works even when Obsidian is not owned yet.
+local _obsidian_sell_card_ref = Card.sell_card
+if type(_obsidian_sell_card_ref) == 'function' and not LOSTEDMOD.obsidian_sell_card_wrapped then
+    function Card:sell_card(...)
+        local center = self.config and self.config.center
+        local key = center and center.key
+        local result = _obsidian_sell_card_ref(self, ...)
+        if key then mark_geological_joker_sold(key) end
+        return result
     end
+    LOSTEDMOD.obsidian_sell_card_wrapped = true
 end
 
 -- Function to reset the obsidian card suit each round

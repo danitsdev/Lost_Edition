@@ -1,13 +1,27 @@
-local function get_active_welder(card)
+local function get_active_welder()
+    local cached = LOSTEDMOD.vars.active_welder
+    if not LOSTEDMOD.vars.active_welder_cache_dirty then
+        if not cached or (cached.added_to_deck and not cached.debuff and
+            cached.config and cached.config.center and
+            cached.config.center.key == 'j_losted_welder') then
+            return cached
+        end
+        LOSTEDMOD.vars.active_welder_cache_dirty = true
+    end
+
+    LOSTEDMOD.vars.active_welder = nil
     if not (G and G.jokers and G.jokers.cards) then return nil end
     for _, joker in ipairs(G.jokers.cards) do
-        if joker ~= card and not joker.debuff and joker.added_to_deck and
+        if not joker.debuff and joker.added_to_deck and
             joker.config and joker.config.center and
             joker.config.center.key == 'j_losted_welder' and joker.ability and
             joker.ability.extra and joker.ability.extra.steel_xmult then
+            LOSTEDMOD.vars.active_welder = joker
+            LOSTEDMOD.vars.active_welder_cache_dirty = false
             return joker
         end
     end
+    LOSTEDMOD.vars.active_welder_cache_dirty = false
 end
 
 if not LOSTEDMOD.welder_get_chip_h_x_mult_wrapped then

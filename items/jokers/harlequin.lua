@@ -3,7 +3,7 @@ local jokerInfo = {
     pos = LOSTEDMOD.funcs.coordinate(25),
     atlas = 'losted_jokers',
     rarity = 1,
-    cost = 4,
+    cost = 3,
     unlocked = true,
     blueprint_compat = true,
     config = { extra = { chips = 40 } },

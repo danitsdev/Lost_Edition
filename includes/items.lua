@@ -93,7 +93,6 @@ local itemsToLoad = {
         'silly_hat',
         'surprise_box',
         'hoarding_joker',
-        'glutton', -- Legacy save compatibility; hidden and excluded from pools
         'doodle',
         'big_joker',
         'contract',

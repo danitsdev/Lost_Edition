@@ -25,6 +25,7 @@ local enhancementInfo = {
                 end
             end
 
+            if not card_position then return end
             local next_card = context.scoring_hand[card_position + 1]
             local last_in_chain = not (
                 next_card
@@ -44,6 +45,11 @@ local enhancementInfo = {
                 if streak then
                     return {
                         func = function()
+                            local play_card_lookup = {}
+                            for _, play_card in ipairs(G.play and G.play.cards or {}) do
+                                play_card_lookup[play_card] = true
+                            end
+
                             while (card.config.diamond_rescored_times or 0) < card.config.center.rescore_amount do
                                 local diamond_chain = { card }
                                 local offset = 1
@@ -74,17 +80,16 @@ local enhancementInfo = {
 
                                 for chain_index = #diamond_chain, 1, -1 do
                                     local diamond_card = diamond_chain[chain_index]
-                                    for _, play_card in ipairs(G.play.cards) do
-                                        if play_card == diamond_card then
-                                            diamond_card.config.diamond_rescored_times =
-                                                (diamond_card.config.diamond_rescored_times or 0) + 1
-                                            local passed_context = LOSTEDMOD.funcs.build_smods_post_context(
-                                                play_card,
-                                                context,
-                                                context.scoring_hand
-                                            )
-                                            SMODS.score_card(play_card, passed_context)
-                                        end
+                                    if play_card_lookup[diamond_card] and
+                                        diamond_card.area == G.play and not diamond_card.REMOVED then
+                                        diamond_card.config.diamond_rescored_times =
+                                            (diamond_card.config.diamond_rescored_times or 0) + 1
+                                        local passed_context = LOSTEDMOD.funcs.build_smods_post_context(
+                                            diamond_card,
+                                            context,
+                                            context.scoring_hand
+                                        )
+                                        SMODS.score_card(diamond_card, passed_context)
                                     end
                                 end
 

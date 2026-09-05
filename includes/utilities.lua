@@ -39,22 +39,6 @@ LOSTEDMOD.funcs = {
 
         return max_pitch - ((index - 1) / (count - 1)) * (max_pitch - min_pitch)
     end,
-
-    is_adjacent_scoring_enhancement = function(card, scoring_hand, enhancement_key)
-        if not card or card.debuff or not scoring_hand then return false end
-        for index, scoring_card in ipairs(scoring_hand) do
-            if scoring_card == card then
-                local previous_card = scoring_hand[index - 1]
-                local next_card = scoring_hand[index + 1]
-                return (previous_card and not previous_card.debuff
-                        and SMODS.has_enhancement(previous_card, enhancement_key))
-                    or (next_card and not next_card.debuff
-                        and SMODS.has_enhancement(next_card, enhancement_key))
-                    or false
-            end
-        end
-        return false
-    end,
     
     -- ==== CARD MANIPULATION ====
     

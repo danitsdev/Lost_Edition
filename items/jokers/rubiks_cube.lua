@@ -6,8 +6,6 @@ local jokerInfo = {
     cost = 6,
     unlocked = true,
     blueprint_compat = true,
-    name = "Magic Cube",
-    description = "Gain 60 chips for each Nine played. Gain 9 mult for each Six played.",
     config = { extra = { chips_nine = 60, mult_six = 9 } },
     loc_vars = function(self, info_queue, card)
         return { vars = { card.ability.extra.chips_nine, card.ability.extra.mult_six } }

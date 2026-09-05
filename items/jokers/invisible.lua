@@ -8,9 +8,9 @@ local jokerInfo = {
     pixel_size = { h = 1 / 1 },
     
     no_mod_badges = true,
-    no_collection = true,
     no_doe = true,
     unlocked = true,
+    no_collection = true,
 
     blueprint_compat = false,
     eternal_compat = false,

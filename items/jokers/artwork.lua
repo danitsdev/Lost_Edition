@@ -8,7 +8,7 @@ local jokerInfo = {
     blueprint_compat = false,
     eternal_compat = false,
     perishable_compat = false,
-    config = { extra = { price_gain = 5, odds = 12 } },
+    config = { extra = { price_gain = 4, odds = 12 } },
     loc_vars = function(self, info_queue, card)
         local numerator, denominator = SMODS.get_probability_vars(card, 1, card.ability.extra.odds, 'losted_artwork')
         return { vars = { card.ability.extra.price_gain, numerator, denominator } }

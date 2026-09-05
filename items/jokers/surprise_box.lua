@@ -117,7 +117,7 @@ local jokerInfo = {
             elseif chosen_reward == 'xmult' then
                 local xmult_int = pseudorandom('surprise_box_xmult', card.ability.extra.xmult_min, card.ability.extra.xmult_max)
                 return {
-                    x_mult = xmult_int / 10
+                    xmult = xmult_int / 10
                 }
             elseif chosen_reward == 'dollars' then
                 local amount = pseudorandom('surprise_box_dollars', card.ability.extra.dollars_min, card.ability.extra.dollars_max)

@@ -37,74 +37,59 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.individual and context.cardarea == G.play and context.other_card:get_id() == 7 then
             local extra = card.ability.extra
-            local ret = {}
-            local has_effect = false
-            local card_seed_suffix = tostring(context.other_card.sort_id or context.other_card.unique_val or context.other_card.base and context.other_card.base.id or 7)
+            local effects = {}
 
-            -- Check for bankruptcy first (1 in 500 chance to lose all money)
+            if SMODS.pseudorandom_probability(card, 'losted_slot_mult', 1, extra.odds_mult, 'losted_slot_mult') then
+                effects[#effects + 1] = { mult = extra.mult }
+            end
+            if SMODS.pseudorandom_probability(card, 'losted_slot_dollars', 1, extra.odds_dollars, 'losted_slot_dollars') then
+                effects[#effects + 1] = { dollars = extra.dollars }
+                G.GAME.dollar_buffer = (G.GAME.dollar_buffer or 0) + extra.dollars
+                G.E_MANAGER:add_event(Event({
+                    func = function()
+                        G.GAME.dollar_buffer = 0
+                        return true
+                    end
+                }))
+            end
+            if SMODS.pseudorandom_probability(card, 'losted_slot_xmult', 1, extra.odds_xmult, 'losted_slot_xmult') then
+                effects[#effects + 1] = { x_mult = extra.xmult }
+            end
             if SMODS.pseudorandom_probability(
                 card,
-                'slot_bankruptcy_' .. card_seed_suffix,
+                'losted_slot_bankruptcy',
                 1,
                 extra.odds_bankruptcy,
                 'losted_slot_bankruptcy'
             ) then
-                local current_money = to_number(G.GAME.dollars or 0)
-                if current_money > 0 then
-                    ret.dollars = -current_money
-                    has_effect = true
-                end
-            else
-                -- Only give positive effects if bankruptcy didn't trigger
-                if SMODS.pseudorandom_probability(
-                    card,
-                    'slot_xmult_' .. card_seed_suffix,
-                    1,
-                    extra.odds_xmult,
-                    'losted_slot_xmult'
-                ) then
-                    ret.x_mult = extra.xmult
-                    has_effect = true
-                end
-
-                if SMODS.pseudorandom_probability(
-                    card,
-                    'slot_dollars_' .. card_seed_suffix,
-                    1,
-                    extra.odds_dollars,
-                    'losted_slot_dollars'
-                ) then
-                    ret.dollars = (ret.dollars or 0) + extra.dollars
-                    has_effect = true
-                end
-
-                if SMODS.pseudorandom_probability(
-                    card,
-                    'slot_mult_' .. card_seed_suffix,
-                    1,
-                    extra.odds_mult,
-                    'losted_slot_mult'
-                ) then
-                    ret.mult = extra.mult
-                    has_effect = true
-                end
+                effects[#effects + 1] = {
+                    func = function()
+                        G.E_MANAGER:add_event(Event({
+                            func = function()
+                                local current_money = math.max(0, to_number(G.GAME.dollars or 0))
+                                if current_money > 0 then
+                                    ease_dollars(-current_money, true)
+                                end
+                                return true
+                            end
+                        }))
+                    end
+                }
             end
 
-            if has_effect then
-                card.lucky_trigger = true
-                return ret
+            if next(effects) then
+                return SMODS.merge_effects(effects)
             end
         end
     end,
     check_for_unlock = function(self, args)
-        if args.type == 'hand' and args.handname == 'Three of a Kind' then
-            local lucky_sevens = 0
-            for _, card in ipairs(args.scoring_hand) do
-                if card:get_id() == 7 and SMODS.has_enhancement(card, 'm_lucky') then
-                    lucky_sevens = lucky_sevens + 1
+        if args.type == 'hand' and args.handname == 'Three of a Kind' and #args.scoring_hand == 3 then
+            for _, scoring_card in ipairs(args.scoring_hand) do
+                if scoring_card:get_id() ~= 7 or not SMODS.has_enhancement(scoring_card, 'm_lucky') then
+                    return false
                 end
             end
-            return lucky_sevens == 3
+            return true
         end
         return false
     end

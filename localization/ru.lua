@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Evolutionary Sleeve',
+                text = {
+                    'For each {C:attention}even ante{} greater than 3,',
+                    'gain {C:attention}+1{} hand size',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Fortune Sleeve',
+                text = {
+                    'Doubles {C:attention}all listed',
+                    '{C:green,E:1,S:1.1}probabilities',
+                    '{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Chaotic Sleeve',
+                text = {
+                    'All cards are randomized',
+                    'limited to {C:attention}6 ranks{} and {C:attention}2 suits{}',
+                    'Start run with {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} base Blind size',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Medieval Sleeve',
+                text = {
+                    '{C:attention}+#1#{} Joker slot',
+                    'Starting from Ante 2,',
+                    '{C:attention}All{} Blinds are {C:attention}Boss Blinds{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='Упс! Все единицы',
@@ -1181,28 +1215,14 @@ return {
             k_even = 'четное',
             k_odd = 'нечетное',
             k_nothing_ex = 'Ничего для Беты',
-
-        k_losted_config_game = 'Игра',
-        k_losted_config_audio_visual = 'Аудио и оформление',
-        k_losted_music_label = 'Саундтрек',
+            k_losted_music_label = 'Саундтрек',
             k_losted_music_ost1 = 'Lost Edition OST от Gulira',
             k_losted_music_ost2 = 'Balatro OST от LouisF',
 
-            k_losted_themes_tab = 'Темы',
-            k_losted_theme_label = 'Выбранная тема',
-            k_losted_apply_button = 'Применить тему',
-            k_losted_loading_themes = 'Загрузка тем...',
 
-            k_fast_forward_label = 'Ускоренная перемотка',
-            k_status_text_label = 'Всплывающие окна с текстом',
 
-            k_fast_forward_off = 'Выкл.',
-            k_fast_forward_planets = 'Только планеты',
-            k_fast_forward_on = 'Все (быстро)',
-            k_status_text_all = 'Все',
-            k_status_text_less_annoying = 'Менее навязчиво',
-            k_status_text_no_misc = 'Скрыть прочее',
-            k_status_text_none = 'Нет',
+
+
         },
         v_dictionary = {
             a_xchips = 'X#1# фишек',

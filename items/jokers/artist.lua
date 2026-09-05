@@ -64,10 +64,9 @@ local jokerInfo = {
                     wild_cards = wild_cards + 1
                 end
             end
-            if wild_cards >= 5 then
-                unlock_card(self)
-            end
+            return wild_cards >= 5
         end
+        return false
     end,
 }
 

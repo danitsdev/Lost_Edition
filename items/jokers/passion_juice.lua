@@ -15,7 +15,12 @@ local jokerInfo = {
     end,
     calculate = function(self, card, context)
         if context.before and context.main_eval and not context.blueprint then
-            card.ability.extra.xchips = card.ability.extra.xchips + card.ability.extra.xchips_gain
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "xchips",
+                scalar_value = "xchips_gain",
+                no_message = true
+            })
         end
         if context.end_of_round and context.game_over == false and context.main_eval and not context.blueprint then
             if SMODS.pseudorandom_probability(card, 'losted_passion_juice', 1, card.ability.extra.odds, 'losted_passion_juice') then

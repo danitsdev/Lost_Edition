@@ -1,6 +1,8 @@
-SMODS.current_mod.optional_features = {
-	retrigger_joker = true -- Quantum edition, retrigger joker one time 
-}
+SMODS.current_mod.optional_features = function()
+    return {
+        retrigger_joker = true -- Quantum edition, retrigger joker one time
+    }
+end
 
 -- Main table for the mod
 LOSTEDMOD = {
@@ -10,6 +12,9 @@ LOSTEDMOD = {
     },
     funcs = {}
 }
+
+-- Default config (SMODS.current_mod.config loaded from config.lua)
+LOSTEDMOD.config = SMODS.current_mod.config or {}
 
 -- Debugging functions
 function sendDebugMessage(msg)
@@ -24,19 +29,17 @@ end
 
 -- List of modules to be loaded
 local includes = {
-    'tables',
     'utilities', 
     'assets',
     'compat',
     'hooks/game',
     'hooks/overrides',
     'hooks/pow_mult',
-    'hooks/ui_definitions',
     'hooks/intro',
-    'speed_options',
-    'music',
     'themes',
     'items',
+    'hooks/ui_definitions',
+    'sleeves',
 }
 
 -- Load modules
@@ -81,18 +84,35 @@ if JokerDisplay then
     end
 end
 
+if not G.SETTINGS.music_selection then
+    G.SETTINGS.music_selection = "losted"
+end
+
+G.FUNCS.change_music = function(args)
+    G.ARGS.music_vals = G.ARGS.music_vals or { "losted", "balatro" }
+    G.SETTINGS.QUEUED_CHANGE.music_change = G.ARGS.music_vals[args.to_key]
+    G.SETTINGS.music_selection = G.ARGS.music_vals[args.to_key]
+    G:save_settings()
+end
+
 -- Reset jokers on run start
 function SMODS.current_mod.reset_game_globals(run_start)
+    if G.GAME.current_round then
+        G.GAME.current_round.losted_most_common_rank = nil
+        G.GAME.current_round.losted_most_common_rank_cached = nil
+        G.GAME.current_round.losted_most_common_rank_hand = nil
+    end
+    LOSTEDMOD.vars.active_welder = nil
+    LOSTEDMOD.vars.active_welder_cache_dirty = true
     if run_start then
+        LOSTEDMOD.quantum_context_queue_count = 0
+        LOSTEDMOD.has_quantum_context_queue = false
         G.GAME.losted_mysterious_completed = false
         G.GAME.losted_the_joker_triggered = false
         LOSTEDMOD.vars.the_joker_triggered = false
+        LOSTEDMOD.funcs.reset_losted_sarcophagus()
+        LOSTEDMOD.funcs.reset_losted_sticky()
     end
     LOSTEDMOD.funcs.reset_losted_obsidian_card()
     LOSTEDMOD.funcs.reset_losted_moist_cake()
-    LOSTEDMOD.funcs.reset_losted_sarcophagus()
-    LOSTEDMOD.funcs.reset_losted_sticky()
-end
-
-function G.FUNCS.initPostSplash()
 end

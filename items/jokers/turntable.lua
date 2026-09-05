@@ -66,10 +66,9 @@ local jokerInfo = {
     check_for_unlock = function(self, args)
         if args.type == 'hand_contents' then
             local eval = evaluate_poker_hand(args.cards)
-            if next(eval['Flush Five']) then
-                unlock_card(self)
-            end
+            return next(eval['Flush Five']) ~= nil
         end
+        return false
     end,
 }
 

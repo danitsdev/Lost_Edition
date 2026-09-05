@@ -21,7 +21,15 @@ local jokerInfo = {
 
             play_sound('losted_shot', 1.0, 0.8)
 
-            LOSTEDMOD.funcs.destroy_cards(context.full_hand)
+            G.E_MANAGER:add_event(Event({
+                trigger = 'after',
+                delay = 0.1,
+                blockable = false,
+                func = function()
+                    LOSTEDMOD.funcs.destroy_cards(context.full_hand)
+                    return true
+                end
+            }))
         end
     end
 }

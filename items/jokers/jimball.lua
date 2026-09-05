@@ -13,8 +13,18 @@ local jokerInfo = {
     end,
     calculate = function(self, card, context)
         if context.setting_blind and not context.blueprint then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
-            card.ability.extra.chips = card.ability.extra.chips + card.ability.extra.chips_gain
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "mult",
+                scalar_value = "mult_gain",
+                no_message = true
+            })
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "chips",
+                scalar_value = "chips_gain",
+                no_message = true
+            })
             return {
                 message = localize('k_blind_selected_ex'),
                 colour = G.C.MULT

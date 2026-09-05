@@ -16,10 +16,17 @@ local jokerInfo = {
             not context.blueprint and context.card ~= card then
             local xmult_gain = to_number(context.card.sell_cost or 0) * (card.ability.extra.xmult_gain)
             if xmult_gain > 0 then
-                card.ability.extra.xmult = (card.ability.extra.xmult) + xmult_gain
-                return {
-                    message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } }
-                }
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    scalar_value = "xmult_gain",
+                    operation = function(ref_table, ref_value, initial, change)
+                        ref_table[ref_value] = initial + xmult_gain
+                    end,
+                    scaling_message = {
+                        message = localize { type = 'variable', key = 'a_xmult', vars = { card.ability.extra.xmult } }
+                    }
+                })
             end
         end
         if context.joker_main then
@@ -36,14 +43,10 @@ local jokerInfo = {
         local current = tonumber(stats.c_jokers_sold) or 0
         local meets = current >= 40
         if meets then
-            if not self.unlocked then unlock_card(self) end
             return true
         end
         if args and args.type == 'career_stat' and args.statname == 'c_jokers_sold' then
-            if current >= 40 then
-                if not self.unlocked then unlock_card(self) end
-                return true
-            end
+            return current >= 40
         end
         return false
     end

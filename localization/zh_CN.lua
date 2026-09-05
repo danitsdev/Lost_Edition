@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Evolutionary Sleeve',
+                text = {
+                    'For each {C:attention}even ante{} greater than 3,',
+                    'gain {C:attention}+1{} hand size',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Fortune Sleeve',
+                text = {
+                    'Doubles {C:attention}all listed',
+                    '{C:green,E:1,S:1.1}probabilities',
+                    '{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Chaotic Sleeve',
+                text = {
+                    'All cards are randomized',
+                    'limited to {C:attention}6 ranks{} and {C:attention}2 suits{}',
+                    'Start run with {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} base Blind size',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Medieval Sleeve',
+                text = {
+                    '{C:attention}+#1#{} Joker slot',
+                    'Starting from Ante 2,',
+                    '{C:attention}All{} Blinds are {C:attention}Boss Blinds{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='全是1！',
@@ -1178,28 +1212,14 @@ return {
             k_even = '偶数',
             k_odd = '奇数',
             k_nothing_ex = '贝塔什么也没得到',
-
-        k_losted_config_game = '游戏',
-        k_losted_config_audio_visual = '音频与视觉',
-        k_losted_music_label = '原声带',
+            k_losted_music_label = '原声带',
             k_losted_music_ost1 = '失落版OST - Gulira',
             k_losted_music_ost2 = 'Balatro OST - LouisF',
 
-            k_losted_themes_tab = '主题',
-            k_losted_theme_label = '已选主题',
-            k_losted_apply_button = '应用主题',
-            k_losted_loading_themes = '正在加载主题...',
 
-            k_fast_forward_label = '快进',
-            k_status_text_label = '文本弹出窗口',
 
-            k_fast_forward_off = '关闭',
-            k_fast_forward_planets = '仅星球牌',
-            k_fast_forward_on = '全部（快速）',
-            k_status_text_all = '全部',
-            k_status_text_less_annoying = '减少干扰',
-            k_status_text_no_misc = '隐藏杂项',
-            k_status_text_none = '无',
+
+
         },
         v_dictionary = {
             a_xchips = 'X#1#筹码',

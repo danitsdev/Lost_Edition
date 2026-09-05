@@ -17,10 +17,8 @@ if G.GAME and G.GAME.losted_staple_gun_active and _type == 'Joker' then
             or ((type(r) == 'number') and (r < 0.7))
             or ((type(r) == 'string') and (r == 'Common'))
     end
-    if is_common(_rarity) then
-        if pseudorandom('staple_gun_reduce_common'..G.SEED..G.GAME.round_resets.ante) > 0.3 then
-        else
-            -- reroll rarity to uncommon or higher
+    if is_common(_rarity) and G.SEED and G.GAME.round_resets then
+        if pseudorandom('staple_gun_reduce_common'..G.SEED..G.GAME.round_resets.ante) <= 0.3 then
             _rarity = 0.7 + pseudorandom('staple_gun_reroll'..G.SEED..G.GAME.round_resets.ante) * 0.3
         end
     end

@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Evolutionary Sleeve',
+                text = {
+                    'For each {C:attention}even ante{} greater than 3,',
+                    'gain {C:attention}+1{} hand size',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Fortune Sleeve',
+                text = {
+                    'Doubles {C:attention}all listed',
+                    '{C:green,E:1,S:1.1}probabilities',
+                    '{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Chaotic Sleeve',
+                text = {
+                    'All cards are randomized',
+                    'limited to {C:attention}6 ranks{} and {C:attention}2 suits{}',
+                    'Start run with {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} base Blind size',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Medieval Sleeve',
+                text = {
+                    '{C:attention}+#1#{} Joker slot',
+                    'Starting from Ante 2,',
+                    '{C:attention}All{} Blinds are {C:attention}Boss Blinds{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='이런! 모두 1이네',
@@ -1195,28 +1229,14 @@ return {
             k_even = '짝수',
             k_odd = '홀수',
             k_nothing_ex = '베타는 아무것도 없음',
-
-        k_losted_config_game = '게임',
-        k_losted_config_audio_visual = '오디오 및 비주얼',
-        k_losted_music_label = '사운드트랙',
+            k_losted_music_label = '사운드트랙',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 
-            k_losted_themes_tab = '테마',
-            k_losted_theme_label = '선택된 테마',
-            k_losted_apply_button = '테마 적용',
-            k_losted_loading_themes = '테마 로딩 중...',
 
-            k_fast_forward_label = '빨리 감기',
-            k_status_text_label = '텍스트 팝업',
 
-            k_fast_forward_off = '꺼짐',
-            k_fast_forward_planets = '행성만',
-            k_fast_forward_on = '모두 (빠름)',
-            k_status_text_all = '모두',
-            k_status_text_less_annoying = '덜 거슬림',
-            k_status_text_no_misc = '기타 숨기기',
-            k_status_text_none = '없음',
+
+
         },
         v_dictionary = {
             a_xchips = 'X#1# 칩',

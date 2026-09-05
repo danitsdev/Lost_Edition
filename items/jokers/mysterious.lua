@@ -113,8 +113,9 @@ local jokerInfo = {
     check_for_unlock = function(self, args)
         if args.type == 'win_challenge' and G.GAME.challenge == 'c_losted_marathon' then
             self.challenge_bypass = true
-            unlock_card(self)
+            return true
         end
+        return false
     end,
     in_pool = function(self, args)
         return not G.GAME.losted_mysterious_completed

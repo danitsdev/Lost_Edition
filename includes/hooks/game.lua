@@ -1,8 +1,12 @@
+G.C.LOSTED_OUTER = G.C.LOSTED_OUTER or HEX("8B5CF6")
+G.C.LOSTED_INNER = G.C.LOSTED_INNER or HEX("EC4899")
+G.C.LOSTED_BLIND = G.C.LOSTED_BLIND or HEX("6D3BBE")
+G.C.LOSTED_WON = G.C.LOSTED_WON or HEX("3B206B")
+
 local main_menuRef = Game.main_menu
 function Game:main_menu(change_context)
 	main_menuRef(self, change_context)
 
-    G.FUNCS.initPostSplash()
     if LOSTEDMOD.funcs.wrap_boss_rush_reroll then
         LOSTEDMOD.funcs.wrap_boss_rush_reroll()
     end

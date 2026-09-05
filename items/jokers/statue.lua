@@ -35,10 +35,9 @@ local jokerInfo = {
                     stone_cards = stone_cards + 1
                 end
             end
-            if stone_cards >= 5 then
-                unlock_card(self)
-            end
+            return stone_cards >= 5
         end
+        return false
     end,
 }
 

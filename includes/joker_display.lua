@@ -436,20 +436,7 @@ jd_def["j_losted_the_joker"] = {
         { text = ")" }
     },
     calc_function = function(card)
-        local rank_counts = {}
-        local highest, best = 0, nil
-        if G.playing_cards then
-            for _, c in ipairs(G.playing_cards) do
-                if c and not c.debuff then
-                    local id = nil
-                    pcall(function() id = c:get_id() end)
-                    if id then
-                        rank_counts[id] = (rank_counts[id] or 0) + 1
-                        if rank_counts[id] > highest then highest = rank_counts[id]; best = id end
-                    end
-                end
-            end
-        end
+        local best = LOSTEDMOD.funcs.get_most_common_rank()
         local name = "Ace"
         if best == 14 then name = "Ace"
         elseif best == 13 then name = "King"
@@ -461,9 +448,7 @@ jd_def["j_losted_the_joker"] = {
         local text, _, scoring_hand = JokerDisplay.evaluate_hand()
         if text ~= 'Unknown' and best then
             for _, scoring_card in pairs(scoring_hand) do
-                local id = nil
-                pcall(function() id = scoring_card:get_id() end)
-                if id and id == best then
+                if scoring_card:get_id() == best then
                     xmult = xmult * ((card.ability.extra.xmult or 2.5) ^
                         JokerDisplay.calculate_card_triggers(scoring_card, scoring_hand))
                 end

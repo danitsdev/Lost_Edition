@@ -15,12 +15,18 @@ local jokerInfo = {
         if context.remove_playing_cards and not context.blueprint then
             local destroyed_count = #(context.removed or {})
             if destroyed_count > 0 then
-                card.ability.extra.mult = card.ability.extra.mult + (card.ability.extra.mult_gain * destroyed_count)
-                return {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.MULT,
-                    card = card
-                }
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "mult",
+                    scalar_value = "mult_gain",
+                    operation = function(ref_table, ref_value, initial, change)
+                        ref_table[ref_value] = initial + change * destroyed_count
+                    end,
+                    scaling_message = {
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.MULT
+                    }
+                })
             end
         end
 
@@ -30,12 +36,15 @@ local jokerInfo = {
             and context.card.ability
             and context.card.ability.set == 'Joker'
             and not context.blueprint then
-            card.ability.extra.mult = card.ability.extra.mult + card.ability.extra.mult_gain
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.MULT,
-                card = card
-            }
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "mult",
+                scalar_value = "mult_gain",
+                scaling_message = {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.MULT
+                }
+            })
         end
         
         if context.joker_main then

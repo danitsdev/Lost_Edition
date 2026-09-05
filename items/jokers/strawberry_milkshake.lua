@@ -18,11 +18,16 @@ local jokerInfo = {
                 LOSTEDMOD.funcs.destroy_joker(card)
                 return { message = localize('k_eaten_ex'), colour = G.C.FILTER }
             else
-                card.ability.extra.Xchips = card.ability.extra.Xchips - card.ability.extra.Xchips_loss
-                return {
-                    message = localize { type = 'variable', key = 'a_xchips_minus', vars = { card.ability.extra.Xchips_loss } },
-                    colour = G.C.CHIPS
-                }
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "Xchips",
+                    scalar_value = "Xchips_loss",
+                    operation = '-',
+                    scaling_message = {
+                        message = localize { type = 'variable', key = 'a_xchips_minus', vars = { card.ability.extra.Xchips_loss } },
+                        colour = G.C.CHIPS
+                    }
+                })
             end
         end
         if context.joker_main then

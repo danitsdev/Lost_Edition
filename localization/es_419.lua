@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Funda Evolutiva',
+                text = {
+                    'Por cada {C:attention}apuesta inicial par{} mayor que 3,',
+                    'gana {C:attention}+1{} de tamaño de mano',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Funda de la Fortuna',
+                text = {
+                    'Duplica {C:attention}todas las',
+                    '{C:green,E:1,S:1.1}probabilidades',
+                    '{C:inactive}(ej.: {C:green}1 de 3{C:inactive} -> {C:green}2 de 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Funda Caótica',
+                text = {
+                    'Todas las cartas son aleatorias,',
+                    'limitadas a {C:attention}6 categorías{} y {C:attention}2 palos{}',
+                    'Comienza la partida con {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} de tamaño base de la Ciega',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Funda Medieval',
+                text = {
+                    '{C:attention}+#1#{} ranura de comodín',
+                    'A partir de la apuesta inicial 2,',
+                    '{C:attention}todas{} las ciegas son {C:attention}ciegas jefe{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='¡Uy! Puros 1',
@@ -1189,28 +1223,14 @@ return {
             k_even = 'par',
             k_odd = 'impar',
             k_nothing_ex = 'Nada para Beta',
-
-        k_losted_config_game = 'Juego',
-        k_losted_config_audio_visual = 'Audio y visuales',
-        k_losted_music_label = 'Banda Sonora',
+            k_losted_music_label = 'Banda Sonora',
             k_losted_music_ost1 = 'Lost Edition OST por Gulira',
             k_losted_music_ost2 = 'Balatro OST por LouisF',
 
-            k_losted_themes_tab = 'Temas',
-            k_losted_theme_label = 'Tema Seleccionado',
-            k_losted_apply_button = 'Aplicar Tema',
-            k_losted_loading_themes = 'Cargando temas...',
 
-            k_fast_forward_label = 'Avance Rápido',
-            k_status_text_label = 'Pop-ups de Texto',
 
-            k_fast_forward_off = 'Apagado',
-            k_fast_forward_planets = 'Solo en Planetas',
-            k_fast_forward_on = 'Todo (Rápido)',
-            k_status_text_all = 'Todos',
-            k_status_text_less_annoying = 'Menos Molesto',
-            k_status_text_no_misc = 'Ocultar Extras',
-            k_status_text_none = 'Ninguno',
+
+
         },
         v_dictionary = {
             a_xchips = 'X#1# Fichas',

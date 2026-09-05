@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Pochette Évolutive',
+                text = {
+                    'Pour chaque {C:attention}mise initiale paire{} supérieure à 3,',
+                    'gagnez {C:attention}+1{} à la taille de la main',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Pochette Fortune',
+                text = {
+                    'Double {C:attention}toutes les',
+                    '{C:green,E:1,S:1.1}probabilités',
+                    '{C:inactive}(ex: {C:green}1 sur 3{C:inactive} -> {C:green}2 sur 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Pochette Chaotique',
+                text = {
+                    'Toutes les cartes sont aléatoires,',
+                    'limitées à {C:attention}6 valeurs{} et {C:attention}2 couleurs{}',
+                    'Commencez la partie avec {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}x#2#{} à la taille de base de la Blinde',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Pochette Médiévale',
+                text = {
+                    '{C:attention}+#1#{} emplacement de Joker',
+                    'À partir de la mise initiale 2,',
+                    '{C:attention}toutes{} les Blindes sont des {C:attention}Blindes Boss{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='Oups ! Que des 1',
@@ -1187,28 +1221,14 @@ return {
             k_even = 'paire',
             k_odd = 'impaire',
             k_nothing_ex = 'Rien pour Bêta',
-
-        k_losted_config_game = 'Jeu',
-        k_losted_config_audio_visual = 'Audio et visuels',
-        k_losted_music_label = 'Bande-son',
+            k_losted_music_label = 'Bande-son',
             k_losted_music_ost1 = 'Lost Edition OST par Gulira',
             k_losted_music_ost2 = 'Balatro OST par LouisF',
 
-            k_losted_themes_tab = 'Thèmes',
-            k_losted_theme_label = 'Thème sélectionné',
-            k_losted_apply_button = 'Appliquer le thème',
-            k_losted_loading_themes = 'Chargement des thèmes...',
 
-            k_fast_forward_label = 'Avance rapide',
-            k_status_text_label = 'Pop-ups de texte',
 
-            k_fast_forward_off = 'Désactivé',
-            k_fast_forward_planets = 'Planètes seulement',
-            k_fast_forward_on = 'Tout (Rapide)',
-            k_status_text_all = 'Tous',
-            k_status_text_less_annoying = 'Moins gênant',
-            k_status_text_no_misc = 'Masquer divers',
-            k_status_text_none = 'Aucun',
+
+
         },
         v_dictionary = {
             a_xchips = 'x#1# Jetons',

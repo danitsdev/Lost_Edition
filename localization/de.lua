@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Evolutions-Hülle',
+                text = {
+                    'Für jede {C:attention}gerade Ante{} größer als 3,',
+                    'erhalte {C:attention}+1{} Handgröße',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Glücks-Hülle',
+                text = {
+                    'Verdoppelt {C:attention}alle aufgelisteten',
+                    '{C:green,E:1,S:1.1}Wahrscheinlichkeiten',
+                    '{C:inactive}(Bsp.: {C:green}1 zu 3{C:inactive} -> {C:green}2 zu 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Chaotische Hülle',
+                text = {
+                    'Alle Karten sind zufällig,',
+                    'limitiert auf {C:attention}6 Ränge{} und {C:attention}2 Farben{}',
+                    'Beginne den Durchlauf mit {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} Basis-Blind-Größe',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Mittelalter-Hülle',
+                text = {
+                    '{C:attention}+#1#{} Joker-Slot',
+                    'Ab Ante 2 sind',
+                    '{C:attention}alle{} Blinds {C:attention}Boss Blinds{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='Upps! Alles 1en',
@@ -1185,28 +1219,14 @@ return {
             k_even = 'gerade',
             k_odd = 'ungerade',
             k_nothing_ex = 'Nichts für Beta',
-
-        k_losted_config_game = 'Spiel',
-        k_losted_config_audio_visual = 'Audio & Grafik',
-        k_losted_music_label = 'Soundtrack',
+            k_losted_music_label = 'Soundtrack',
             k_losted_music_ost1 = 'Lost Edition OST von Gulira',
             k_losted_music_ost2 = 'Balatro OST von LouisF',
 
-            k_losted_themes_tab = 'Themen',
-            k_losted_theme_label = 'Ausgewähltes Thema',
-            k_losted_apply_button = 'Thema anwenden',
-            k_losted_loading_themes = 'Lade Themen...',
 
-            k_fast_forward_label = 'Vorspulen',
-            k_status_text_label = 'Text-Pop-ups',
 
-            k_fast_forward_off = 'Aus',
-            k_fast_forward_planets = 'Nur Planeten',
-            k_fast_forward_on = 'Alles (Schnell)',
-            k_status_text_all = 'Alle',
-            k_status_text_less_annoying = 'Weniger nervig',
-            k_status_text_no_misc = 'Verschiedenes ausblenden',
-            k_status_text_none = 'Keine',
+
+
         },
         v_dictionary = {
             a_xchips = 'X#1# Chips',

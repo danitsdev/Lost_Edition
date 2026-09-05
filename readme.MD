@@ -20,7 +20,7 @@ Lost Edition is built with love by members of the Balatro modding community. It 
 ## Requirements
 Lost Edition requires the following:
 
-- Steamodded ≥ `1.0.0~BETA-1814a`
+- Steamodded ≥ `26.829.0`
 - Lovely ≥ `0.9.0`
 
 If these are missing or outdated, the mod will not load correctly.

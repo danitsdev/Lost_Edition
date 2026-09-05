@@ -18,12 +18,18 @@ local jokerInfo = {
                 (G.GAME.interest_cap or 25)/5
             )
             if total_interest > 0 then
-                card.ability.extra.chips = card.ability.extra.chips + total_interest * card.ability.extra.chips_per_dollar
-                return {
-                    message = localize('k_upgrade_ex'),
-                    colour = G.C.CHIPS,
-                    card = card
-                }
+                SMODS.scale_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "chips",
+                    scalar_value = "chips_per_dollar",
+                    operation = function(ref_table, ref_value, initial, change)
+                        ref_table[ref_value] = initial + total_interest * change
+                    end,
+                    scaling_message = {
+                        message = localize('k_upgrade_ex'),
+                        colour = G.C.CHIPS
+                    }
+                })
             end
         end
         if context.joker_main and to_big(card.ability.extra.chips) > to_big(0) then

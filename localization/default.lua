@@ -52,6 +52,40 @@ return {
                 }
             },
         },
+        Sleeve = {
+            sleeve_losted_evolutionary = {
+                name = 'Evolutionary Sleeve',
+                text = {
+                    'For each {C:attention}even ante{} greater than 3,',
+                    'gain {C:attention}+1{} hand size',
+                },
+            },
+            sleeve_losted_fortune = {
+                name = 'Fortune Sleeve',
+                text = {
+                    'Doubles {C:attention}all listed',
+                    '{C:green,E:1,S:1.1}probabilities',
+                    '{C:inactive}(ex: {C:green}1 in 3{C:inactive} -> {C:green}2 in 3{C:inactive})',
+                },
+            },
+            sleeve_losted_chaotic = {
+                name = 'Chaotic Sleeve',
+                text = {
+                    'All cards are randomized',
+                    'limited to {C:attention}6 ranks{} and {C:attention}2 suits{}',
+                    'Start run with {C:attention,T:v_overstock_norm}#1#{}',
+                    '{C:red}X#2#{} base Blind size',
+                },
+            },
+            sleeve_losted_medieval = {
+                name = 'Medieval Sleeve',
+                text = {
+                    '{C:attention}+#1#{} Joker slot',
+                    'Starting from Ante 2,',
+                    '{C:attention}All{} Blinds are {C:attention}Boss Blinds{}',
+                },
+            },
+        },
         Blind = {
             bl_losted_all_ones = {
                 name='Oops! All 1s',
@@ -1148,6 +1182,30 @@ return {
                 },
             },
         },
+        --!!!DO NOT TRANSLATE THIS PART!!!--
+        Mod = {
+            LostEdition = {
+                name = "Lost Edition",
+                text = {
+                    "An unofficial Balatro expansion featuring",
+                    "mysterious lost cards and unexpected surprises.",
+                    " ",
+                    "Consider joining our {C:dark_edition}Discord Server{}",
+                    " ",
+                    "{s:1.3,C:attention,E:2}Contributors",
+                    "{C:white,E:2}Direction{C:inactive} — {C:dark_edition}Click no Paulo{C:inactive}, {C:dark_edition}Danitsdev{}",
+                    "{C:white,E:2}Art{C:inactive} — {C:dark_edition}Click no Paulo{C:inactive}, {C:dark_edition}Wellyson{C:inactive}, {C:dark_edition}Xose{C:inactive}, {C:dark_edition}Henry{C:inactive}, {C:dark_edition}Roger{C:inactive}, {C:dark_edition}Timba{}",
+                    "{C:white,E:2}Code{C:inactive} — {C:dark_edition}Danitsdev{C:inactive}, {C:dark_edition}Ilumino{C:inactive}, {C:dark_edition}Evelyn{}",
+                    "{C:white,E:2}Music{C:inactive} — {C:dark_edition}Gulira{}",
+                    "{C:white,E:2}Testing{C:inactive} — {C:dark_edition}Galves{C:inactive}, {C:dark_edition}Wellyson{C:inactive}, {C:dark_edition}Xose{}",
+                    " ",
+                    "{s:1.3,C:attention,E:2}Special Thanks",
+                    "{C:white}LocalThunk{C:inactive} & {C:white}our community{}",
+                    " ",
+                    "Made with {C:dark_edition}<3{} in {C:dark_edition}Brazil{}",
+                }
+            }
+        },
     },
     misc = {
         challenge_names = {
@@ -1181,27 +1239,13 @@ return {
             k_odd = 'odd',
             k_nothing_ex = 'Nothing for Beta',
 
-        k_losted_config_game = 'Game',
-        k_losted_config_audio_visual = 'Audio & Visuals',
-        k_losted_music_label = 'Soundtrack',
+            k_losted_music_label = 'Soundtrack',
             k_losted_music_ost1 = 'Lost Edition OST by Gulira',
             k_losted_music_ost2 = 'Balatro OST by LouisF',
 
-            k_losted_themes_tab = 'Themes',
-            k_losted_theme_label = 'Selected Theme',
-            k_losted_apply_button = 'Apply Theme',
-            k_losted_loading_themes = 'Loading themes...',
 
-            k_fast_forward_label = 'Fast-Forward',
-            k_status_text_label = 'Text Pop-ups',
 
-            k_fast_forward_off = 'Off',
-            k_fast_forward_planets = 'Planets Only',
-            k_fast_forward_on = 'Everything (Fast)',
-            k_status_text_all = 'All',
-            k_status_text_less_annoying = 'Less Annoying',
-            k_status_text_no_misc = 'Hide Misc',
-            k_status_text_none = 'None',
+
 
             -- Lost Edition: Credits section labels
             le_credits_direction = 'Direction',
@@ -1210,6 +1254,8 @@ return {
             le_credits_coding = 'Coding',
             le_credits_beta = 'Beta Testers',
             le_credits_thanks = 'Special Thanks',
+            le_credits_subtitle = 'An unofficial expansion',
+            le_credits_community = 'Community',
         },
         v_dictionary = {
             a_xchips = 'X#1# Chips',

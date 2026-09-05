@@ -312,7 +312,56 @@ SMODS.Shader{
     path = 'plasma.fs'
 }
 
--- Sound definitions
+SMODS.Sound({
+    key = "losted_music1",
+    path = "losted_music.ogg",
+    select_music_track = function()
+        return (G.SETTINGS.music_selection == "losted") and 10 or false
+    end,
+    vol = 0.6,
+    pitch = 1,
+})
+
+SMODS.Sound({
+    key = "losted_music2",
+    path = "losted_music.ogg",
+    select_music_track = function()
+        return (G.SETTINGS.music_selection == "losted" and G.booster_pack_sparkles and not G.booster_pack_sparkles.REMOVED) and 11 or false
+    end,
+    vol = 0.55,
+    pitch = 1.05,
+})
+
+SMODS.Sound({
+    key = "losted_music3",
+    path = "losted_music.ogg",
+    select_music_track = function()
+        return (G.SETTINGS.music_selection == "losted" and G.booster_pack_meteors and not G.booster_pack_meteors.REMOVED) and 11 or false
+    end,
+    vol = 0.5,
+    pitch = 0.95,
+})
+
+SMODS.Sound({
+    key = "losted_music4",
+    path = "losted_music.ogg",
+    select_music_track = function()
+        return (G.SETTINGS.music_selection == "losted" and G.shop and not G.shop.REMOVED) and 11 or false
+    end,
+    vol = 0.5,
+    pitch = 0.92,
+})
+
+SMODS.Sound({
+    key = "losted_music5",
+    path = "losted_music.ogg",
+    select_music_track = function()
+        return (G.SETTINGS.music_selection == "losted" and G.GAME.blind and G.GAME.blind.boss) and 11 or false
+    end,
+    vol = 0.7,
+    pitch = 1.08,
+})
+
 SMODS.Sound{
     key = 'whistle',
     path = 'whistle.ogg'

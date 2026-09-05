@@ -39,14 +39,13 @@ local jokerInfo = {
         end
     end,
     check_for_unlock = function(self, args)
-        if args.type == 'hand' then
-            local gold_sixes = 0
-            for _, card in ipairs(args.scoring_hand) do
-                if card:get_id() == 6 and SMODS.has_enhancement(card, 'm_gold') then
-                    gold_sixes = gold_sixes + 1
+        if args.type == 'hand' and args.handname == 'Three of a Kind' and #args.scoring_hand == 3 then
+            for _, scoring_card in ipairs(args.scoring_hand) do
+                if scoring_card:get_id() ~= 6 or not SMODS.has_enhancement(scoring_card, 'm_gold') then
+                    return false
                 end
             end
-            return gold_sixes == 3
+            return true
         end
         return false
     end

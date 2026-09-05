@@ -63,7 +63,6 @@ local jokerInfo = {
             }
         end
     end,
-    -- The idea is to decrease the chance each time you get caught, it's not the best solution to decrease your strength but a good try lol
     in_pool = function(self, args)
         local times_activated = G.GAME.round_resets.sticky_activated or 0
         if times_activated == 0 then
@@ -74,10 +73,9 @@ local jokerInfo = {
     end,
     check_for_unlock = function(self, args)
         if args.type == 'win' then
-            if G.jokers and #G.jokers.cards >= self.config.extra.unlock_req then
-                unlock_card(self)
-            end
+            return G.jokers and #G.jokers.cards >= self.config.extra.unlock_req
         end
+        return false
     end
 }
 

@@ -48,7 +48,6 @@ local jokerInfo = {
             }
         end
     end,
-    -- The idea is to decrease the chance each time you get caught, it's not the best solution to decrease your strength but a good try lol
     in_pool = function(self, args)
         local times_activated = G.GAME.round_resets.sarcophagus_activated or 0
         if times_activated == 0 then

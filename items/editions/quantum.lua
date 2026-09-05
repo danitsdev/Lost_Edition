@@ -12,7 +12,7 @@ local editionInfo = {
     in_shop = true,
     weight = 3,
     extra_cost = 5,
-    apply_to_float = true,
+    apply_to_float = false,
     sound = { sound = 'holo1', per = 1.35, vol = 0.5 },
     loc_vars = function(self, info_queue, card)
         return { vars = { self.config.extra.retriggers } }

@@ -7,8 +7,8 @@ local jokerInfo = {
     unlocked = true,
 
     no_mod_badges = true,
-    no_collection = true,
     no_doe = true,
+    no_collection = true,
 
     blueprint_compat = false,
     eternal_compat = false,

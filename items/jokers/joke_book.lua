@@ -14,21 +14,27 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.before and context.main_eval and context.scoring_name == card.ability.extra.poker_hand and
             not context.blueprint then
-            card.ability.extra.xmult = card.ability.extra.xmult + card.ability.extra.xmult_gain
-            return {
-                message = localize('k_upgrade_ex'),
-                colour = G.C.MULT
-            }
+            SMODS.scale_card(card, {
+                ref_table = card.ability.extra,
+                ref_value = "xmult",
+                scalar_value = "xmult_gain",
+                scaling_message = {
+                    message = localize('k_upgrade_ex'),
+                    colour = G.C.MULT
+                }
+            })
         end
         
         if context.before and context.main_eval and context.scoring_name ~= card.ability.extra.poker_hand and
             not context.blueprint then
             if to_big(card.ability.extra.xmult) > to_big(1) then
-                card.ability.extra.xmult = 1
-                return {
-                    message = localize('k_reset'),
-                    colour = G.C.RED
-                }
+                SMODS.reset_card(card, {
+                    ref_table = card.ability.extra,
+                    ref_value = "xmult",
+                    reset_value = 1,
+                    message_key = 'k_reset',
+                    message_colour = G.C.RED
+                })
             end
         end
         

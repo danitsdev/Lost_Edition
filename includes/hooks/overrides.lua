@@ -151,9 +151,9 @@ function SMODS.calculate_main_scoring(context, scoring_hand)
     end
 
     for _, card in ipairs(cards) do
-        if card and card.ability and card.config and card.config.center and
-            card.ability.set == 'Enhanced' and card.config.center.post_effect and
-            not card.debuff then
+        local center = card and card.config and card.config.center
+        if center and center.post_effect and card.ability and
+            card.ability.set == 'Enhanced' and not card.debuff then
             local post_context = LOSTEDMOD.funcs.build_smods_post_context(card, context, scoring_hand)
             post_context.losted_post_effect_pass = true
             local effect = losted_post_eval_card(card, post_context)
@@ -424,6 +424,12 @@ if type(get_new_boss) == 'function' and not LOSTEDMOD.get_new_boss_bosses_used_s
     local losted_get_new_boss_ref = get_new_boss
     function get_new_boss(...)
         LOSTEDMOD.funcs.ensure_bosses_used()
+        -- Ensure all bosses have a numeric value to prevent nil arithmetic
+        for k, _ in pairs(G.P_BLINDS or {}) do
+            if G.P_BLINDS[k].boss and G.GAME.bosses_used[k] == nil then
+                G.GAME.bosses_used[k] = 0
+            end
+        end
         return losted_get_new_boss_ref(...)
     end
     LOSTEDMOD.get_new_boss_bosses_used_safe = true
@@ -498,10 +504,29 @@ end
 -- Queue the first result so context modifiers (probabilities, draw amount, etc.)
 -- compose on the retrigger instead of both calculations reading the same input.
 function LOSTEDMOD.funcs.queue_quantum_context(card, effect, repetitions)
+    local queued = card.losted_quantum_context_queue
+    local queued_count = queued and #queued or 0
+    local repetition_count = math.max(0, math.floor(tonumber(repetitions) or 1))
+    LOSTEDMOD.quantum_context_queue_count = math.max(0,
+        (LOSTEDMOD.quantum_context_queue_count or 0) - queued_count) + repetition_count
+    LOSTEDMOD.has_quantum_context_queue = LOSTEDMOD.quantum_context_queue_count > 0
+    if repetition_count == 0 then
+        card.losted_quantum_context_queue = nil
+        return
+    end
     card.losted_quantum_context_queue = {}
-    for _ = 1, repetitions or 1 do
+    for _ = 1, repetition_count do
         card.losted_quantum_context_queue[#card.losted_quantum_context_queue + 1] = effect or false
     end
+end
+
+function LOSTEDMOD.funcs.clear_quantum_context_queue(card)
+    local queue = card and card.losted_quantum_context_queue
+    if not queue then return end
+    LOSTEDMOD.quantum_context_queue_count = math.max(0,
+        (LOSTEDMOD.quantum_context_queue_count or 0) - #queue)
+    LOSTEDMOD.has_quantum_context_queue = LOSTEDMOD.quantum_context_queue_count > 0
+    card.losted_quantum_context_queue = nil
 end
 
 -- Some SMODS Better Calc paths execute Joker retriggers with
@@ -538,6 +563,9 @@ end
 
 local losted_card_calculate_joker_ref = Card.calculate_joker
 function Card:calculate_joker(context, ...)
+    if not LOSTEDMOD.has_quantum_context_queue then
+        return losted_card_calculate_joker_ref(self, context, ...)
+    end
     local queue = self.losted_quantum_context_queue
     -- SMODS normally stores the retriggering Joker in context.retrigger_joker,
     -- but some Better Calc scoring paths still pass a plain boolean `true`.
@@ -547,6 +575,9 @@ function Card:calculate_joker(context, ...)
     end
 
     local original_effect = table.remove(queue, 1)
+    LOSTEDMOD.quantum_context_queue_count = math.max(0,
+        (LOSTEDMOD.quantum_context_queue_count or 0) - 1)
+    LOSTEDMOD.has_quantum_context_queue = LOSTEDMOD.quantum_context_queue_count > 0
     if #queue == 0 then self.losted_quantum_context_queue = nil end
     if original_effect and SMODS.update_context_flags then
         SMODS.update_context_flags(context, original_effect)
@@ -568,36 +599,18 @@ function Card:calculate_joker(context, ...)
     return ret, triggered
 end
 
-local function losted_normalize_direct_quantum_ret(ret)
-    if ret == true then ret = { remove = true } end
-    if type(ret) == 'table' then
-        ret.no_retrigger = true
-        ret.losted_quantum_direct_copy = true
-        return ret
+-- SMODS handles Quantum Joker retriggers via quantum.lua (retrigger_joker_check)
+-- and the queue-based Card:calculate_joker wrapper above (lines 543-572).
+-- Direct inline fallback here is redundant and caused 3x execution on failed rolls.
+
+LOSTEDMOD.vars.active_welder_cache_dirty = true
+
+function LOSTEDMOD.funcs.invalidate_active_joker_cache(card)
+    local center = card and card.config and card.config.center
+    local key = center and center.key
+    if key == 'j_losted_welder' then
+        LOSTEDMOD.vars.active_welder_cache_dirty = true
     end
-end
-
-local losted_card_calculate_joker_quantum_ref = Card.calculate_joker
-function Card:calculate_joker(context, ...)
-    local ret, triggered = losted_card_calculate_joker_quantum_ref(self, context, ...)
-    if ret or triggered or not LOSTEDMOD.funcs.should_quantum_copy_joker(self, context) then
-        return ret, triggered
-    end
-
-    local args = { ... }
-    local arg_count = select('#', ...)
-    local copy_ret, copy_triggered
-    local old_quantum_copy = context.losted_quantum_copy
-    context.losted_quantum_copy = true
-    local restore_quantum_copy_state = losted_prepare_quantum_copy(self, context)
-    local ok, err = xpcall(function()
-        copy_ret, copy_triggered = losted_card_calculate_joker_ref(self, context, unpack(args, 1, arg_count))
-    end, debug and debug.traceback or function(e) return e end)
-    if restore_quantum_copy_state then restore_quantum_copy_state() end
-    context.losted_quantum_copy = old_quantum_copy
-    if not ok then error(err, 0) end
-
-    return losted_normalize_direct_quantum_ret(copy_ret), triggered or copy_triggered
 end
 
 -- End-of-round money is not a calculate_joker context in vanilla; Jokers such
@@ -636,7 +649,7 @@ function LOSTEDMOD.funcs.sync_quantum_managed_lifecycle(card, removing)
         return false
     end
 
-    local slots = card.ability.extra.slots or 0
+    local slots = (card.ability.extra and tonumber(card.ability.extra.slots)) or 0
     local applied = card.ability.extra.losted_consumable_slots_applied or 0
     local quantum_count = (card.edition and card.edition.losted_quantum) and
         LOSTEDMOD.funcs.get_quantum_retriggers(card) or 0
@@ -741,10 +754,16 @@ function Card:add_to_deck(from_debuff)
     if not was_added and self.added_to_deck then
         LOSTEDMOD.funcs.apply_quantum_lifecycle(self)
     end
+    LOSTEDMOD.funcs.invalidate_active_joker_cache(self)
+    if LOSTEDMOD.funcs.invalidate_most_common_rank_cache and self.ability and
+        (self.ability.set == 'Default' or self.ability.set == 'Enhanced') then
+        LOSTEDMOD.funcs.invalidate_most_common_rank_cache()
+    end
     return result
 end
 
 function Card:remove_from_deck(from_debuff)
+    LOSTEDMOD.funcs.clear_quantum_context_queue(self)
     local removed_quantum_lifecycle
     if self.added_to_deck or self.losted_quantum_lifecycle_applied then
         removed_quantum_lifecycle = LOSTEDMOD.funcs.remove_quantum_lifecycle(self)
@@ -753,6 +772,11 @@ function Card:remove_from_deck(from_debuff)
     local result = losted_card_remove_from_deck_ref(self, from_debuff)
     self.losted_quantum_lifecycle_removed_this_call = nil
     LOSTEDMOD.funcs.sync_quantum_managed_lifecycle(self, true)
+    LOSTEDMOD.funcs.invalidate_active_joker_cache(self)
+    if LOSTEDMOD.funcs.invalidate_most_common_rank_cache and self.ability and
+        (self.ability.set == 'Default' or self.ability.set == 'Enhanced') then
+        LOSTEDMOD.funcs.invalidate_most_common_rank_cache()
+    end
     return result
 end
 

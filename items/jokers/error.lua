@@ -38,7 +38,6 @@ local jokerInfo = {
                         'e_foil',
                         'e_holo',
                         'e_polychrome',
-                        'e_losted_quantum',
                     },
                 })
                 local new_suit = pseudorandom_element(SMODS.Suits, pseudoseed(suit_seed)).key

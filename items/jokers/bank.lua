@@ -6,7 +6,7 @@ local jokerInfo = {
     cost = 6,
     unlocked = true,
     blueprint_compat = true,
-    config = { extra = { xmult_per_group = 0.25, dollars_per_group = 10 } },
+    config = { extra = { xmult_per_group = 0.3, dollars_per_group = 10 } },
     loc_vars = function(self, info_queue, card)
         local current_dollars = to_number((G.GAME.dollars or 0) + (G.GAME.dollar_buffer or 0))
         local dollars_per_group = tonumber(card.ability.extra.dollars_per_group)

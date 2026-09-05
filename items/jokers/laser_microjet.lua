@@ -30,29 +30,39 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.rescore_cards then
             local rescored_card = context.rescore_cards[1]
-            local condition = true
-            for _, seen_card in ipairs(card.ability.extra.cards_rescored) do
-                if rescored_card == seen_card then
-                    condition = false
-                    break
-                end
+
+            -- Build a tracking key from the activation source so each copier
+            -- gets its own independent chance while still preventing infinite
+            -- loops (Diamond's while loop would re-enter otherwise).
+            -- context.blueprint_copier is set by SMODS for each copy card
+            -- and has a unique unique_val per copier, so this naturally handles
+            -- any number of Blueprints / Brainys without hardcoded suffixes.
+            local source = context.blueprint_copier or card
+            local tracking_key = tostring(rescored_card.unique_val)
+                .. '_' .. tostring(source.unique_val)
+            if context.losted_quantum_copy then
+                tracking_key = tracking_key .. '_q'
             end
 
-            if condition and SMODS.pseudorandom_probability(
+            if card.ability.extra.cards_rescored[tracking_key] then
+                return
+            end
+
+            card.ability.extra.cards_rescored[tracking_key] = true
+
+            if SMODS.pseudorandom_probability(
                     card,
-                    'losted_laser_microjet_' .. tostring(card.unique_val)
-                        .. '_' .. tostring(rescored_card.unique_val),
+                    'losted_laser_microjet_' .. tracking_key,
                     1,
                     card.ability.extra.odds,
                     'losted_laser_microjet'
                 ) then
                 rescored_card.config.diamond_rescored_times =
                     rescored_card.config.diamond_rescored_times - 1
-                card.ability.extra.cards_rescored[#card.ability.extra.cards_rescored + 1] = rescored_card
                 return {
                     message = '+1',
                     colour = G.C.CHIPS,
-                    card = card,
+                    card = context.blueprint_card or card,
                 }
             end
         end
@@ -64,7 +74,7 @@ local jokerInfo = {
     check_for_unlock = function(self, args)
         if args.type == 'hand' then
             local diamond_cards = 0
-            for _, card in ipairs(args.scoring_hand) do
+            for _, card in ipairs(args.full_hand) do
                 if SMODS.has_enhancement(card, 'm_losted_diamond') then
                     diamond_cards = diamond_cards + 1
                 end
