@@ -26,9 +26,7 @@ local backInfo = {
 function LOSTEDMOD.funcs.update_medieval_boss_rush()
     if not (G and G.GAME and G.GAME.modifiers and G.GAME.round_resets) then return end
 
-    local selected_back = G.GAME.selected_back
-    local back_center = selected_back and selected_back.effect and selected_back.effect.center
-    local medieval_deck = back_center and back_center.key == 'b_losted_medieval'
+    local medieval_deck = LOSTEDMOD.funcs.back_active('b_losted_medieval')
     local medieval_sleeve = G.GAME.selected_sleeve == 'sleeve_losted_medieval'
     if not (medieval_deck or medieval_sleeve) then return end
 

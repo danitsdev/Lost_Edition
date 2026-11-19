@@ -1,0 +1,29 @@
+[manifest]
+version = "1.0.0"
+dump_lua = true
+priority = 9999999
+
+# Devaluation: allow vanilla royal-rank Jokers (Baron, Shoot the Moon, Hit the Road, Triboulet) to match any royal rank
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = 'context.other_card:get_id() == 11'
+position = 'at'
+payload = 'context.other_card:losted_is_rank(11)'
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = 'context.other_card:get_id() == 12'
+position = 'at'
+payload = 'context.other_card:losted_is_rank(12)'
+match_indent = false
+
+[[patches]]
+[patches.pattern]
+target = 'card.lua'
+pattern = 'context.other_card:get_id() == 13'
+position = 'at'
+payload = 'context.other_card:losted_is_rank(13)'
+match_indent = false

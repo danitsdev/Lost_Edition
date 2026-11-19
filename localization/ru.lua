@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = 'Неаполитанская колода',
+                text = {
+                    'Сочетает эффекты',
+                    '{C:attention}3{} случайных колод',
+                    '{C:inactive}(Ванилла и Lost Edition)',
+                    '{C:inactive}#1#, #2#, #3#',
+                    '{C:attention}Нажмите{} на колоду, чтобы',
+                    'выбрать доступные колоды',
+                },
+            },
+            b_losted_eclipse = {
+                name = 'Колода Затмения',
+                text = {
+                    'За каждые {C:attention}#1#{} побеждённых',
+                    'Босс-блайнда случайный джокер',
+                    'становится {C:dark_edition}Негативным{}',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = 'Гибридная колода',
+                text = {
+                    'Карты могут иметь {C:attention}2{}',
+                    '{C:attention}Улучшения{} одновременно',
+                    '{C:inactive}(новое сохраняет старое)',
+                },
+            },
             b_losted_evolutionary = {
                 name = 'Эволюционная колода',
                 text = {
@@ -255,6 +283,48 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = 'Ва-банк',
+                text = {
+                    'При выборе {C:attention}Блайнда{}',
+                    'оставляет {C:blue}1{} руку',
+                    'и даёт {C:red}+#1#{} сброса',
+                },
+            },
+            j_losted_big_potato = {
+                name = 'Картофелина',
+                text = {
+                    '{C:mult}+#1#{} к множ. за каждую',
+                    '{C:attention}улучшенную карту{}',
+                    'в вашей полной колоде',
+                    '{C:inactive}(Сейчас {C:mult}+#2#{C:inactive} к множ.)',
+                },
+            },
+            j_losted_devaluation = {
+                name = 'Девальвация',
+                text = {
+                    '{C:attention}Короли{}, {C:attention}Дамы{} и {C:attention}Валеты{}',
+                    'считаются {C:attention}одним рангом{}',
+                    'для {C:attention}Джокеров{}',
+                },
+            },
+            j_losted_medusa = {
+                name = 'Медуза',
+                text = {
+                    'Сыгранные {C:attention}картинки{}',
+                    'становятся {C:attention}Каменными картами{}',
+                    'при подсчёте очков',
+                },
+            },
+            j_losted_roulette = {
+                name = 'Рулетка',
+                text = {
+                    'Превращает случайную сыгранную',
+                    'карту в {C:attention}самый частый',
+                    '{C:attention}ранг{} в вашей колоде',
+                    '{C:inactive}(Сейчас: {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = 'Джимболик',
                 text = {
@@ -1000,6 +1070,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = 'Поток',
+                text = {
+                    'Удаляет {C:dark_edition}выпуск{} и все',
+                    '{C:attention}наклейки{} с {C:attention}1{}',
+                    'выбранного джокера',
+                    '{C:inactive}(Вечный, Скоропортящийся, Аренда...)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = 'Душа?',
                 text = {
@@ -1198,6 +1277,12 @@ return {
             c_losted_marathon = 'Марафон',
         },
         dictionary = {
+            k_losted_neapolitan_title = 'Колоды для Неаполитанской',
+            k_losted_neapolitan_click = 'Нажмите на колоду для вкл/выкл (минимум 3 активных)',
+            k_losted_neapolitan_toggle = 'Переключить все',
+            k_losted_all_in = 'Ва-банк!',
+            k_losted_stone = 'Камень!',
+            k_losted_roulette = 'Крутим!',
             k_negative_ex = 'Негатив!',
             k_blind_selected_ex = 'Бонус блайнда!',
             k_ante_increased_ex = 'Анте увеличено!',

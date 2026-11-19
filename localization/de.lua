@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = 'Neapolitaner-Deck',
+                text = {
+                    'Mischt die Effekte von',
+                    '{C:attention}3{} zufälligen Decks',
+                    '{C:inactive}(Vanilla und Lost Edition)',
+                    '{C:inactive}#1#, #2#, #3#',
+                    '{C:attention}Klicke{} auf das Deck, um zu',
+                    'wählen, welche erscheinen können',
+                },
+            },
+            b_losted_eclipse = {
+                name = 'Finsternis-Deck',
+                text = {
+                    'Alle {C:attention}#1#{} besiegten Boss-Blinds',
+                    'wird ein zufälliger Joker',
+                    '{C:dark_edition}Negativ{}',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = 'Hybrid-Deck',
+                text = {
+                    'Karten können {C:attention}2{}',
+                    '{C:attention}Verbesserungen{} gleichzeitig haben',
+                    '{C:inactive}(neue ersetzen alte nicht)',
+                },
+            },
             b_losted_evolutionary = {
                 name = 'Evolutionsdeck',
                 text = {
@@ -255,6 +283,48 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = 'All In',
+                text = {
+                    'Wenn {C:attention}Blind{} gewählt wird,',
+                    'setze Hände auf {C:blue}1{}',
+                    'und erhalte {C:red}+#1#{} Abwürfe',
+                },
+            },
+            j_losted_big_potato = {
+                name = 'Riesenkartoffel',
+                text = {
+                    '{C:mult}+#1#{} Mult für jede',
+                    '{C:attention}verbesserte Karte{}',
+                    'in deinem gesamten Deck',
+                    '{C:inactive}(Momentan {C:mult}+#2#{C:inactive} Mult)',
+                },
+            },
+            j_losted_devaluation = {
+                name = 'Abwertung',
+                text = {
+                    '{C:attention}Könige{}, {C:attention}Damen{} und {C:attention}Buben{}',
+                    'zählen als derselbe {C:attention}Rang{}',
+                    'für {C:attention}Joker{}',
+                },
+            },
+            j_losted_medusa = {
+                name = 'Medusa',
+                text = {
+                    'Gespielte {C:attention}Bildkarten{}',
+                    'werden bei Wertung zu',
+                    '{C:attention}Stein-Karten{}',
+                },
+            },
+            j_losted_roulette = {
+                name = 'Roulette',
+                text = {
+                    'Verwandelt eine zufällige gespielte',
+                    'Karte in den {C:attention}häufigsten',
+                    '{C:attention}Rang{} in deinem Deck',
+                    '{C:inactive}(Momentan: {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = 'Jimbolino',
                 text = {
@@ -1001,6 +1071,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = 'Flux',
+                text = {
+                    'Entfernt die {C:dark_edition}Edition{} und',
+                    'alle {C:attention}Sticker{} von {C:attention}1{}',
+                    'ausgewählten Joker',
+                    '{C:inactive}(Ewig, Vergänglich, Gemietet...)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = 'Die Seele?',
                 text = {
@@ -1202,6 +1281,12 @@ return {
             c_losted_marathon = 'Marathon',
         },
         dictionary = {
+            k_losted_neapolitan_title = 'Neapolitaner-Deck-Pool',
+            k_losted_neapolitan_click = 'Klicke ein Deck zum Umschalten (mindestens 3 aktiv)',
+            k_losted_neapolitan_toggle = 'Alle umschalten',
+            k_losted_all_in = 'All In!',
+            k_losted_stone = 'Stein!',
+            k_losted_roulette = 'Gedreht!',
             k_negative_ex = 'Negativ!',
             k_blind_selected_ex = 'Blind-Bonus!',
             k_ante_increased_ex = 'Ante erhöht!',

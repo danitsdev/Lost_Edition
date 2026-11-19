@@ -1,7 +1,17 @@
 SMODS.current_mod.optional_features = function()
     return {
-        retrigger_joker = true -- Quantum edition, retrigger joker one time
+        retrigger_joker = true, -- Quantum edition, retrigger joker one time
+        quantum_enhancements = true, -- Hybrid deck, allow cards to hold two enhancements
     }
+end
+
+SMODS.current_mod.calculate = function(self, context)
+    if context.check_enhancement and context.other_card and context.other_card.ability then
+        local second = context.other_card.ability.losted_second_enh
+        if second and G.P_CENTERS[second] then
+            return { [second] = true }
+        end
+    end
 end
 
 -- Main table for the mod

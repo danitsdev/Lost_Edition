@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = 'Baralho Napolitano',
+                text = {
+                    'Mistura os efeitos de',
+                    '{C:attention}3{} baralhos aleatórios',
+                    '{C:inactive}(Vanilla e Lost Edition)',
+                    '{C:inactive}#1#, #2#, #3#',
+                    '{C:attention}Clique{} no baralho para',
+                    'escolher quais podem sair',
+                },
+            },
+            b_losted_eclipse = {
+                name = 'Baralho Eclipse',
+                text = {
+                    'A cada {C:attention}#1#{} Blinds de Chefe',
+                    'derrotados, um Coringa',
+                    'aleatório vira {C:dark_edition}Negativo{}',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = 'Baralho Híbrido',
+                text = {
+                    'Cartas podem ter {C:attention}2{}',
+                    '{C:attention}melhorias{} ao mesmo tempo',
+                    '{C:inactive}(a nova não substitui a antiga)',
+                },
+            },
             b_losted_evolutionary = {
                 name = 'Baralho Evolutivo',
                 text = {
@@ -251,6 +279,48 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = 'All In',
+                text = {
+                    'Ao selecionar o {C:attention}Blind{},',
+                    'fica com apenas {C:blue}1{} mão',
+                    'e ganha {C:red}+#1#{} descartes',
+                },
+            },
+            j_losted_big_potato = {
+                name = 'Batatão',
+                text = {
+                    '{C:mult}+#1#{} Multi para cada',
+                    '{C:attention}carta melhorada{}',
+                    'no seu baralho completo',
+                    '{C:inactive}(No momento {C:mult}+#2#{C:inactive} Multi)',
+                },
+            },
+            j_losted_devaluation = {
+                name = 'Desvalorização',
+                text = {
+                    '{C:attention}Reis{}, {C:attention}Rainhas{} e {C:attention}Valetes{}',
+                    'contam como a {C:attention}mesma classe{}',
+                    'para os {C:attention}Coringas{}',
+                },
+            },
+            j_losted_medusa = {
+                name = 'Medusa',
+                text = {
+                    'Cartas de {C:attention}realeza{} jogadas',
+                    'viram {C:attention}Cartas de Pedra{}',
+                    'ao pontuar',
+                },
+            },
+            j_losted_roulette = {
+                name = 'Roleta',
+                text = {
+                    'Transforma uma carta jogada',
+                    'aleatória na {C:attention}classe mais',
+                    '{C:attention}comum{} do seu baralho',
+                    '{C:inactive}(No momento: {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = 'Jimbolinha',
                 text = {
@@ -1003,6 +1073,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = 'Flux',
+                text = {
+                    'Remove a {C:dark_edition}edição{} e todos',
+                    'os {C:attention}adesivos{} de {C:attention}1{}',
+                    'Coringa selecionado',
+                    '{C:inactive}(Eterno, Perecível, Aluguel...)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = 'A Alma?',
                 text = {
@@ -1205,6 +1284,12 @@ return {
             c_losted_marathon = 'Maratona',
         },
         dictionary = {
+            k_losted_neapolitan_title = 'Baralhos do Napolitano',
+            k_losted_neapolitan_click = 'Clique em um baralho para ligar/desligar (mínimo 3 ativos)',
+            k_losted_neapolitan_toggle = 'Alternar Todos',
+            k_losted_all_in = 'All In!',
+            k_losted_stone = 'Pedra!',
+            k_losted_roulette = 'Girou!',
             k_negative_ex = 'Negativo!',
             k_blind_selected_ex = 'Bônus de Blind!',
             k_ante_increased_ex = 'Aposta aumentada!',

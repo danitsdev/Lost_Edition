@@ -10,7 +10,7 @@ local jokerInfo = {
         if context.repetition and context.cardarea == G.play and context.other_card == context.scoring_hand[1] then
             local jacks_in_hand = 0
             for _, held_card in ipairs(G.hand.cards) do
-                if held_card.base.id == 11 then
+                if held_card:losted_is_rank(11) then
                     jacks_in_hand = jacks_in_hand + 1
                 end
             end
