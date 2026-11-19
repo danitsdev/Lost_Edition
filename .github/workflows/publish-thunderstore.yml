@@ -24,7 +24,7 @@ concurrency:
 
 env:
   COMMUNITY: balatro
-  CATEGORIES: '"content-mod", "jokers", "decks"'
+  CATEGORIES: '"mods", "content-mod", "mechanics", "audio", "textures"'
   EXCLUDE: .github .gitignore
   TCLI_VERSION: 0.2.4
 
