@@ -312,6 +312,21 @@ SMODS.Shader{
     path = 'plasma.fs'
 }
 
+SMODS.Shader{
+    key = 'hybrid_cutout',
+    path = 'hybrid_cutout.fs'
+}
+
+SMODS.Shader{
+    key = 'hybrid_blend',
+    path = 'hybrid_blend.fs'
+}
+
+SMODS.Shader{
+    key = 'hybrid_glass',
+    path = 'hybrid_glass.fs'
+}
+
 SMODS.Sound({
     key = "losted_music1",
     path = "losted_music.ogg",

@@ -1,6 +1,32 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = '三色牌组',
+                text = {
+                    '融合{C:attention}3{}个随机牌组的效果',
+                    '{C:inactive}（原版与Lost Edition）',
+                    '{C:inactive}#1#、#2#、#3#',
+                    '{C:attention}点击{}牌组可选择',
+                    '哪些牌组能够出现',
+                },
+            },
+            b_losted_eclipse = {
+                name = '日蚀牌组',
+                text = {
+                    '每击败{C:attention}#1#{}个Boss盲注，',
+                    '随机一张小丑牌变为{C:dark_edition}负片{}',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = '混合牌组',
+                text = {
+                    '卡牌可同时拥有{C:attention}2{}种',
+                    '{C:attention}增强效果{}',
+                    '{C:inactive}（新增强会保留旧增强）',
+                },
+            },
             b_losted_evolutionary = {
                 name = '进化牌组',
                 text = {
@@ -252,6 +278,46 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = '全押',
+                text = {
+                    '选择{C:attention}盲注{}时，',
+                    '出牌次数变为{C:blue}1{}，',
+                    '弃牌次数{C:red}+#1#{}',
+                },
+            },
+            j_losted_big_potato = {
+                name = '大土豆',
+                text = {
+                    '完整牌组中每有一张',
+                    '{C:attention}增强牌{}，倍率{C:mult}+#1#{}',
+                    '{C:inactive}（当前倍率{C:mult}+#2#{C:inactive}）',
+                },
+            },
+            j_losted_devaluation = {
+                name = '贬值',
+                text = {
+                    '对于{C:attention}小丑牌{}效果，',
+                    '{C:attention}K{}、{C:attention}Q{}和{C:attention}J{}视为',
+                    '{C:attention}相同点数{}',
+                },
+            },
+            j_losted_medusa = {
+                name = '美杜莎',
+                text = {
+                    '打出的{C:attention}人头牌{}在计分时',
+                    '变为{C:attention}石头牌{}',
+                },
+            },
+            j_losted_roulette = {
+                name = '轮盘',
+                text = {
+                    '将一张随机打出的牌',
+                    '变为牌组中{C:attention}数量最多的',
+                    '{C:attention}点数{}',
+                    '{C:inactive}（当前：{C:attention}#1#{C:inactive}）',
+                },
+            },
             j_losted_jimball={
                 name = '小金宝',
                 text = {
@@ -994,6 +1060,14 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = '流变',
+                text = {
+                    '移除{C:attention}1{}张选定小丑牌的',
+                    '{C:dark_edition}版本{}和所有{C:attention}贴纸{}',
+                    '{C:inactive}（永恒、易腐、租用等）',
+                },
+            },
             c_losted_mystery_soul = {
                 name = '灵魂？',
                 text = {
@@ -1195,6 +1269,12 @@ return {
             c_losted_marathon = '马拉松',
         },
         dictionary = {
+            k_losted_neapolitan_title = '三色牌组池',
+            k_losted_neapolitan_click = '点击牌组开关（至少启用3个）',
+            k_losted_neapolitan_toggle = '全部切换',
+            k_losted_all_in = '全押！',
+            k_losted_stone = '石化！',
+            k_losted_roulette = '转动！',
             k_negative_ex = '负片！',
             k_blind_selected_ex = '盲注奖励！',
             k_ante_increased_ex = '底注增加！',

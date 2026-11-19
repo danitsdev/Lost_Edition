@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = 'ナポリタンデッキ',
+                text = {
+                    'ランダムな{C:attention}3{}つのデッキの',
+                    '効果を組み合わせる',
+                    '{C:inactive}(バニラとLost Edition)',
+                    '{C:inactive}#1#、#2#、#3#',
+                    'デッキを{C:attention}クリック{}して',
+                    '出現するデッキを選択可能',
+                },
+            },
+            b_losted_eclipse = {
+                name = 'エクリプスデッキ',
+                text = {
+                    'ボスブラインドを{C:attention}#1#{}回',
+                    '倒すごとに、ランダムなジョーカー',
+                    '1枚が{C:dark_edition}ネガティブ{}になる',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = 'ハイブリッドデッキ',
+                text = {
+                    'カードは同時に{C:attention}2{}つの',
+                    '{C:attention}強化{}を持てる',
+                    '{C:inactive}(新しい強化は古い強化を残す)',
+                },
+            },
             b_losted_evolutionary = {
                 name = 'エボリューショナリーデッキ',
                 text = {
@@ -256,6 +284,47 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = 'オールイン',
+                text = {
+                    '{C:attention}ブラインド{}選択時、',
+                    'ハンド数を{C:blue}1{}にし、',
+                    'ディスカードを{C:red}+#1#{}する',
+                },
+            },
+            j_losted_big_potato = {
+                name = 'ビッグポテト',
+                text = {
+                    'フルデッキ内の{C:attention}強化カード{}',
+                    '1枚につき倍率{C:mult}+#1#{}',
+                    '{C:inactive}(現在 倍率{C:mult}+#2#{C:inactive})',
+                },
+            },
+            j_losted_devaluation = {
+                name = '切り下げ',
+                text = {
+                    '{C:attention}ジョーカー{}の効果において、',
+                    '{C:attention}キング{}・{C:attention}クイーン{}・{C:attention}ジャック{}は',
+                    '{C:attention}同じランク{}として扱われる',
+                },
+            },
+            j_losted_medusa = {
+                name = 'メデューサ',
+                text = {
+                    'プレイされた{C:attention}絵札{}は',
+                    'スコア時に{C:attention}ストーンカード{}に',
+                    '変化する',
+                },
+            },
+            j_losted_roulette = {
+                name = 'ルーレット',
+                text = {
+                    'プレイされたカードのうち',
+                    'ランダムな1枚をデッキ内で',
+                    '{C:attention}最も多いランク{}に変える',
+                    '{C:inactive}(現在: {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = 'ジンボリーニョ',
                 text = {
@@ -1014,6 +1083,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = 'フラックス',
+                text = {
+                    '選択したジョーカー{C:attention}1{}枚の',
+                    '{C:dark_edition}エディション{}とすべての',
+                    '{C:attention}ステッカー{}を取り除く',
+                    '{C:inactive}(エターナル、ペリシャブル、レンタルなど)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = '魂？',
                 text = {
@@ -1219,6 +1297,12 @@ return {
             c_losted_marathon = 'マラソン',
         },
         dictionary = {
+            k_losted_neapolitan_title = 'ナポリタンデッキの候補',
+            k_losted_neapolitan_click = 'デッキをクリックして切替（最低3つ有効）',
+            k_losted_neapolitan_toggle = 'すべて切替',
+            k_losted_all_in = 'オールイン！',
+            k_losted_stone = '石化！',
+            k_losted_roulette = '回転！',
             k_negative_ex = 'ネガティブ！',
             k_blind_selected_ex = 'ブラインドボーナス！',
             k_ante_increased_ex = 'アンティ増加！',

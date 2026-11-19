@@ -137,3 +137,18 @@ LOSTEDMOD.funcs = {
 -- Make Bunco functions globally available
 _G.event = LOSTEDMOD.funcs.event
 _G.big_juice = LOSTEDMOD.funcs.big_juice
+
+-- Check if a deck is active directly or via Neapolitan / Multiplayer Cocktail deck
+function LOSTEDMOD.funcs.back_active(key)
+    if not (G and G.GAME) then return false end
+    local back = G.GAME.selected_back
+    local center = back and back.effect and back.effect.center
+    if center and center.key == key then return true end
+    local modifiers = G.GAME.modifiers or {}
+    for _, list in ipairs({ modifiers.losted_neapolitan, modifiers.mp_cocktail }) do
+        for _, deck in ipairs(list or {}) do
+            if deck == key then return true end
+        end
+    end
+    return false
+end

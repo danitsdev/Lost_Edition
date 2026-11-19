@@ -937,3 +937,76 @@ jd_def["j_losted_turntable"] = {
         card.joker_display_values.mult = mult
     end
 }
+
+
+-- =========================================================================
+--  1.2.0 JOKERS
+-- =========================================================================
+
+jd_def["j_losted_big_potato"] = {
+    text = {
+        { text = "+" },
+        { ref_table = "card.joker_display_values", ref_value = "mult", retrigger_type = "mult" }
+    },
+    text_config = { colour = G.C.MULT },
+    calc_function = function(card)
+        local enhanced = 0
+        for _, playing_card in ipairs(G.playing_cards or {}) do
+            if next(SMODS.get_enhancements(playing_card)) ~= nil then
+                enhanced = enhanced + 1
+            end
+        end
+        card.joker_display_values.mult = enhanced * (tonumber(card.ability.extra.mult_per_card) or 3)
+    end
+}
+
+jd_def["j_losted_all_in"] = {
+    text = {
+        { text = "1 ", colour = G.C.CHIPS },
+        { text = "+", colour = G.C.RED },
+        { ref_table = "card.ability.extra", ref_value = "discards", colour = G.C.RED }
+    }
+}
+
+jd_def["j_losted_roulette"] = {
+    text = {
+        { ref_table = "card.joker_display_values", ref_value = "rank_text", colour = G.C.ATTENTION }
+    },
+    calc_function = function(card)
+        local best_id = G.playing_cards and LOSTEDMOD.funcs.get_most_common_rank()
+        local rank_text = localize('k_none')
+        if best_id then
+            for key, rank in pairs(SMODS.Ranks) do
+                if rank.id == best_id then
+                    rank_text = localize(key, 'ranks')
+                    break
+                end
+            end
+        end
+        card.joker_display_values.rank_text = rank_text
+    end
+}
+
+jd_def["j_losted_devaluation"] = {
+    text = {
+        { text = "J = Q = K", colour = G.C.ATTENTION }
+    }
+}
+
+jd_def["j_losted_medusa"] = {
+    text = {
+        { ref_table = "card.joker_display_values", ref_value = "count", colour = G.C.GREY }
+    },
+    calc_function = function(card)
+        local count = 0
+        local text, _, scoring_hand = JokerDisplay.evaluate_hand()
+        if text ~= 'Unknown' then
+            for _, scoring_card in pairs(scoring_hand) do
+                if scoring_card:is_face() and not SMODS.has_enhancement(scoring_card, 'm_stone') then
+                    count = count + 1
+                end
+            end
+        end
+        card.joker_display_values.count = count > 0 and (tostring(count) .. "x") or "-"
+    end
+}

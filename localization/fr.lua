@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = 'Jeu Napolitain',
+                text = {
+                    'Mélange les effets de',
+                    '{C:attention}3{} jeux aléatoires',
+                    '{C:inactive}(Vanilla et Lost Edition)',
+                    '{C:inactive}#1#, #2#, #3#',
+                    '{C:attention}Cliquez{} sur le jeu pour',
+                    'choisir ceux qui peuvent apparaître',
+                },
+            },
+            b_losted_eclipse = {
+                name = 'Jeu Éclipse',
+                text = {
+                    'Toutes les {C:attention}#1#{} Blindes Boss',
+                    'vaincues, un Joker aléatoire',
+                    'devient {C:dark_edition}Négatif{}',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = 'Jeu Hybride',
+                text = {
+                    'Les cartes peuvent avoir {C:attention}2{}',
+                    '{C:attention}Améliorations{} à la fois',
+                    '{C:inactive}(la nouvelle conserve l\'ancienne)',
+                },
+            },
             b_losted_evolutionary = {
                 name = 'Jeu Évolutif',
                 text = {
@@ -257,6 +285,48 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = 'Tapis',
+                text = {
+                    'Quand la {C:attention}Blinde{} est choisie,',
+                    'fixe les mains à {C:blue}1{}',
+                    'et gagne {C:red}+#1#{} défausses',
+                },
+            },
+            j_losted_big_potato = {
+                name = 'Grosse Patate',
+                text = {
+                    '{C:mult}+#1#{} Multi pour chaque',
+                    '{C:attention}carte améliorée{}',
+                    'dans votre jeu complet',
+                    '{C:inactive}(Actuellement {C:mult}+#2#{C:inactive} Multi)',
+                },
+            },
+            j_losted_devaluation = {
+                name = 'Dévaluation',
+                text = {
+                    'Les {C:attention}Rois{}, {C:attention}Dames{} et {C:attention}Valets{}',
+                    'comptent comme le {C:attention}même rang{}',
+                    'pour les {C:attention}Jokers{}',
+                },
+            },
+            j_losted_medusa = {
+                name = 'Méduse',
+                text = {
+                    'Les {C:attention}figures{} jouées',
+                    'deviennent des {C:attention}Cartes Pierre{}',
+                    'en marquant des points',
+                },
+            },
+            j_losted_roulette = {
+                name = 'Roulette',
+                text = {
+                    'Transforme une carte jouée',
+                    'aléatoire en le {C:attention}rang le plus',
+                    '{C:attention}commun{} de votre jeu',
+                    '{C:inactive}(Actuellement : {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = 'Jimbolino',
                 text = {
@@ -1003,6 +1073,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = 'Flux',
+                text = {
+                    'Retire l\'{C:dark_edition}édition{} et tous',
+                    'les {C:attention}autocollants{} d\'{C:attention}1{}',
+                    'Joker sélectionné',
+                    '{C:inactive}(Éternel, Périssable, Location...)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = 'L\'Âme ?',
                 text = {
@@ -1204,6 +1283,12 @@ return {
             c_losted_marathon = 'Marathon',
         },
         dictionary = {
+            k_losted_neapolitan_title = 'Jeux du Napolitain',
+            k_losted_neapolitan_click = 'Cliquez sur un jeu pour activer/désactiver (3 actifs minimum)',
+            k_losted_neapolitan_toggle = 'Tout basculer',
+            k_losted_all_in = 'Tapis !',
+            k_losted_stone = 'Pierre !',
+            k_losted_roulette = 'Tourné !',
             k_negative_ex = 'Négatif !',
             k_blind_selected_ex = 'Bonus de Blinde !',
             k_ante_increased_ex = 'Mise initiale augmentée !',

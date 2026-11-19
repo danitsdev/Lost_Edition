@@ -1,6 +1,34 @@
 return {
     descriptions={
         Back = {
+            b_losted_neapolitan = {
+                name = '나폴리탄 덱',
+                text = {
+                    '무작위 {C:attention}3{}개 덱의',
+                    '효과를 조합합니다',
+                    '{C:inactive}(바닐라 및 Lost Edition)',
+                    '{C:inactive}#1#, #2#, #3#',
+                    '덱을 {C:attention}클릭{}하여 나올 수 있는',
+                    '덱을 선택할 수 있습니다',
+                },
+            },
+            b_losted_eclipse = {
+                name = '이클립스 덱',
+                text = {
+                    '보스 블라인드를 {C:attention}#1#{}번',
+                    '처치할 때마다 무작위 조커',
+                    '1장이 {C:dark_edition}네거티브{}가 됩니다',
+                    '{C:inactive}(#2#/#1#)',
+                },
+            },
+            b_losted_hybrid = {
+                name = '하이브리드 덱',
+                text = {
+                    '카드가 동시에 {C:attention}2{}개의',
+                    '{C:attention}강화{}를 가질 수 있습니다',
+                    '{C:inactive}(새 강화가 기존 강화를 유지함)',
+                },
+            },
             b_losted_evolutionary = {
                 name = '진화 덱',
                 text = {
@@ -257,6 +285,47 @@ return {
             }
         },
         Joker={
+            j_losted_all_in = {
+                name = '올인',
+                text = {
+                    '{C:attention}블라인드{} 선택 시,',
+                    '핸드를 {C:blue}1{}로 설정하고',
+                    '버리기를 {C:red}+#1#{} 얻습니다',
+                },
+            },
+            j_losted_big_potato = {
+                name = '왕감자',
+                text = {
+                    '전체 덱의 {C:attention}강화 카드{}',
+                    '1장당 배수 {C:mult}+#1#{}',
+                    '{C:inactive}(현재 배수 {C:mult}+#2#{C:inactive})',
+                },
+            },
+            j_losted_devaluation = {
+                name = '평가 절하',
+                text = {
+                    '{C:attention}조커{} 효과에서',
+                    '{C:attention}킹{}, {C:attention}퀸{}, {C:attention}잭{}이',
+                    '{C:attention}같은 랭크{}로 취급됩니다',
+                },
+            },
+            j_losted_medusa = {
+                name = '메두사',
+                text = {
+                    '플레이한 {C:attention}그림 카드{}가',
+                    '득점 시 {C:attention}스톤 카드{}로',
+                    '변합니다',
+                },
+            },
+            j_losted_roulette = {
+                name = '룰렛',
+                text = {
+                    '플레이한 카드 중 무작위',
+                    '1장을 덱에서 {C:attention}가장 많은',
+                    '{C:attention}랭크{}로 변환합니다',
+                    '{C:inactive}(현재: {C:attention}#1#{C:inactive})',
+                },
+            },
             j_losted_jimball={
                 name = '짐볼리냐',
                 text = {
@@ -1007,6 +1076,15 @@ return {
             },
         },
         Spectral={
+            c_losted_flux = {
+                name = '플럭스',
+                text = {
+                    '선택한 조커 {C:attention}1{}장의',
+                    '{C:dark_edition}에디션{}과 모든 {C:attention}스티커{}를',
+                    '제거합니다',
+                    '{C:inactive}(이터널, 소멸성, 대여 등)',
+                },
+            },
             c_losted_mystery_soul = {
                 name = '영혼?',
                 text = {
@@ -1212,6 +1290,12 @@ return {
             c_losted_marathon = '마라톤',
         },
         dictionary = {
+            k_losted_neapolitan_title = '나폴리탄 덱 목록',
+            k_losted_neapolitan_click = '덱을 클릭하여 전환 (최소 3개 활성화)',
+            k_losted_neapolitan_toggle = '모두 전환',
+            k_losted_all_in = '올인!',
+            k_losted_stone = '석화!',
+            k_losted_roulette = '회전!',
             k_negative_ex = '네거티브!',
             k_blind_selected_ex = '블라인드 보너스!',
             k_ante_increased_ex = '앤티 증가!',

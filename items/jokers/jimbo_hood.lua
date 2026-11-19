@@ -16,7 +16,7 @@ local jokerInfo = {
     end,
     in_pool = function(self)
         -- Both do the same thing, banned for a better player experience ;)
-        if G.GAME.selected_back and G.GAME.selected_back.effect.center.key == 'b_plasma' then
+        if LOSTEDMOD.funcs.back_active('b_plasma') then
             return false
         end
         return true

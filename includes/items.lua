@@ -6,6 +6,9 @@ local itemsToLoad = {
         'chaotic',
         'evolutionary',
         'medieval',
+        'neapolitan',
+        'eclipse',
+        'hybrid',
     },
     Blind = {
         'all_ones',
@@ -36,6 +39,7 @@ local itemsToLoad = {
         'abyss',
         'provider',
         'greed',
+        'flux',
         'mystery_soul',
     },
     Edition = {
@@ -118,6 +122,11 @@ local itemsToLoad = {
         'limited_edition',
         'turntable',
         'mysterious',
+        'all_in',
+        'big_potato',
+        'devaluation',
+        'medusa',
+        'roulette',
         'obsidian',
         'the_joker',
         'roland',
@@ -191,6 +200,11 @@ local function load_item_definition(item_type, item_key)
     local ok, item_data = pcall(item_init)
     if not ok then
         sendErrorMessage("[Lost Edition] Error initializing " .. item_type:lower() .. ": " .. item_key .. " - " .. item_data)
+        return nil
+    end
+
+    if item_data == false then
+        sendDebugMessage("[Lost Edition] Skipped " .. item_type:lower() .. ": " .. item_key)
         return nil
     end
 
