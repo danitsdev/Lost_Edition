@@ -1,7 +1,7 @@
 local function calculate_toast_cards(context)
     local toasts_total = {}
     for _, toast_card in ipairs(context.scoring_hand or {}) do
-        if toast_card.config.center == G.P_CENTERS.m_losted_toast
+        if SMODS.has_enhancement(toast_card, 'm_losted_toast')
             and not toast_card.debuff and not toast_card.destroyed then
             table.insert(toasts_total, toast_card)
             LOSTEDMOD.funcs.forced_message(localize('toast_eaten'), toast_card)

@@ -1,5 +1,8 @@
 # Changelog
 
+## 1.2.1
+- Fixed Diamond, Toast, and Stellar enhancements not triggering or persisting properly when held as the secondary enhancement on the Hybrid Deck
+
 ## 1.2.0
 - New Jokers: All In, Big Potato (Batatão), Devaluation (Desvalorização), Medusa, Roulette (Roleta)
 - New Spectral card: Flux

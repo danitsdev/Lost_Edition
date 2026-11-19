@@ -105,6 +105,19 @@ end
 -- enhancements by itself. This mirrors Bunco's Copper Card seam in a
 -- Lost Edition-owned wrapper so Diamond can rescore as a true scoring pass
 -- instead of behaving like a Red Seal repetition.
+local function losted_get_post_effect_center(card)
+    if not card or not card.config then return nil end
+    local center = card.config.center
+    if center and center.post_effect then return center end
+    if SMODS and SMODS.get_enhancements then
+        for k in pairs(SMODS.get_enhancements(card) or {}) do
+            local enh = G.P_CENTERS[k]
+            if enh and enh.post_effect then return enh end
+        end
+    end
+    return nil
+end
+
 local function losted_post_eval_card(card, context)
     if not card or not card.ability or not card.config or not card.config.center then
         return {}
@@ -114,8 +127,14 @@ local function losted_post_eval_card(card, context)
     end
 
     local ret = {}
-    if card.ability.set == 'Enhanced' and card.config.center.post_effect then
-        local enhancement = card:calculate_enhancement(context)
+    local post_center = losted_get_post_effect_center(card)
+    if post_center then
+        local enhancement
+        if post_center == card.config.center then
+            enhancement = card:calculate_enhancement(context)
+        elseif type(post_center.calculate) == 'function' then
+            enhancement = post_center:calculate(card, context)
+        end
         if enhancement then
             ret.enhancement = enhancement
         end
@@ -151,9 +170,7 @@ function SMODS.calculate_main_scoring(context, scoring_hand)
     end
 
     for _, card in ipairs(cards) do
-        local center = card and card.config and card.config.center
-        if center and center.post_effect and card.ability and
-            card.ability.set == 'Enhanced' and not card.debuff then
+        if card and card.ability and not card.debuff and losted_get_post_effect_center(card) then
             local post_context = LOSTEDMOD.funcs.build_smods_post_context(card, context, scoring_hand)
             post_context.losted_post_effect_pass = true
             local effect = losted_post_eval_card(card, post_context)

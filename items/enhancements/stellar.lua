@@ -16,8 +16,11 @@ local enhancementInfo = {
     end,
     calculate = function(self, card, context)
         if context.cardarea == G.play and context.main_scoring then
-            card.ability.bonus = card.ability.bonus + card.ability.extra.chips
+            local chips = card.ability.extra.chips
             return {
+                func = function()
+                    card.ability.perma_bonus = (card.ability.perma_bonus or 0) + chips
+                end,
                 extra = { message = localize('k_upgrade_ex'), colour = G.C.PURPLE },
                 card = card
             }

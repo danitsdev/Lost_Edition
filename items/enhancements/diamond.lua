@@ -15,7 +15,7 @@ local enhancementInfo = {
         and context.cardarea == G.play
         and context.main_scoring
         and context.scoring_hand
-        and ((not card.config.diamond_rescored_times) or (card.config.diamond_rescored_times < card.config.center.rescore_amount)) then
+        and ((not card.config.diamond_rescored_times) or (card.config.diamond_rescored_times < self.rescore_amount)) then
 
             local card_position
             for position, scoring_card in ipairs(context.scoring_hand) do
@@ -29,7 +29,7 @@ local enhancementInfo = {
             local next_card = context.scoring_hand[card_position + 1]
             local last_in_chain = not (
                 next_card
-                and next_card.config.center == card.config.center
+                and SMODS.has_enhancement(next_card, self.key)
                 and not next_card.debuff
             )
 
@@ -37,7 +37,7 @@ local enhancementInfo = {
                 local streak = false
                 local previous_card = context.scoring_hand[card_position - 1]
                 if previous_card
-                    and previous_card.config.center == card.config.center
+                    and SMODS.has_enhancement(previous_card, self.key)
                     and not previous_card.debuff then
                     streak = true
                 end
@@ -50,14 +50,14 @@ local enhancementInfo = {
                                 play_card_lookup[play_card] = true
                             end
 
-                            while (card.config.diamond_rescored_times or 0) < card.config.center.rescore_amount do
+                            while (card.config.diamond_rescored_times or 0) < self.rescore_amount do
                                 local diamond_chain = { card }
                                 local offset = 1
 
                                 while true do
                                     local chain_card = context.scoring_hand[card_position - offset]
                                     if chain_card
-                                        and chain_card.config.center == card.config.center
+                                        and SMODS.has_enhancement(chain_card, self.key)
                                         and not chain_card.debuff then
                                         table.insert(diamond_chain, chain_card)
                                     else
