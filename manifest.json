@@ -1,0 +1,10 @@
+{
+    "name": "Lost_Edition",
+    "version_number": "1.2.0",
+    "website_url": "https://github.com/danitsdev/Lost_Edition",
+    "description": "A massive fan-made expansion for Balatro: 80+ Jokers, new Decks, Boss Blinds, Stakes, Vouchers, Editions, Enhancements, Consumables, Challenges and original music.",
+    "dependencies": [
+        "Steamodded-Steamodded-26.1002.0",
+        "Thunderstore-lovely-0.9.0"
+    ]
+}

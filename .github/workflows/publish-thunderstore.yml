@@ -1,0 +1,149 @@
+name: Publish to Thunderstore
+
+# Manual workflow: Actions > Publish to Thunderstore > Run workflow.
+# Builds the package from a GitHub release tag and optionally uploads it to Thunderstore.
+# Requires the THUNDERSTORE_TOKEN repository secret and THUNDERSTORE_NAMESPACE variable.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Release tag to publish (leave empty for the latest release)
+        required: false
+        default: ''
+      dry_run:
+        description: Build the package and upload as workflow artifact without publishing
+        type: boolean
+        default: true
+
+permissions:
+  contents: read
+
+concurrency:
+  group: publish-thunderstore
+  cancel-in-progress: false
+
+env:
+  COMMUNITY: balatro
+  CATEGORIES: '"content-mod", "jokers", "decks"'
+  EXCLUDE: .github .gitignore
+  TCLI_VERSION: 0.2.4
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Find release
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          if [ -z "$TAG" ]; then
+            TAG=$(gh release view -R "$GITHUB_REPOSITORY" --json tagName --jq .tagName)
+          else
+            gh release view "$TAG" -R "$GITHUB_REPOSITORY" --json tagName > /dev/null
+          fi
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          echo "Release: $TAG"
+
+      - uses: actions/checkout@v4
+        with:
+          ref: refs/tags/${{ steps.release.outputs.tag }}
+
+      - name: Validate manifest
+        id: manifest
+        env:
+          TAG: ${{ steps.release.outputs.tag }}
+          NAMESPACE: ${{ vars.THUNDERSTORE_NAMESPACE }}
+        run: |
+          NAME=$(jq -r .name manifest.json)
+          VERSION=$(jq -r .version_number manifest.json)
+          MOD_VERSION=$(jq -r .version LostEdition.json)
+          if [ "$VERSION" != "${TAG#v}" ]; then
+            echo "::error::manifest.json version ($VERSION) does not match tag ($TAG)"
+            exit 1
+          fi
+          if [ "$VERSION" != "$MOD_VERSION" ]; then
+            echo "::error::manifest.json version ($VERSION) does not match LostEdition.json version ($MOD_VERSION)"
+            exit 1
+          fi
+          if [ -n "$NAMESPACE" ]; then
+            STATUS=$(curl -s --max-time 30 -o /dev/null -w '%{http_code}' "https://thunderstore.io/api/experimental/package/$NAMESPACE/$NAME/$VERSION/")
+            if [ "$STATUS" = 200 ]; then
+              echo "::error::$NAMESPACE-$NAME $VERSION is already published on Thunderstore"
+              exit 1
+            fi
+          fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Build package
+        id: build
+        env:
+          NAMESPACE: ${{ vars.THUNDERSTORE_NAMESPACE || 'LostEdition' }}
+          FILE: ${{ vars.THUNDERSTORE_NAMESPACE || 'LostEdition' }}-${{ steps.manifest.outputs.name }}-${{ steps.manifest.outputs.version }}.zip
+        run: |
+          PATHSPEC=(.)
+          for path in $EXCLUDE; do PATHSPEC+=(":(exclude)$path"); done
+          mkdir -p build
+          git archive --format=zip -o "build/$FILE" HEAD -- "${PATHSPEC[@]}"
+          for required in manifest.json icon.png README.md LostEdition.json main.lua; do
+            unzip -Z1 "build/$FILE" | grep -qx "$required" || { echo "::error::$required is missing from package root"; exit 1; }
+          done
+          echo "file=build/$FILE" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ vars.THUNDERSTORE_NAMESPACE || 'LostEdition' }}-${{ steps.manifest.outputs.name }}-${{ steps.manifest.outputs.version }}
+          path: ${{ steps.build.outputs.file }}
+
+      - name: Upload to Thunderstore
+        if: ${{ !inputs.dry_run }}
+        env:
+          TCLI_AUTH_TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
+          NAMESPACE: ${{ vars.THUNDERSTORE_NAMESPACE }}
+          NAME: ${{ steps.manifest.outputs.name }}
+          VERSION: ${{ steps.manifest.outputs.version }}
+          FILE: ${{ steps.build.outputs.file }}
+        run: |
+          if [ -z "$NAMESPACE" ]; then
+            echo "::error::THUNDERSTORE_NAMESPACE repository variable is not set"
+            exit 1
+          fi
+          if [ -z "$TCLI_AUTH_TOKEN" ]; then
+            echo "::error::THUNDERSTORE_TOKEN repository secret is not set"
+            exit 1
+          fi
+          cat > "$RUNNER_TEMP/thunderstore.toml" <<EOF
+          [config]
+          schemaVersion = "0.0.1"
+
+          [package]
+          namespace = "$NAMESPACE"
+          name = "$NAME"
+          versionNumber = "$VERSION"
+          description = ""
+          websiteUrl = ""
+          containsNsfwContent = false
+
+          [package.dependencies]
+
+          [build]
+          icon = "./icon.png"
+          readme = "./README.md"
+          outdir = "./build"
+
+          [[build.copy]]
+          source = "./"
+          target = ""
+
+          [publish]
+          repository = "https://thunderstore.io"
+          communities = ["$COMMUNITY"]
+
+          [publish.categories]
+          $COMMUNITY = [$CATEGORIES]
+          EOF
+          dotnet tool install --global tcli --version "$TCLI_VERSION"
+          tcli publish --config-path "$RUNNER_TEMP/thunderstore.toml" --file "$FILE"
+          echo "Published $NAMESPACE-$NAME $VERSION: https://thunderstore.io/c/$COMMUNITY/p/$NAMESPACE/$NAME/" >> "$GITHUB_STEP_SUMMARY"
