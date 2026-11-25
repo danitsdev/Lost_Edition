@@ -15,8 +15,8 @@ return {
             b_losted_eclipse = {
                 name = 'Baraja Eclipse',
                 text = {
-                    'Cada {C:attention}#1#{} Ciegas Jefe',
-                    'derrotadas, un Comodín',
+                    'Cada {C:attention}#1#{} Apuestas,',
+                    'un Comodín',
                     'aleatorio se vuelve {C:dark_edition}Negativo{}',
                     '{C:inactive}(#2#/#1#)',
                 },

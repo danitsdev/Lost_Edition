@@ -1,7 +1,7 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 9999999
+priority = 67
 
 # Add quantum and plasma editions
 [[patches]]

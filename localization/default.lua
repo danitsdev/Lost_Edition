@@ -15,9 +15,9 @@ return {
             b_losted_eclipse = {
                 name = 'Eclipse Deck',
                 text = {
-                    'Every {C:attention}#1#{} Boss Blinds',
-                    'defeated, a random Joker',
-                    'becomes {C:dark_edition}Negative{}',
+                    'Every {C:attention}#1#{} Antes, a',
+                    'random Joker becomes',
+                    '{C:dark_edition}Negative{}',
                     '{C:inactive}(#2#/#1#)',
                 },
             },
@@ -289,7 +289,7 @@ return {
                 name = 'Big Potato',
                 text = {
                     '{C:mult}+#1#{} Mult for each',
-                    '{C:attention}Enhanced card{}',
+                    'card with {C:attention}Enhancement{}',
                     'in your full deck',
                     '{C:inactive}(Currently {C:mult}+#2#{C:inactive} Mult)',
                 },

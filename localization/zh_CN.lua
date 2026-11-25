@@ -14,7 +14,7 @@ return {
             b_losted_eclipse = {
                 name = '日蚀牌组',
                 text = {
-                    '每击败{C:attention}#1#{}个Boss盲注，',
+                    '每经过{C:attention}#1#{}个底注，',
                     '随机一张小丑牌变为{C:dark_edition}负片{}',
                     '{C:inactive}(#2#/#1#)',
                 },

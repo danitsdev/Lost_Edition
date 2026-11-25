@@ -12,6 +12,10 @@ SMODS.current_mod.calculate = function(self, context)
             return { [second] = true }
         end
     end
+    if context.debuff_card and G.GAME and G.GAME.blind and G.GAME.blind.debuff
+        and G.GAME.blind.debuff.suit and SMODS.has_enhancement(context.debuff_card, 'm_wild') then
+        return { prevent_debuff = true }
+    end
 end
 
 -- Main table for the mod
@@ -111,6 +115,7 @@ function SMODS.current_mod.reset_game_globals(run_start)
         G.GAME.current_round.losted_most_common_rank = nil
         G.GAME.current_round.losted_most_common_rank_cached = nil
         G.GAME.current_round.losted_most_common_rank_hand = nil
+        G.GAME.current_round.losted_all_in_hands_set = nil
     end
     LOSTEDMOD.vars.active_welder = nil
     LOSTEDMOD.vars.active_welder_cache_dirty = true

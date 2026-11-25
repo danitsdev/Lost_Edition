@@ -22,7 +22,7 @@ local jokerInfo = {
 
         if context.individual and context.cardarea == G.play then
             for _, v in ipairs(card.ability.extra.card_list) do
-                if (v.rank and v.rank == context.other_card:get_id())
+                if (v.rank and context.other_card:losted_is_rank(v.rank))
                 and (v.has_any_suit or context.other_card:is_suit(v.suit) or context.other_card.config.center == G.P_CENTERS.m_wild)
                 and context.other_card.config.center ~= G.P_CENTERS.m_stone
                 and not (context.losted_quantum_copy and

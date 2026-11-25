@@ -1,20 +1,27 @@
-local BOSSES_NEEDED = 3
+local ANTES_NEEDED = 3
 
 local backInfo = {
     key = "eclipse",
     pos = LOSTEDMOD.funcs.coordinate(5),
     atlas = 'losted_backs',
     unlocked = true,
-    config = { extra = { bosses = BOSSES_NEEDED } },
+    config = { extra = { antes = ANTES_NEEDED } },
     loc_vars = function(self, info_queue, back)
         info_queue[#info_queue + 1] = G.P_CENTERS.e_negative
-        local progress = (G.STAGE == G.STAGES.RUN and G.GAME and G.GAME.losted_eclipse_bosses or 0) % BOSSES_NEEDED
-        return { vars = { BOSSES_NEEDED, progress } }
+        local progress = (G.STAGE == G.STAGES.RUN and G.GAME and G.GAME.losted_eclipse_antes or 0) % ANTES_NEEDED
+        return { vars = { ANTES_NEEDED, progress } }
     end,
     calculate = function(self, back, context)
         if context.end_of_round and context.main_eval and G.GAME.blind and G.GAME.blind.boss then
-            G.GAME.losted_eclipse_bosses = (G.GAME.losted_eclipse_bosses or 0) + 1
-            if G.GAME.losted_eclipse_bosses % BOSSES_NEEDED ~= 0 then return end
+            local blind_states = G.GAME.round_resets and G.GAME.round_resets.blind_states
+            if blind_states and blind_states.Boss ~= 'Current' then return end
+
+            local current_ante = G.GAME.round_resets and G.GAME.round_resets.ante or 1
+            if G.GAME.losted_eclipse_last_ante == current_ante then return end
+            G.GAME.losted_eclipse_last_ante = current_ante
+
+            G.GAME.losted_eclipse_antes = (G.GAME.losted_eclipse_antes or 0) + 1
+            if G.GAME.losted_eclipse_antes % ANTES_NEEDED ~= 0 then return end
 
             local candidates = {}
             for _, joker in ipairs(G.jokers and G.jokers.cards or {}) do

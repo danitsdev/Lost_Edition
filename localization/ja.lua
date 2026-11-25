@@ -15,8 +15,8 @@ return {
             b_losted_eclipse = {
                 name = 'エクリプスデッキ',
                 text = {
-                    'ボスブラインドを{C:attention}#1#{}回',
-                    '倒すごとに、ランダムなジョーカー',
+                    '{C:attention}#1#{}アンティごとに、',
+                    'ランダムなジョーカー',
                     '1枚が{C:dark_edition}ネガティブ{}になる',
                     '{C:inactive}(#2#/#1#)',
                 },

@@ -15,11 +15,11 @@ local jokerInfo = {
     calculate = function(self, card, context)
         if context.repetition and context.cardarea == G.play and context.other_card then
             if context.full_hand then
-                local card_rank = context.other_card:get_id()
                 local rank_count = 0
                 
+                local target_id = context.other_card:get_id()
                 for _, hand_card in ipairs(context.full_hand) do
-                    if hand_card:get_id() == card_rank then
+                    if hand_card:losted_is_rank(target_id) then
                         rank_count = rank_count + 1
                     end
                 end

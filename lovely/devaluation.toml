@@ -1,29 +1,12 @@
 [manifest]
 version = "1.0.0"
 dump_lua = true
-priority = 9999999
+priority = 67
 
-# Devaluation: allow vanilla royal-rank Jokers (Baron, Shoot the Moon, Hit the Road, Triboulet) to match any royal rank
+# Devaluation: allow vanilla royal-rank Jokers (Baron, Shoot the Moon, Hit the Road, Triboulet, Mail-In Rebate, The Idol) to match any royal rank
 [[patches]]
-[patches.pattern]
+[patches.regex]
 target = 'card.lua'
-pattern = 'context.other_card:get_id() == 11'
+pattern = 'context\.other_card:get_id\(\) == (?<rank>1[123]\b|G\.GAME\.current_round\.(?:mail|idol)_card\.id)'
 position = 'at'
-payload = 'context.other_card:losted_is_rank(11)'
-match_indent = false
-
-[[patches]]
-[patches.pattern]
-target = 'card.lua'
-pattern = 'context.other_card:get_id() == 12'
-position = 'at'
-payload = 'context.other_card:losted_is_rank(12)'
-match_indent = false
-
-[[patches]]
-[patches.pattern]
-target = 'card.lua'
-pattern = 'context.other_card:get_id() == 13'
-position = 'at'
-payload = 'context.other_card:losted_is_rank(13)'
-match_indent = false
+payload = 'context.other_card:losted_is_rank($rank)'

@@ -15,7 +15,7 @@ return {
             b_losted_eclipse = {
                 name = 'Finsternis-Deck',
                 text = {
-                    'Alle {C:attention}#1#{} besiegten Boss-Blinds',
+                    'Alle {C:attention}#1#{} Antes',
                     'wird ein zufälliger Joker',
                     '{C:dark_edition}Negativ{}',
                     '{C:inactive}(#2#/#1#)',

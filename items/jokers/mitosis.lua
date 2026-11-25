@@ -27,10 +27,10 @@ local jokerInfo = {
             local full_hand = context.full_hand
             if not full_hand or #full_hand < 2 then return end
 
-            local first_rank = full_hand[1]:get_id()
+            local first_id = full_hand[1]:get_id()
             for i = 2, #full_hand do
-                if full_hand[i]:get_id() ~= first_rank then
-                    return 
+                if not full_hand[i]:losted_is_rank(first_id) then
+                    return
                 end
             end
 

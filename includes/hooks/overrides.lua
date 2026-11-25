@@ -100,6 +100,20 @@ function Card:set_cost(...)
     end
 end
 
+-- Allow redeeming free vouchers ($0) even when the player is in debt
+if G.FUNCS and G.FUNCS.can_redeem and not LOSTEDMOD.can_redeem_wrapped then
+    local can_redeem_ref = G.FUNCS.can_redeem
+    G.FUNCS.can_redeem = function(e)
+        if e and e.config and e.config.ref_table and (e.config.ref_table.cost or 0) <= 0 then
+            e.config.colour = G.C.GREEN
+            e.config.button = 'use_card'
+            return
+        end
+        return can_redeem_ref(e)
+    end
+    LOSTEDMOD.can_redeem_wrapped = true
+end
+
 -- Real post-scoring enhancement effects. SMODS 1.0.0-beta exposes the scoring
 -- pieces Diamond needs, but does not run a generic post_effect pass for custom
 -- enhancements by itself. This mirrors Bunco's Copper Card seam in a

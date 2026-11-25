@@ -125,6 +125,75 @@ local function apply_checkered_suits()
     })
 end
 
+local function vanilla_back_info_vars(center)
+    local cfg = center.config or {}
+    if center.key == 'b_blue' then return { cfg.hands }
+    elseif center.key == 'b_red' then return { cfg.discards }
+    elseif center.key == 'b_yellow' then return { cfg.dollars }
+    elseif center.key == 'b_green' then return { cfg.extra_hand_bonus, cfg.extra_discard_bonus }
+    elseif center.key == 'b_black' then return { cfg.joker_slot, -(cfg.hands or 0) }
+    elseif center.key == 'b_magic' then return { localize { type = 'name_text', key = 'v_crystal_ball', set = 'Voucher' }, localize { type = 'name_text', key = 'c_fool', set = 'Tarot' } }
+    elseif center.key == 'b_nebula' then return { localize { type = 'name_text', key = 'v_telescope', set = 'Voucher' }, -1 }
+    elseif center.key == 'b_zodiac' then return { localize { type = 'name_text', key = 'v_tarot_merchant', set = 'Voucher' }, localize { type = 'name_text', key = 'v_planet_merchant', set = 'Voucher' }, localize { type = 'name_text', key = 'v_overstock_norm', set = 'Voucher' } }
+    elseif center.key == 'b_painted' then return { cfg.hand_size, cfg.joker_slot }
+    elseif center.key == 'b_anaglyph' then return { localize { type = 'name_text', key = 'tag_double', set = 'Tag' } }
+    elseif center.key == 'b_plasma' then return { cfg.ante_scaling }
+    end
+    return nil
+end
+
+local function build_deck_desc_box(deck_key, min_dims)
+    local center = G.P_CENTERS[deck_key]
+    if not center then return nil end
+    local vars
+    if type(center.loc_vars) == 'function' then
+        local res = center:loc_vars({}) or {}
+        vars = res.vars
+    else
+        vars = vanilla_back_info_vars(center)
+    end
+    local loc_nodes = {}
+    localize { type = 'descriptions', key = deck_key, set = 'Back', nodes = loc_nodes, vars = vars, scale = 0.88 }
+    return {
+        n = G.UIT.R,
+        config = { align = 'cm', r = 0.1, padding = 0.04, minw = min_dims * 5.4, colour = G.C.WHITE },
+        nodes = {
+            desc_from_rows(loc_nodes, true, min_dims * 5)
+        }
+    }
+end
+
+if not LOSTEDMOD.neapolitan_gen_ui_wrapped then
+    local generate_ui_ref = Back.generate_UI
+    function Back:generate_UI(other, ui_scale, min_dims, challenge)
+        local back_config = other or (self.effect and self.effect.center)
+        local chosen = G.GAME and G.GAME.modifiers and G.GAME.modifiers.losted_neapolitan
+        if G.STAGE == G.STAGES.RUN and not other and self == (G.GAME and G.GAME.selected_back)
+            and back_config and back_config.key == NEAPOLITAN_KEY and chosen and #chosen > 0 then
+            min_dims = min_dims or 0.7
+            local boxes = {}
+            for _, deck_key in ipairs(chosen) do
+                local box = build_deck_desc_box(deck_key, min_dims)
+                if box then
+                    if #boxes > 0 then
+                        boxes[#boxes + 1] = { n = G.UIT.R, config = { minh = 0.04, minw = min_dims * 5 }, nodes = {} }
+                    end
+                    boxes[#boxes + 1] = box
+                end
+            end
+            if #boxes > 0 then
+                return {
+                    n = G.UIT.ROOT,
+                    config = { align = 'cm', minw = min_dims * 5, minh = min_dims * 2.2, padding = 0, id = self.name, colour = G.C.CLEAR },
+                    nodes = boxes
+                }
+            end
+        end
+        return generate_ui_ref(self, other, ui_scale, min_dims, challenge)
+    end
+    LOSTEDMOD.neapolitan_gen_ui_wrapped = true
+end
+
 local backInfo = {
     key = "neapolitan",
     pos = LOSTEDMOD.funcs.coordinate(4),
@@ -198,8 +267,9 @@ local backInfo = {
                     back.effect.center = saved_center
                 end
 
-                if type(r1) == 'number' and type(r2) == 'number' then
+                if context.context == 'final_scoring_step' and r1 ~= nil and r2 ~= nil then
                     final_chips, final_mult = r1, r2
+                    context.chips, context.mult = r1, r2
                 elseif type(r1) == 'table' then
                     if pending_ret and SMODS.calculate_effect then
                         SMODS.calculate_effect(pending_ret, back)
@@ -209,7 +279,7 @@ local backInfo = {
             end
         end
 
-        if final_chips and final_mult then
+        if final_chips ~= nil and final_mult ~= nil then
             return final_chips, final_mult
         end
         return pending_ret

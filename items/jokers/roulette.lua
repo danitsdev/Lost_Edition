@@ -9,8 +9,8 @@ local jokerInfo = {
     key = "roulette",
     pos = LOSTEDMOD.funcs.coordinate(91),
     atlas = 'losted_jokers',
-    rarity = 2,
-    cost = 6,
+    rarity = 3,
+    cost = 8,
     unlocked = true,
     blueprint_compat = false,
     loc_vars = function(self, info_queue, card)
@@ -26,7 +26,7 @@ local jokerInfo = {
 
             local candidates = {}
             for _, played_card in ipairs(context.full_hand) do
-                if not SMODS.has_no_rank(played_card) and played_card:get_id() ~= target_id then
+                if not SMODS.has_no_rank(played_card) and not played_card:losted_is_rank(target_id) then
                     candidates[#candidates + 1] = played_card
                 end
             end

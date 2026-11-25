@@ -15,8 +15,8 @@ return {
             b_losted_eclipse = {
                 name = '이클립스 덱',
                 text = {
-                    '보스 블라인드를 {C:attention}#1#{}번',
-                    '처치할 때마다 무작위 조커',
+                    '{C:attention}#1#{} 앤티마다',
+                    '무작위 조커',
                     '1장이 {C:dark_edition}네거티브{}가 됩니다',
                     '{C:inactive}(#2#/#1#)',
                 },

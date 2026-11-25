@@ -15,9 +15,9 @@ return {
             b_losted_eclipse = {
                 name = 'Baralho Eclipse',
                 text = {
-                    'A cada {C:attention}#1#{} Blinds de Chefe',
-                    'derrotados, um Coringa',
-                    'aleatório vira {C:dark_edition}Negativo{}',
+                    'A cada {C:attention}#1#{} Apostas, um',
+                    'Coringa aleatório vira',
+                    '{C:dark_edition}Negativo{}',
                     '{C:inactive}(#2#/#1#)',
                 },
             },
@@ -25,8 +25,8 @@ return {
                 name = 'Baralho Híbrido',
                 text = {
                     'Cartas podem ter {C:attention}2{}',
-                    '{C:attention}melhorias{} ao mesmo tempo',
-                    '{C:inactive}(a nova não substitui a antiga)',
+                    '{C:attention}aprimoramentos{} ao mesmo tempo',
+                    '{C:inactive}(o novo não substitui o antigo)',
                 },
             },
             b_losted_evolutionary = {
@@ -291,7 +291,7 @@ return {
                 name = 'Batatão',
                 text = {
                     '{C:mult}+#1#{} Multi para cada',
-                    '{C:attention}carta melhorada{}',
+                    'carta com {C:attention}Aprimoramento{}',
                     'no seu baralho completo',
                     '{C:inactive}(No momento {C:mult}+#2#{C:inactive} Multi)',
                 },

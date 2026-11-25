@@ -15,8 +15,8 @@ return {
             b_losted_eclipse = {
                 name = 'Jeu Éclipse',
                 text = {
-                    'Toutes les {C:attention}#1#{} Blindes Boss',
-                    'vaincues, un Joker aléatoire',
+                    'Toutes les {C:attention}#1#{} Mises Initiales,',
+                    'un Joker aléatoire',
                     'devient {C:dark_edition}Négatif{}',
                     '{C:inactive}(#2#/#1#)',
                 },

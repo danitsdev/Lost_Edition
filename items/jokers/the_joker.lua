@@ -101,8 +101,7 @@ local jokerInfo = {
             local most_common_rank = card.ability.extra.most_common_rank or
                 LOSTEDMOD.funcs.get_most_common_rank()
             if not most_common_rank then return end
-            local card_id = context.other_card:get_id()
-            if card_id and card_id == most_common_rank then
+            if context.other_card:losted_is_rank(most_common_rank) then
                 return {
                     xmult = card.ability.extra.xmult
                 }
